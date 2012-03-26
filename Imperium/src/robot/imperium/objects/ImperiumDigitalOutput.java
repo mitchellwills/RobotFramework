@@ -1,5 +1,6 @@
 package robot.imperium.objects;
 
+import static robot.imperium.objects.ObjectTypeIds.DIGITAL_OUTPUT_TYPE_ID;
 import java.io.IOException;
 import java.util.EnumSet;
 
@@ -27,7 +28,7 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements Binar
 	 * @param pin
 	 */
 	public ImperiumDigitalOutput(ImperiumDevice device, int pin) {
-		super(device, pin);
+		super(DIGITAL_OUTPUT_TYPE_ID, device, pin);
 	}
 
 	@Override

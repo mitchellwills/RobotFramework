@@ -87,7 +87,7 @@ public class ImperiumDevice {
 	 * @return the object id of the new object
 	 */
 	int register(ImperiumDeviceObject object){
-		for(int pinId = 0; pinId<object.getUsedPinCount(); ++pinId){
+		for(int pinId = 0; pinId<object.getPinCount(); ++pinId){
 			if(!hardwareConfiguration.supports(object.getPin(pinId), object.getRequiredCapabilities(pinId)))
 				throw new RobotInitializationException("The "+hardwareConfiguration.getName()+" does not support "+object.getRequiredCapabilities(pinId)+" on pin "+object.getPin(pinId));
 		}
@@ -105,26 +105,25 @@ public class ImperiumDevice {
 	 * @throws IOException 
 	 */
 	public void configure() {
-		RobotUtil.sleep(2000);
-		try {
-			ImperiumPacket configurePacket = new ImperiumPacket();
-			configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
-			configurePacket.putInteger(0, 401, 2);
-			configurePacket.setDataLength(2);
-			sendPacket(configurePacket);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		RobotUtil.sleep(1000);
+		RobotUtil.sleep(2000);//wait for device to initialize
 		
 		try {
 			synchronized(configureLock){
 				state = ImperiumDeviceState.CONFIGURING;
 				ImperiumPacket configurePacket = new ImperiumPacket();
 				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
-				configurePacket.putInteger(0, maxUpdateRate, 1);
-				configurePacket.setDataLength(1);
+				configurePacket.setDataLength(0);
+				configurePacket.appendInteger(maxUpdateRate, 1);
+				
+				configurePacket.appendInteger(objects.size(), 1);
+				
+				for(ImperiumDeviceObject object:objects){
+					configurePacket.appendInteger(object.getObjectId(), 1);
+					configurePacket.appendInteger(object.getTypeId(), 1);
+					configurePacket.appendInteger(object.getPinCount(), 1);
+					for(int i = 0; i<object.getPinCount(); ++i)
+						configurePacket.appendInteger(object.getPin(i), 1);
+				}
 				sendPacket(configurePacket);
 				try {
 					configureLock.wait(1000);
@@ -185,7 +184,7 @@ public class ImperiumDevice {
 					if(is.available()>0){
 						packet.read(is);
 						System.out.println("Received: "+packet);
-						//processInputPacket(packet);
+						processInputPacket(packet);
 					}
 				}
 				catch(Exception e){

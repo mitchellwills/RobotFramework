@@ -17,7 +17,7 @@ public final class Packets {
 	 */
 	public static void makeSetValue(ImperiumPacket packet, int objectId, int objectValue){
 		packet.setId(PacketIds.SET_VALUE);
-		packet.putInteger(0, objectValue, 2);
-		packet.setDataLength(2);
+		packet.setDataLength(0);
+		packet.appendInteger(objectValue, 2);
 	}
 }

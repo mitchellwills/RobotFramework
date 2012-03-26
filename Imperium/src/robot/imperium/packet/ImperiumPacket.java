@@ -138,17 +138,17 @@ public class ImperiumPacket {
 		System.arraycopy(data, 0, this.data, 0, data.length);
 	}
 	/**
-	 * Put an integer of a given size at a given index in the data byte array
+	 * Append an integer of a given size to the end of the data byte array
 	 * Big Endian
-	 * @param index index in the data array
 	 * @param value value to be stored
 	 * @param size number of bytes to store from the value
 	 * @throws IOException
 	 */
-	public void putInteger(int index, long value, int size) {
-		if(index+size>MAX_DATA_SIZE)
+	public void appendInteger(long value, int size) {
+		if(dataLength+size>MAX_DATA_SIZE)
 			throw new RuntimeException("Invalid Imperium packet: data will exceed the max data size of a packet: "+MAX_DATA_SIZE);
-		ByteUtil.put(data, index, value, size);
+		ByteUtil.put(data, dataLength, value, size);
+		dataLength+=size;
 	}
 	
 	/**
@@ -184,12 +184,12 @@ public class ImperiumPacket {
 		builder.append(id);
 		builder.append(", data=[");
 		for(int i = 0; i<getDataLength(); ++i){
-			builder.append(Integer.toHexString(getData()[i]));
+			builder.append("0x"+Integer.toHexString(getData()[i])+" ("+getData()[i]+")");
 			if(i!=getDataLength()-1)
 				builder.append(", ");
 		}
 		builder.append("]");
-		builder.append(", checksum=");
+		builder.append(", checksum=0x");
 		builder.append(Integer.toHexString(getChecksum()));
 		builder.append("]");
 		return builder.toString();

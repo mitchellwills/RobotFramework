@@ -11,6 +11,7 @@ import robot.io.RobotDevice;
  */
 public abstract class ImperiumDeviceObject implements RobotDevice{
 	private final ImperiumDevice device;
+	private final int typeId;
 	private final int[] pins;
 	private final int objectId;
 	
@@ -18,10 +19,12 @@ public abstract class ImperiumDeviceObject implements RobotDevice{
 	 * create a new Imperium device object and register it with the Imperium device
 	 * 
 	 * @param device the device the object exists on
+	 * @param typeId the id that identifies the object type
 	 * @param pins the pins that the object uses
 	 */
-	public ImperiumDeviceObject(ImperiumDevice device, int... pins){
+	public ImperiumDeviceObject(int typeId, ImperiumDevice device, int... pins){
 		this.device = device;
+		this.typeId = typeId;
 		this.pins = pins;
 		objectId = device.register(this);
 	}
@@ -41,6 +44,13 @@ public abstract class ImperiumDeviceObject implements RobotDevice{
 	}
 	
 	/**
+	 * @return the id representing the type of the object
+	 */
+	public int getTypeId() {
+		return typeId;
+	}
+	
+	/**
 	 * @param pinId
 	 * @return the pin that is at the given pinId
 	 */
@@ -51,7 +61,7 @@ public abstract class ImperiumDeviceObject implements RobotDevice{
 	/**
 	 * @return the number of pins used by this object
 	 */
-	public int getUsedPinCount(){
+	public int getPinCount(){
 		return pins.length;
 	}
 	
@@ -72,5 +82,6 @@ public abstract class ImperiumDeviceObject implements RobotDevice{
 	 * NOTE: this is only intended to be called by a user
 	 */
 	public abstract void setValue(int value);
+
 	
 }
