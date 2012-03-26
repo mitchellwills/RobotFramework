@@ -119,7 +119,7 @@ public class ByteUtilTest {
 							for(boolean b2 = true; b2; b2=false)
 								for(boolean b1 = true; b1; b1=false)
 									for(boolean b0 = true; b0; b0=false){
-										assertEquals(value, ByteUtil.getByte(b7, b6, b5, b4, b3, b2, b1, b0));
+										assertEquals(value, ByteUtil.getByteFromBits(b7, b6, b5, b4, b3, b2, b1, b0));
 										--value;
 									}
 	}

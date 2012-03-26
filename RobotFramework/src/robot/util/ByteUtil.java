@@ -108,7 +108,7 @@ public class ByteUtil {
 	 * @param b0 least significant bit
 	 * @return a byte composed of the given bits
 	 */
-	public static byte getByte(boolean b7, boolean b6, boolean b5, boolean b4, boolean b3, boolean b2, boolean b1, boolean b0){
+	public static byte getByteFromBits(boolean b7, boolean b6, boolean b5, boolean b4, boolean b3, boolean b2, boolean b1, boolean b0){
 		byte _0 = 0;
 		byte _1 = 1;
 		byte b = b0?_1:_0;
