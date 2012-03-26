@@ -30,7 +30,7 @@ void sendPacket(ImperiumPacket& packet){
 
 static void processGlobalConfigure(ImperiumPacket& packet){
 	if(objects!=NULL){
-		//free
+		//TODO free ImperiumObjects
 		free(objects);
 	}
 
