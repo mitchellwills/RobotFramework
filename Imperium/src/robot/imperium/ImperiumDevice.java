@@ -12,6 +12,7 @@ import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
 import robot.io.SerialInterface;
 import robot.util.ByteUtil;
+import robot.util.RobotUtil;
 
 /**
  * @author Mitchell
@@ -87,7 +88,7 @@ public class ImperiumDevice {
 	 */
 	int register(ImperiumDeviceObject object){
 		for(int pinId = 0; pinId<object.getUsedPinCount(); ++pinId){
-			if(hardwareConfiguration.supports(object.getPin(pinId), object.getRequiredCapabilities(pinId)))
+			if(!hardwareConfiguration.supports(object.getPin(pinId), object.getRequiredCapabilities(pinId)))
 				throw new RobotInitializationException("The "+hardwareConfiguration.getName()+" does not support "+object.getRequiredCapabilities(pinId)+" on pin "+object.getPin(pinId));
 		}
 		objects.add(object);
@@ -104,12 +105,26 @@ public class ImperiumDevice {
 	 * @throws IOException 
 	 */
 	public void configure() {
+		RobotUtil.sleep(2000);
+		try {
+			ImperiumPacket configurePacket = new ImperiumPacket();
+			configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
+			configurePacket.putInteger(0, 401, 2);
+			configurePacket.setDataLength(2);
+			sendPacket(configurePacket);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RobotUtil.sleep(1000);
+		
 		try {
 			synchronized(configureLock){
 				state = ImperiumDeviceState.CONFIGURING;
 				ImperiumPacket configurePacket = new ImperiumPacket();
 				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
 				configurePacket.putInteger(0, maxUpdateRate, 1);
+				configurePacket.setDataLength(1);
 				sendPacket(configurePacket);
 				try {
 					configureLock.wait(1000);
@@ -119,7 +134,7 @@ public class ImperiumDevice {
 				if(state==ImperiumDeviceState.CONFIGURE_ERROR)
 					throw new RobotInitializationException("Error configuring Imperium Device. The device failed to configure properly");
 				if(state==ImperiumDeviceState.CONFIGURING)
-					throw new RobotInitializationException("Error configuring Imperium Device. The device did not respond");
+					throw new RobotInitializationException("Error configuring Imperium Device. The device did not respond within 1 second");
 				
 				for(ImperiumDeviceObject object:objects)
 					object.initialize();
@@ -127,6 +142,8 @@ public class ImperiumDevice {
 		} catch (IOException e) {
 			throw new RobotInitializationException("Error configuring Imperium Device", e);
 		}
+		
+
 	}
 
 	
@@ -165,8 +182,11 @@ public class ImperiumDevice {
 		public void run() {
 			while(true){
 				try{
-					packet.read(is);
-					processInputPacket(packet);
+					if(is.available()>0){
+						packet.read(is);
+						System.out.println("Received: "+packet);
+						//processInputPacket(packet);
+					}
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -195,6 +215,7 @@ public class ImperiumDevice {
 	 * @throws IOException 
 	 */
 	public void sendPacket(ImperiumPacket packet) throws IOException {
+		System.out.println("Sent: "+packet);
 		if(packet!=null)
 			packet.write(os);
 	}

@@ -174,5 +174,27 @@ public class ImperiumPacket {
 		}
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ImperiumPacket [version=");
+		builder.append(VERSION);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", data=[");
+		for(int i = 0; i<getDataLength(); ++i){
+			builder.append(Integer.toHexString(getData()[i]));
+			if(i!=getDataLength()-1)
+				builder.append(", ");
+		}
+		builder.append("]");
+		builder.append(", checksum=");
+		builder.append(Integer.toHexString(getChecksum()));
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 	
 }

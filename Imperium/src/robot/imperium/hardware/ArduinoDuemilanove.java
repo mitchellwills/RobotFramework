@@ -21,8 +21,8 @@ public class ArduinoDuemilanove extends DefaultHardwareConfiguration {
 	private ArduinoDuemilanove() {
 		super("Arduino Duemilanove", 20);
 
-		addCapability(0, "0", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS, PinCapability.SerialRx);
-		addCapability(1, "1", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS, PinCapability.SerialTx);
+		addCapability(0, "0");//Disable for serial , PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS);
+		addCapability(1, "1");//Disable for serial , PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS);
 		addCapability(2, "2", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS);
 		addCapability(3, "3", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS);
 		addCapability(4, "4", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS);
@@ -42,7 +42,13 @@ public class ArduinoDuemilanove extends DefaultHardwareConfiguration {
 		addCapability(17, "A3", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS, PinCapability.AnalogInput);
 		addCapability(18, "A4", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS, PinCapability.AnalogInput, PinCapability.I2C_SDA);
 		addCapability(19, "A5", PinCapability.DigitalInput, PinCapability.DigitalOutput, PinCapability.SelectablePullUp, PinCapability.PWM_Output_MS, PinCapability.AnalogInput, PinCapability.I2C_SCL);
-
+	}
+	
+	/**
+	 * @return the pin of the LED that is on the Arduino Duemilanove board
+	 */
+	public int getOnboardLEDPin(){
+		return getPin("13");
 	}
 
 }
