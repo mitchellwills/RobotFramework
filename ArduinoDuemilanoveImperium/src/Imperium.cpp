@@ -98,8 +98,7 @@ static void processSet(ImperiumPacket& packet){
 }
 
 
-
-void periodicImperium(){
+static void readOnePacket(){
 	int errorCode = 0;
 	if(!(errorCode = readPacket.read(*stream))){
 		switch(readPacket.getId()){
@@ -120,11 +119,17 @@ void periodicImperium(){
 		sendPacket.appendInteger(errorCode, 1);
 		sendImperiumPacket(sendPacket);
 	}
+}
+
+
+void periodicImperium(){
+	readOnePacket();
 
 	if( minUpdateDelay!=0 && (millis()-lastUpdate)>=minUpdateDelay){
 		lastUpdate = millis();
 		for(int i = 0; i<numObjects; ++i){
 			objects[i]->update();
+			readOnePacket();
 		}
 	}
 }

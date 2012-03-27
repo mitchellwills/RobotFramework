@@ -3,6 +3,7 @@
 #include "Imperium.h"
 #include "ImperiumDebug.h"
 #include "ImperiumDigitalOutput.h"
+#include "ImperiumDigitalInput.h"
 
 #include "MemoryFree.h"
 
@@ -15,6 +16,7 @@ int main(){
 
 	setObjectTypeInitializer(1, ImperiumDebug::newDebug);
 	setObjectTypeInitializer(2, ImperiumDigitalOutput::newDigitalOutput);
+	setObjectTypeInitializer(3, ImperiumDigitalInput::newDigitalInput);
 
 	while(true){
 		periodicImperium();
