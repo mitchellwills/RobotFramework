@@ -11,7 +11,6 @@ import robot.imperium.hardware.HardwareConfiguration;
 import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
 import robot.io.SerialInterface;
-import robot.util.ByteUtil;
 import robot.util.RobotUtil;
 
 /**
@@ -100,6 +99,7 @@ public class ImperiumDevice {
 	
 	
 	private final Object configureLock = new Object();
+	private RobotInitializationException configureException = null;
 	/**
 	 * configure the device based on currently registered 
 	 * @throws IOException 
@@ -109,6 +109,7 @@ public class ImperiumDevice {
 		
 		try {
 			synchronized(configureLock){
+				configureException = null;
 				state = ImperiumDeviceState.CONFIGURING;
 				ImperiumPacket configurePacket = new ImperiumPacket();
 				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
@@ -117,12 +118,13 @@ public class ImperiumDevice {
 				
 				configurePacket.appendInteger(objects.size(), 1);
 				
-				for(ImperiumDeviceObject object:objects){
+				for(int i = 0; i<objects.size(); ++i){
+					ImperiumDeviceObject object = objects.get(i);
 					configurePacket.appendInteger(object.getObjectId(), 1);
 					configurePacket.appendInteger(object.getTypeId(), 1);
 					configurePacket.appendInteger(object.getPinCount(), 1);
-					for(int i = 0; i<object.getPinCount(); ++i)
-						configurePacket.appendInteger(object.getPin(i), 1);
+					for(int pin = 0; pin<object.getPinCount(); ++pin)
+						configurePacket.appendInteger(object.getPin(pin), 1);
 				}
 				sendPacket(configurePacket);
 				try {
@@ -130,8 +132,11 @@ public class ImperiumDevice {
 				} catch (InterruptedException e) {
 					//continue if interrupted
 				}
-				if(state==ImperiumDeviceState.CONFIGURE_ERROR)
-					throw new RobotInitializationException("Error configuring Imperium Device. The device failed to configure properly");
+				if(state==ImperiumDeviceState.CONFIGURE_ERROR){
+					if(configureException==null)
+						throw new RobotInitializationException("Error configuring Imperium Device. The device failed to configure properly");
+					throw configureException;
+				}
 				if(state==ImperiumDeviceState.CONFIGURING)
 					throw new RobotInitializationException("Error configuring Imperium Device. The device did not respond within 1 second");
 				
@@ -152,15 +157,36 @@ public class ImperiumDevice {
 				state = ImperiumDeviceState.CONFIGURE_ERROR;
 			}
 			else{
-				state = ImperiumDeviceState.CONNECTED;
+				packet.resetReadPosition();
+				boolean error = false;
+				if(packet.getDataLength()!=objects.size()*2){
+					configureException = new RobotInitializationException("Error configuring Imperium Device. Response configure packet was the wrong size");
+					error = true;
+				}
+				if(!error){
+					for(int i = 0; i<objects.size(); ++i){
+						ImperiumDeviceObject object = objects.get(i);
+						int typeId = packet.readInteger(1);
+						int errorCode = packet.readInteger(1);
+						if(typeId!=object.getTypeId() || errorCode!=0){
+							error = true;
+							configureException = new RobotInitializationException("Error configuring Imperium Device. Object "+object.getObjectId()+" of type "+object.getTypeId()+" failed to configure");
+						}
+					}
+				}
+				if(error)
+					state = ImperiumDeviceState.CONFIGURE_ERROR;
+				else
+					state = ImperiumDeviceState.CONNECTED;
 			}
 			configureLock.notifyAll();
 		}
 	}
 
 	private void inputValue(ImperiumPacket packet) {
-		int objectId = ByteUtil.getUnsigned(packet.getData(), 0, 1);
-		int value = ByteUtil.getUnsigned(packet.getData(), 1, 4);
+		packet.resetReadPosition();
+		int objectId = packet.readInteger(1);
+		int value = packet.readInteger(4);
 		ImperiumDeviceObject object = objects.get(objectId);
 		object.setValue(value);
 	}
@@ -183,7 +209,6 @@ public class ImperiumDevice {
 				try{
 					if(is.available()>0){
 						packet.read(is);
-						System.out.println("Received: "+packet);
 						processInputPacket(packet);
 					}
 				}
@@ -206,6 +231,9 @@ public class ImperiumDevice {
 		case PacketIds.INPUT_VALUE:
 			inputValue(packet);
 			break;
+		default:
+			System.out.println("Received: "+packet+" at "+System.currentTimeMillis());
+			break;
 		}
 	}
 	/**
@@ -214,7 +242,6 @@ public class ImperiumDevice {
 	 * @throws IOException 
 	 */
 	public void sendPacket(ImperiumPacket packet) throws IOException {
-		System.out.println("Sent: "+packet);
 		if(packet!=null)
 			packet.write(os);
 	}

@@ -12,7 +12,7 @@
 
 #define IMPERIUM_PACKET_VERSION 1
 #define IMPERIUM_PACKET_HEADER_SIZE 4
-#define IMPERIUM_PACKET_MAX_DATA_SIZE 1024
+#define IMPERIUM_PACKET_MAX_DATA_SIZE 400
 
 class ImperiumPacket {
 	private:
@@ -40,6 +40,7 @@ class ImperiumPacket {
 
 		void resetReadPosition();
 		long readInteger(int size);
+		unsigned long readUInteger(int size);
 };
 
 

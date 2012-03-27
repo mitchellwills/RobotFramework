@@ -7,7 +7,7 @@ package robot.imperium.objects;
  *
  */
 public interface ObjectTypeIds {
-	int DEBUG_TYPE_ID = 0;
-	int DIGITAL_OUTPUT_TYPE_ID = 1;
-	int DIGITAL_INPUT_TYPE_ID = 2;
+	int DEBUG_TYPE_ID = 1;
+	int DIGITAL_OUTPUT_TYPE_ID = 2;
+	int DIGITAL_INPUT_TYPE_ID = 3;
 }

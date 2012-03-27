@@ -11,14 +11,14 @@ unsigned long getUnsigned(char* b, int offset, int size) {
 	unsigned long value = 0;
 	for (int i = 0; i < size; ++i) {
 		value <<= 8;
-		value |= b[i + offset] & 0xFFL;
+		value |= b[i + offset] & 0xFF;
 	}
 	return value;
 }
 unsigned long getSigned(char* b, int offset, int size) {
 	long value = getUnsigned(b, offset, size);
-	value <<= 8 * (8 - size);
-	value >>= 8 * (8 - size); //force signed
+	value <<= 8 * (4 - size);
+	value >>= 8 * (4 - size); //force signed
 	return value;
 }
 

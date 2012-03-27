@@ -11,8 +11,17 @@
 
 class ImperiumObject {
 	private:
+		int objectId;
+		int* pins;
+		int pinCount;
 
 	public:
+		ImperiumObject(int objectId, int* pins, int pinCount);
+		int getObjectId();
+		int getPin(int index);
+		int getPinCount();
+		virtual void update() = 0;
+		virtual void setValue(long value) = 0;
 
 };
 

@@ -29,21 +29,22 @@ int ImperiumPacket::read(Stream & stream) {
 
 	int inputVersion = header[0];
 	if(inputVersion!=IMPERIUM_PACKET_VERSION)
-		return 1;
+		return 2;
 
 	id = header[1];
 	dataLength = getUnsigned(header, 2, 2);
 	if(dataLength>IMPERIUM_PACKET_MAX_DATA_SIZE)
-		return 2;
+		return 3;
 
 	//TODO ensure that all bytes are read
 	while(stream.available()<=min(128, (int)dataLength));//buffer will store maximum of 128 bytes
+
 
 	stream.readBytes(data, dataLength);
 
 	char inputChecksum = stream.read();
 	if(inputChecksum!=calculateChecksum())
-		return 3;
+		return 4;
 
 	return 0;
 }
@@ -154,6 +155,12 @@ void ImperiumPacket::resetReadPosition(){
 }
 long ImperiumPacket::readInteger(int size){
 	long value = getSigned(getData(), readPosition, size);
+	readPosition+=size;
+	return value;
+}
+
+unsigned long ImperiumPacket::readUInteger(int size){
+	long value = getUnsigned(getData(), readPosition, size);
 	readPosition+=size;
 	return value;
 }
