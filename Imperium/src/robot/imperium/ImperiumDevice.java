@@ -289,6 +289,7 @@ public class ImperiumDevice {
 	 * @throws IOException 
 	 */
 	public synchronized void sendPacket(ImperiumPacket packet) throws IOException {
+		//System.out.println("Sent: "+packet);
 		if(packet!=null)
 			packet.write(os);
 	}

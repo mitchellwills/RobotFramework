@@ -33,16 +33,16 @@ boolean openSerialPort(HANDLE handle, int baud, int dataBits, int stopBits,
 	if (!GetCommState(handle, &dcbSerialParams)) {
 		return 1;
 	}
-	dcbSerialParams.BaudRate = CBR_19200;
-	dcbSerialParams.ByteSize = 8;
-	dcbSerialParams.StopBits = ONESTOPBIT;
+	dcbSerialParams.BaudRate = baud;
+	dcbSerialParams.ByteSize = dataBits;
+	dcbSerialParams.StopBits = stopBits;
 	dcbSerialParams.Parity = NOPARITY;
 	if (!SetCommState(handle, &dcbSerialParams)) {
 		return 1;
 	}
 
 	COMMTIMEOUTS timeouts = { 0 };
-	timeouts.ReadIntervalTimeout = 1;
+	timeouts.ReadIntervalTimeout = MAXDWORD;
 	timeouts.ReadTotalTimeoutConstant = 1;
 	timeouts.ReadTotalTimeoutMultiplier = 1;
 	timeouts.WriteTotalTimeoutConstant = 1;
@@ -53,45 +53,34 @@ boolean openSerialPort(HANDLE handle, int baud, int dataBits, int stopBits,
 	return 0;
 }
 
-int readSerialPort(HANDLE handle, char* buffer, int bufferSize) {
-	printf("Reading\n");
-	fflush(stdout);
-	DWORD dwBytesRead = 0;
-	if (!ReadFile(handle, buffer, bufferSize, &dwBytesRead, NULL)) {
-		printf("Reading Error\n");
-		fflush(stdout);
-		return -1;
-	}
-	return dwBytesRead;
-}
-
 int readFileByte(HANDLE handle) {
 	DWORD dwRead;
-	char chRead;
+	unsigned char chRead;
 
-	if(ReadFile(handle, &chRead, 1, &dwRead, NULL))
-		return chRead;
+	if(ReadFile(handle, &chRead, 1, &dwRead, NULL)){
+		if(dwRead>0){
+			//printf("Read %i\n", chRead);
+			fflush(stdout);
+			return chRead;
+		}
+		return -1;
+	}
 	else
 		return -1;
 }
 
-int readFile(HANDLE handle, char* buffer, int off, int len) {
-	DWORD dwRead;
-	if(ReadFile(handle, buffer+off, len, &dwRead, NULL))
-		return dwRead;
-	else
-		return -1;
-}
-
-int writeFile(HANDLE handle, char* buffer, int writeSize) {
-	printf("Writing %s\n", buffer);
+int writeFileByte(HANDLE handle, int b) {
+	//printf("Wrote %i\n", b);
 	fflush(stdout);
 	DWORD dwBytesWrote = 0;
-	if (!WriteFile(handle, buffer, writeSize, &dwBytesWrote, NULL)) {
+	if (!WriteFile(handle, &b, 1, &dwBytesWrote, NULL)) {
+		fprintf(stderr, "NATIVE ERROR: Could not write to file\n");
+		fflush(stderr);
 		return -1;
 	}
 	return dwBytesWrote;
 }
+
 boolean closeSerialPort(HANDLE handle) {
 	CloseHandle(handle);
 	return 0;

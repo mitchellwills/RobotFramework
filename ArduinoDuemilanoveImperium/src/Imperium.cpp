@@ -51,6 +51,7 @@ void sendImperiumInputPacket(int objectId, long value){
 
 static void processGlobalConfigure(ImperiumPacket& packet){
 	sendPacket.setId(PACKETID_CONFIGURE_CONFIRM);
+	sendPacket.setDataLength(0);
 
 	if(objects!=NULL){
 		//TODO free ImperiumObjects

@@ -22,8 +22,7 @@ public interface ComputerPorts extends Library {
 	boolean openSerialPort(WinNT.HANDLE handle, int baud, int dataBits, int stopBits, int parity);
 
 	int readFileByte(WinNT.HANDLE handle);
-	int readFile(WinNT.HANDLE handle, byte[] buffer, int off, int bufferSize);
+	int writeFileByte(WinNT.HANDLE handle, int b);
 	
-	int writeFile(WinNT.HANDLE handle, Pointer buffer, int writeSize);
 	boolean closeSerialPort(WinNT.HANDLE handle);
 }

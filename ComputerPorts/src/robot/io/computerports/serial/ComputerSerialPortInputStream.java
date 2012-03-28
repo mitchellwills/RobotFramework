@@ -20,17 +20,23 @@ class ComputerSerialPortInputStream extends InputStream{
 		this.fileHandle = fileHandle;
 	}
 	
+	int buffer = -1;
 	@Override
-	public int read() throws IOException {
-		return ComputerPorts.INSTANCE.readFileByte(fileHandle);
+	public synchronized int read() throws IOException {
+		if(buffer==-1)
+			return ComputerPorts.INSTANCE.readFileByte(fileHandle);
+		int x =  buffer;
+		buffer = -1;
+		return x;
 	}
-
+	
 	@Override
-	public int read(byte[] b, int off, int len) throws IOException {
-		int bytesRead = ComputerPorts.INSTANCE.readFile(fileHandle, b, off, len);
-		if(bytesRead<=0)
-			throw new IOException("Error reading byte from file stream");
-		return bytesRead;
+	public synchronized int available(){
+		if(buffer==-1)
+			buffer = ComputerPorts.INSTANCE.readFileByte(fileHandle);
+		if(buffer==-1)
+			return 0;
+		return 1;
 	}
 	
 }
