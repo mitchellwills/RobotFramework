@@ -1,16 +1,13 @@
 package robot.imperium.objects;
 
 import static robot.imperium.objects.ObjectTypeIds.DIGITAL_OUTPUT_TYPE_ID;
-import java.io.IOException;
+
 import java.util.EnumSet;
 
-import robot.error.RobotException;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.PinCapability;
-import robot.imperium.packet.ImperiumPacket;
-import robot.imperium.packet.Packets;
-import robot.io.BinaryOutput;
+import robot.io.binary.BinaryOutput;
 
 
 /**
@@ -43,14 +40,8 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements Binar
 
 	@Override
 	public void set(boolean value) {
-		ImperiumPacket packet = new ImperiumPacket();
-		Packets.makeSetValue(packet, getObjectId(), value?1:0);
-		try {
-			getDevice().sendPacket(packet);
-			
-		} catch (IOException e) {
-			throw new RobotException("Error setting digital output", e);
-		}
+		getDevice().sendSetPacket(this, value?1:0);
+		currentState = value;
 	}
 
 	@Override

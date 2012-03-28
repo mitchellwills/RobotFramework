@@ -38,7 +38,12 @@ public enum PinCapability {
 	/**
 	 * Write a PWM signal using milliseconds as the value
 	 */
-	PWM_Output_MS,
+	MSPWM_Output,
+
+	/**
+	 * Write a PWM using a duty cycle
+	 */
+	PWM_Output,
 	
 	/**
 	 * Serial transmit

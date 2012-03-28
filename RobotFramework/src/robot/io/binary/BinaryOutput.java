@@ -1,4 +1,6 @@
-package robot.io;
+package robot.io.binary;
+
+import robot.io.Output;
 
 
 /**

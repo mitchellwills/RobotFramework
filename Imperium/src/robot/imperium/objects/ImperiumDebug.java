@@ -38,7 +38,7 @@ public class ImperiumDebug extends ImperiumDeviceObject {
 
 	@Override
 	public void setValue(int value) {
-		//System.out.println("Debug Value: "+value);
+		System.out.println("Debug Value: "+value);
 	}
 
 

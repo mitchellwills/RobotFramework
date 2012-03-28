@@ -7,7 +7,11 @@ package robot.io;
  * An output that takes a value in milliseconds that is the length of the pulses
  *
  */
-public interface ServoPWMOutput extends Output {
+public interface MSPWMOutput extends Output {
+	/**
+	 * value to set the output to to disable the output
+	 */
+	public static final int DISABLED = -1;
 	/**
 	 * @param ms the length of the pulses in milliseconds
 	 * -1 will disable the pulse output

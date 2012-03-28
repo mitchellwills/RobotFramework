@@ -81,6 +81,7 @@ public class ImperiumPacket {
 		os.write(dataLength&0xFF);
 		os.write(data, 0, dataLength);
 		os.write(getChecksum());
+		os.flush();
 	}
 
 

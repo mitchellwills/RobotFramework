@@ -18,7 +18,7 @@ static int numObjects = 0;
 static ImperiumObject** objects = NULL;
 static ObjectInitializer objectInitializers[MAX_OBJECT_TYPES];
 
-static unsigned int minUpdateDelay = 0;
+static int minUpdateDelay = 0;
 static unsigned long lastUpdate = 0;
 
 void initImperium(Stream & _stream){
@@ -59,9 +59,9 @@ static void processGlobalConfigure(ImperiumPacket& packet){
 
 	packet.resetReadPosition();
 
-	unsigned int updateRate = packet.readUInteger(1);
+	unsigned int updateRate = packet.readUInteger(2);
 	if(updateRate==0)
-		minUpdateDelay = 0;
+		minUpdateDelay = -1;
 	else
 		minUpdateDelay = 1000/updateRate;
 
@@ -123,10 +123,12 @@ static void readOnePacket(){
 
 
 void periodicImperium(){
-	readOnePacket();
+	if(numObjects==0)
+		readOnePacket();
 
-	if( minUpdateDelay!=0 && (millis()-lastUpdate)>=minUpdateDelay){
-		lastUpdate = millis();
+	long time = millis();
+	if( minUpdateDelay>=0 && (time-lastUpdate)>=minUpdateDelay){
+		lastUpdate = time;
 		for(int i = 0; i<numObjects; ++i){
 			objects[i]->update();
 			readOnePacket();

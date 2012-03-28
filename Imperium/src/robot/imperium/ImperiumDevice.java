@@ -6,11 +6,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import robot.error.RobotException;
 import robot.error.RobotInitializationException;
 import robot.imperium.hardware.HardwareConfiguration;
 import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
-import robot.io.SerialInterface;
+import robot.io.serial.SerialInterface;
 import robot.util.RobotUtil;
 
 /**
@@ -79,6 +80,29 @@ public class ImperiumDevice {
 		this.maxUpdateRate = rate;
 	}
 	
+	/**
+	 * @return the configuration of the hardware device that this object communicates with
+	 */
+	public HardwareConfiguration getHardwareConfiguration(){
+		return hardwareConfiguration;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	private final List<ImperiumDeviceObject> objects = new ArrayList<ImperiumDeviceObject>();
 	/**
@@ -93,9 +117,6 @@ public class ImperiumDevice {
 		objects.add(object);
 		return objects.size()-1;
 	}
-	
-	
-	
 	
 	
 	private final Object configureLock = new Object();
@@ -114,7 +135,7 @@ public class ImperiumDevice {
 				ImperiumPacket configurePacket = new ImperiumPacket();
 				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
 				configurePacket.setDataLength(0);
-				configurePacket.appendInteger(maxUpdateRate, 1);
+				configurePacket.appendInteger(maxUpdateRate, 2);
 				
 				configurePacket.appendInteger(objects.size(), 1);
 				
@@ -182,6 +203,18 @@ public class ImperiumDevice {
 			configureLock.notifyAll();
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	private void inputValue(ImperiumPacket packet) {
 		packet.resetReadPosition();
@@ -210,7 +243,10 @@ public class ImperiumDevice {
 					if(is.available()>0){
 						packet.read(is);
 						processInputPacket(packet);
+						//System.out.println("Received: "+packet);
 					}
+					else
+						RobotUtil.sleep(2);
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -236,13 +272,41 @@ public class ImperiumDevice {
 			break;
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * send a packet to the device
 	 * @param packet
 	 * @throws IOException 
 	 */
-	public void sendPacket(ImperiumPacket packet) throws IOException {
+	public synchronized void sendPacket(ImperiumPacket packet) throws IOException {
 		if(packet!=null)
 			packet.write(os);
+	}
+	
+	/**
+	 * @param object the object whose value is being set
+	 * @param value the new value that will be sent to the device
+	 */
+	public void sendSetPacket(ImperiumDeviceObject object, int value){
+		ImperiumPacket packet = new ImperiumPacket();
+		packet.setId(PacketIds.SET_VALUE);
+		packet.setDataLength(0);
+		packet.appendInteger(object.getObjectId(), 1);
+		packet.appendInteger(value, 2);
+		try {
+			sendPacket(packet);
+		} catch (IOException e) {
+			throw new RobotException("Error setting output of "+object, e);
+		}
 	}
 }

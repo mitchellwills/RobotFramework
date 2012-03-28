@@ -18,4 +18,22 @@ public class RobotUtil {
 			//just continue
 		}
 	}
+
+	/**
+	 * 
+	 * limit a value so that it is between a min and a max
+	 * 
+	 * @param value
+	 * @param min
+	 * @param max
+	 * @return the limited value
+	 */
+	public static double limit(double value, double min, double max) {
+		if(value<min)
+			return min;
+		if(value>max)
+			return max;
+		return value;
+		
+	}
 }

@@ -11,6 +11,11 @@
 #include "ImperiumObject.h"
 
 class ImperiumDebug: public ImperiumObject {
+	private:
+		unsigned long updateCount;
+		unsigned long countTotal;
+		unsigned long lastUpdate;
+		unsigned long lastSend;
 	public:
 		static ImperiumObject* newDebug(int objectId, int* pins, int pinCount);
 

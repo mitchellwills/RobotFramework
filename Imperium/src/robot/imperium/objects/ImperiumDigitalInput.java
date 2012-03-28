@@ -7,7 +7,7 @@ import java.util.EnumSet;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.PinCapability;
-import robot.io.BinaryInput;
+import robot.io.binary.BinaryInput;
 
 
 /**

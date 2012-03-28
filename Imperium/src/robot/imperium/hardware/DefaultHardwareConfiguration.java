@@ -14,18 +14,21 @@ import robot.imperium.PinCapability;
 public class DefaultHardwareConfiguration extends HardwareConfiguration {
 	private final EnumSet<PinCapability>[] pinCapabilities;
 	private final String[] pinLabels;
+	private final double pwmFrequency;
 	
 	/**
 	 * Create a configureation with a given number of pins
 	 * @param name the name of the configuration
 	 * @param numPins the number of pins on the hardware
+	 * @param pwmFrequency the frequency in Hz of the PWM output of the device
 	 */
-	public DefaultHardwareConfiguration(String name, int numPins){
+	public DefaultHardwareConfiguration(String name, int numPins, double pwmFrequency){
 		super(name);
 		pinCapabilities = (EnumSet<PinCapability>[]) Array.newInstance(EnumSet.class, numPins);
 		for(int i = 0; i<numPins; ++i)
 			pinCapabilities[i] = EnumSet.noneOf(PinCapability.class);
 		pinLabels = new String[numPins];
+		this.pwmFrequency = pwmFrequency;
 	}
 
 	protected void addCapability(int pin, PinCapability capability){
@@ -81,6 +84,11 @@ public class DefaultHardwareConfiguration extends HardwareConfiguration {
 				return pin;
 		}
 		return -1;
+	}
+
+	@Override
+	public double getPWMFrequency() {
+		return pwmFrequency;
 	}
 
 }

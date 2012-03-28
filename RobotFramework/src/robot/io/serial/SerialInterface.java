@@ -1,7 +1,10 @@
-package robot.io;
+package robot.io.serial;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import robot.io.Input;
+import robot.io.Output;
 
 /**
  * @author Mitchell

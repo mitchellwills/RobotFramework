@@ -15,12 +15,17 @@ ImperiumObject* ImperiumDigitalInput::newDigitalInput(int objectId, int* pins, i
 
 ImperiumDigitalInput::ImperiumDigitalInput(int objectId, int* pins, int pinCount) : ImperiumObject(objectId, pins, pinCount){
 	pinMode(getPin(0), INPUT);
+	sentInitial = false;
 }
 
 
 void ImperiumDigitalInput::update(){
-	sendImperiumInputPacket(getObjectId(), digitalRead(getPin(0)));
-
+	boolean value = digitalRead(getPin(0));
+	if(lastSent!=value || !sentInitial){
+		lastSent = value;
+		sentInitial = true;
+		sendImperiumInputPacket(getObjectId(), value);
+	}
 }
 void ImperiumDigitalInput::setValue(long value){
 }

@@ -53,4 +53,9 @@ public abstract class HardwareConfiguration {
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * @return the frequency of the hardware's PWM output in Hz
+	 */
+	public abstract double getPWMFrequency();
 }

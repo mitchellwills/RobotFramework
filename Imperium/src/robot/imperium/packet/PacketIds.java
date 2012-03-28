@@ -20,6 +20,11 @@ public interface PacketIds {
 	 */
 	int CONFIGURE_OBJECT = 3;
 	
+	/**
+	 * pass an error message back to the host
+	 */
+	int ERROR_MESSAGE = 4;
+	
 	
 	/**
 	 * set a single value
