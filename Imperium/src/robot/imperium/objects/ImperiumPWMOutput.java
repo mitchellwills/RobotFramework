@@ -7,7 +7,7 @@ import java.util.EnumSet;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.PinCapability;
-import robot.io.PWMOutput;
+import robot.io.pwm.PWMOutput;
 import robot.util.RobotUtil;
 
 

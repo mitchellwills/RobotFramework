@@ -329,7 +329,7 @@ public class ImperiumDevice {
 	
 	
 	private Object pingLock = new Object();
-	public void ping(){
+	public int ping(){
 		synchronized(pingLock){
 			ImperiumPacket packet = new ImperiumPacket();
 			packet.setId(PacketIds.PING_REQUEST);
@@ -338,13 +338,15 @@ public class ImperiumDevice {
 				long time = System.currentTimeMillis();
 				sendPacket(packet);
 				try {
-					pingLock.wait(5000);
+					pingLock.wait(2000);
 				} catch (InterruptedException e) {}
 				long diff = System.currentTimeMillis()-time;
-				if(diff<5000)
+				if(diff<2000){
 					System.out.println("got ping response in "+diff+"ms");
-				else
-					System.out.println("Ping timed out");
+					return (int)diff;
+				}
+				System.out.println("Ping timed out");
+				return -1;
 				
 				
 				

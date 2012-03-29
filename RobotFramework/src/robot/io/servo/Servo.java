@@ -1,4 +1,6 @@
-package robot.io;
+package robot.io.servo;
+
+import robot.io.Output;
 
 /**
  * @author Mitchell

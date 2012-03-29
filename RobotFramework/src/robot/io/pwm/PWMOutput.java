@@ -1,4 +1,6 @@
-package robot.io;
+package robot.io.pwm;
+
+import robot.io.Output;
 
 
 /**

@@ -18,7 +18,7 @@ import robot.error.RobotInitializationException;
  * A serial port that exists on the computer
  *
  */
-public class RxTxComputerSerialPort implements SerialInterface{
+public final class RxTxComputerSerialPort implements SerialInterface{
 	private final CommPortIdentifier identifier;
 	private final SerialPort port;
 	private final InputStream is;

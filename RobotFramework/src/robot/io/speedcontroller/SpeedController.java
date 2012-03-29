@@ -1,4 +1,6 @@
-package robot.io;
+package robot.io.speedcontroller;
+
+import robot.io.Output;
 
 
 /**
