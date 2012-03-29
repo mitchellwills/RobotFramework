@@ -277,6 +277,12 @@ public class ImperiumDevice {
 		case PacketIds.ERROR_MESSAGE:
 			error(packet);
 			break;
+		case PacketIds.PING_RESPONSE:
+			synchronized(pingLock){
+				pingLock.notifyAll();
+				System.out.println("Got ping response");
+			}
+			break;
 		default:
 			System.out.println("Received: "+packet+" at "+System.currentTimeMillis());
 			break;
@@ -299,9 +305,9 @@ public class ImperiumDevice {
 	 * @throws IOException 
 	 */
 	public synchronized void sendPacket(ImperiumPacket packet) throws IOException {
-		//System.out.println("Sent: "+packet);
 		if(packet!=null)
 			packet.write(os);
+		//System.out.println("Sent: "+packet);
 	}
 	
 	/**
@@ -318,6 +324,33 @@ public class ImperiumDevice {
 			sendPacket(packet);
 		} catch (IOException e) {
 			throw new RobotException("Error setting output of "+object, e);
+		}
+	}
+	
+	
+	private Object pingLock = new Object();
+	public void ping(){
+		synchronized(pingLock){
+			ImperiumPacket packet = new ImperiumPacket();
+			packet.setId(PacketIds.PING_REQUEST);
+			packet.setDataLength(0);
+			try {
+				long time = System.currentTimeMillis();
+				sendPacket(packet);
+				try {
+					pingLock.wait(5000);
+				} catch (InterruptedException e) {}
+				long diff = System.currentTimeMillis()-time;
+				if(diff<5000)
+					System.out.println("got ping response in "+diff+"ms");
+				else
+					System.out.println("Ping timed out");
+				
+				
+				
+			} catch (IOException e) {
+				throw new RobotException("Error sending ping", e);
+			}
 		}
 	}
 }

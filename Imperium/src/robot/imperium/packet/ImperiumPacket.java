@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import robot.util.ByteUtil;
+import robot.util.RobotUtil;
 
 /**
  * @author Mitchell
@@ -48,11 +49,9 @@ public class ImperiumPacket {
 	 */
 	public void read(InputStream is) throws IOException{
 		byte[] header = new byte[HEADER_SIZE];
-		for(int i = 0; i<header.length;){
-			header[i] = (byte) is.read();
-			if(header[i]>=0)
-				++i;
-		}
+		while(is.available()<4)
+			RobotUtil.sleep(1);
+		is.read(header);
 		
 		int inputVersion = header[0];
 		if(inputVersion!=VERSION)
@@ -62,33 +61,34 @@ public class ImperiumPacket {
 		dataLength = ByteUtil.getUnsigned(header, 2, 2);
 		if(dataLength>MAX_DATA_SIZE)
 			throw new IOException("Invalid Imperium packet: data length cannot be larger than "+MAX_DATA_SIZE);
-		for(int i = 0; i<dataLength;){
-			data[i] = (byte) is.read();
-			if(data[i]>=0)
-				++i;
-		}
+		while(is.available()<dataLength)
+			Thread.yield();
+		is.read(data, 0, dataLength);
 		
 		int inputChecksum = -1;
-		while(inputChecksum==-1)
+		while(inputChecksum==-1){
 			inputChecksum = is.read();
+		}
 		if((byte)inputChecksum!=calculateChecksum()){
 			System.err.println("Received: "+this+" but checksum was "+inputChecksum);
 			throw new IOException("Invalid Imperium packet: checksum does not match");
 		}
 	}
-	
+
+	private byte[] outputBuffer = new byte[MAX_PACKET_SIZE];
 	/**
 	 * write a packet to an output stream
 	 * @param os the stream the packet will be written to
 	 * @throws IOException 
 	 */
-	public void write(OutputStream os) throws IOException{
-		os.write(VERSION);
-		os.write(id);
-		os.write((dataLength>>8)&0xFF);
-		os.write(dataLength&0xFF);
-		os.write(data, 0, dataLength);
-		os.write(getChecksum());
+	public synchronized void write(OutputStream os) throws IOException{
+		outputBuffer[0] = VERSION;
+		outputBuffer[1] = (byte) id;
+		outputBuffer[2] = (byte) ((dataLength>>8)&0xFF);
+		outputBuffer[3] = (byte) (dataLength&0xFF);
+		System.arraycopy(data, 0, outputBuffer, HEADER_SIZE, dataLength);
+		outputBuffer[size()-1] = getChecksum();
+		os.write(outputBuffer, 0, size());
 		os.flush();
 	}
 

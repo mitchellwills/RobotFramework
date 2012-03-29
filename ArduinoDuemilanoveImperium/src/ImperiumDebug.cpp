@@ -22,7 +22,7 @@ ImperiumDebug::ImperiumDebug(int objectId, int* pins, int pinCount) : ImperiumOb
 
 
 void ImperiumDebug::update(){
-	/*countTotal += (millis()-lastUpdate);
+	countTotal += (millis()-lastUpdate);
 	++updateCount;
 
 	if(millis()-lastSend>1000){
@@ -30,7 +30,7 @@ void ImperiumDebug::update(){
 		lastSend = millis();
 	}
 
-	lastUpdate = millis();*/
+	lastUpdate = millis();
 }
 
 void ImperiumDebug::setValue(long value){

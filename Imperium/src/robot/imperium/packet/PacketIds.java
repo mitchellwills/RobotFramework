@@ -25,6 +25,16 @@ public interface PacketIds {
 	 */
 	int ERROR_MESSAGE = 4;
 	
+	/**
+	 * host sends request for device response
+	 */
+	int PING_REQUEST = 5;
+	
+	/**
+	 * response to a ping
+	 */
+	int PING_RESPONSE = 6;
+	
 	
 	/**
 	 * set a single value

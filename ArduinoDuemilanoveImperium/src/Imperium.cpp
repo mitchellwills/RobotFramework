@@ -97,6 +97,11 @@ static void processSet(ImperiumPacket& packet){
 	long value = packet.readInteger(2);
 	objects[objectId]->setValue(value);
 }
+static void processPing(ImperiumPacket& packet){
+	sendPacket.setDataLength(0);
+	sendPacket.setId(PACKETID_PING_RESPONSE);
+	sendImperiumPacket(sendPacket);
+}
 
 
 static void readOnePacket(){
@@ -108,6 +113,9 @@ static void readOnePacket(){
 			break;
 		case PACKETID_SET_VALUE:
 			processSet(readPacket);
+			break;
+		case PACKETID_PING_REQUEST:
+			processPing(readPacket);
 			break;
 		default:
 			errorCode = 5;
