@@ -36,4 +36,6 @@ public interface PacketIds {
 	 * an update of a single value
 	 */
 	int INPUT_VALUE = 20;
+	
+	
 }

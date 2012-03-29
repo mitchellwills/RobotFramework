@@ -43,10 +43,10 @@ boolean openSerialPort(HANDLE handle, int baud, int dataBits, int stopBits,
 
 	COMMTIMEOUTS timeouts = { 0 };
 	timeouts.ReadIntervalTimeout = MAXDWORD;
-	timeouts.ReadTotalTimeoutConstant = 1;
-	timeouts.ReadTotalTimeoutMultiplier = 1;
-	timeouts.WriteTotalTimeoutConstant = 1;
-	timeouts.WriteTotalTimeoutMultiplier = 1;
+	timeouts.ReadTotalTimeoutConstant = 5;
+	timeouts.ReadTotalTimeoutMultiplier = 5;
+	timeouts.WriteTotalTimeoutConstant = 5;
+	timeouts.WriteTotalTimeoutMultiplier = 5;
 	if (!SetCommTimeouts(handle, &timeouts)) {
 		return 1;
 	}
@@ -59,8 +59,6 @@ int readFileByte(HANDLE handle) {
 
 	if(ReadFile(handle, &chRead, 1, &dwRead, NULL)){
 		if(dwRead>0){
-			//printf("Read %i\n", chRead);
-			fflush(stdout);
 			return chRead;
 		}
 		return -1;
@@ -70,8 +68,6 @@ int readFileByte(HANDLE handle) {
 }
 
 int writeFileByte(HANDLE handle, int b) {
-	//printf("Wrote %i\n", b);
-	fflush(stdout);
 	DWORD dwBytesWrote = 0;
 	if (!WriteFile(handle, &b, 1, &dwBytesWrote, NULL)) {
 		fprintf(stderr, "NATIVE ERROR: Could not write to file\n");

@@ -48,8 +48,11 @@ public class ImperiumPacket {
 	 */
 	public void read(InputStream is) throws IOException{
 		byte[] header = new byte[HEADER_SIZE];
-		for(int i = 0; i<header.length; ++i)
+		for(int i = 0; i<header.length;){
 			header[i] = (byte) is.read();
+			if(header[i]>=0)
+				++i;
+		}
 		
 		int inputVersion = header[0];
 		if(inputVersion!=VERSION)
@@ -59,12 +62,17 @@ public class ImperiumPacket {
 		dataLength = ByteUtil.getUnsigned(header, 2, 2);
 		if(dataLength>MAX_DATA_SIZE)
 			throw new IOException("Invalid Imperium packet: data length cannot be larger than "+MAX_DATA_SIZE);
-		for(int i = 0; i<dataLength; ++i)
+		for(int i = 0; i<dataLength;){
 			data[i] = (byte) is.read();
+			if(data[i]>=0)
+				++i;
+		}
 		
-		int inputChecksum = (byte) is.read();
-		if(inputChecksum!=calculateChecksum()){
-			System.err.println("Received: "+this);
+		int inputChecksum = -1;
+		while(inputChecksum==-1)
+			inputChecksum = is.read();
+		if((byte)inputChecksum!=calculateChecksum()){
+			System.err.println("Received: "+this+" but checksum was "+inputChecksum);
 			throw new IOException("Invalid Imperium packet: checksum does not match");
 		}
 	}

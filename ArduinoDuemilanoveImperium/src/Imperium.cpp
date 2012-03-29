@@ -115,7 +115,7 @@ static void readOnePacket(){
 		}
 	}
 	if(errorCode!=0 && errorCode!=1){
-		sendPacket.setId(9);
+		sendPacket.setId(PACKETID_ERROR_MESSAGE);
 		sendPacket.setDataLength(0);
 		sendPacket.appendInteger(errorCode, 1);
 		sendImperiumPacket(sendPacket);

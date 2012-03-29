@@ -24,7 +24,7 @@ class ComputerSerialPortInputStream extends InputStream{
 	@Override
 	public synchronized int read() throws IOException {
 		if(buffer==-1)
-			return ComputerPorts.INSTANCE.readFileByte(fileHandle);
+			return readNative();
 		int x =  buffer;
 		buffer = -1;
 		return x;
@@ -32,11 +32,22 @@ class ComputerSerialPortInputStream extends InputStream{
 	
 	@Override
 	public synchronized int available(){
-		if(buffer==-1)
-			buffer = ComputerPorts.INSTANCE.readFileByte(fileHandle);
-		if(buffer==-1)
+		if(buffer<0)
+			buffer = readNative();
+		if(buffer<0)
 			return 0;
 		return 1;
+	}
+	long total = 0;
+	long first = 0;
+	public int readNative(){
+		if(first == 0)
+			first = System.currentTimeMillis();
+		long start = System.currentTimeMillis();
+		int value = ComputerPorts.INSTANCE.readFileByte(fileHandle);
+		total += (System.currentTimeMillis()-start);
+		System.out.println(total + " - "+ (  total*1.0/(System.currentTimeMillis()-first) ) );
+		return value;
 	}
 	
 }

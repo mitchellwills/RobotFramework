@@ -213,7 +213,7 @@ public class ImperiumDevice {
 	
 	
 	
-	
+
 	
 
 	private void inputValue(ImperiumPacket packet) {
@@ -222,6 +222,13 @@ public class ImperiumDevice {
 		int value = packet.readInteger(4);
 		ImperiumDeviceObject object = objects.get(objectId);
 		object.setValue(value);
+	}
+	
+
+	private void error(ImperiumPacket packet) {
+		packet.resetReadPosition();
+		int errorCode = packet.readInteger(1);
+		throw new RobotException("Error occured on device: "+errorCode);
 	}
 	
 	
@@ -266,6 +273,9 @@ public class ImperiumDevice {
 			break;
 		case PacketIds.INPUT_VALUE:
 			inputValue(packet);
+			break;
+		case PacketIds.ERROR_MESSAGE:
+			error(packet);
 			break;
 		default:
 			System.out.println("Received: "+packet+" at "+System.currentTimeMillis());
