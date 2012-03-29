@@ -3,7 +3,6 @@ package robot.io.computerports;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.WinNT;
 
 /**
  * @author Mitchell
@@ -18,11 +17,39 @@ public interface ComputerPorts extends Library {
 	ComputerPorts INSTANCE = (ComputerPorts) Native.loadLibrary(
 			"libComputerPortsNative", ComputerPorts.class);
 
-	WinNT.HANDLE createSerialPort(String name);
-	boolean openSerialPort(WinNT.HANDLE handle, int baud, int dataBits, int stopBits, int parity);
+	/**
+	 * open a serial port
+	 * @param name name of the file to open
+	 * @param baud
+	 * @return the native file descriptor
+	 */
+	int openSerialPort(String name, int baud);
 
-	int readFileByte(WinNT.HANDLE handle);
-	int writeFileByte(WinNT.HANDLE handle, int b);
+	/**
+	 * @param fd the native file descriptor
+	 * @param byffer
+	 * @param length
+	 * @return the number of bytes read
+	 */
+	int readBytes(int fd, Pointer byffer, int length);
+	/**
+	 * @param fd the native file descriptor
+	 * @param buffer
+	 * @param length
+	 * @return the number of bytes written
+	 */
+	int writeBytes(int fd, Pointer buffer, int length);
 	
-	boolean closeSerialPort(WinNT.HANDLE handle);
+	/**
+	 * @param fd the native file descriptor
+	 * @return the number of bytes available to read
+	 */
+	int available(int fd);
+	
+	/**
+	 * Close the native file
+	 * @param fd the native file descriptor
+	 * @return true if successful
+	 */
+	boolean closeSerialPort(int fd);
 }
