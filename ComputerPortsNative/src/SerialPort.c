@@ -7,6 +7,8 @@
 
 //Based on http://www.robbayer.com/files/serial-win.pdf
 //Also see http://msdn.microsoft.com/en-us/library/ms810467.aspx
+//http://www.ftdichip.com/Support/Documents/AppNotes/AN232B-04_DataLatencyFlow.pdf
+//http://electronics.stackexchange.com/questions/28434/sensor-polling-via-usb-rs485-serial-interface-stuck-at-16ms-even-though-it-shou
 #include <Windows.h>
 #include <stdio.h>
 

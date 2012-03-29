@@ -38,16 +38,8 @@ class ComputerSerialPortInputStream extends InputStream{
 			return 0;
 		return 1;
 	}
-	long total = 0;
-	long first = 0;
 	public int readNative(){
-		if(first == 0)
-			first = System.currentTimeMillis();
-		long start = System.currentTimeMillis();
-		int value = ComputerPorts.INSTANCE.readFileByte(fileHandle);
-		total += (System.currentTimeMillis()-start);
-		System.out.println(total + " - "+ (  total*1.0/(System.currentTimeMillis()-first) ) );
-		return value;
+		return ComputerPorts.INSTANCE.readFileByte(fileHandle);
 	}
 	
 }
