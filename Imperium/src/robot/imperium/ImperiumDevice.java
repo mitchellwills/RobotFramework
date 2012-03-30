@@ -280,7 +280,6 @@ public class ImperiumDevice {
 		case PacketIds.PING_RESPONSE:
 			synchronized(pingLock){
 				pingLock.notifyAll();
-				System.out.println("Got ping response");
 			}
 			break;
 		default:
@@ -329,6 +328,9 @@ public class ImperiumDevice {
 	
 	
 	private Object pingLock = new Object();
+	/**
+	 * @return the time it took the device to respond
+	 */
 	public int ping(){
 		synchronized(pingLock){
 			ImperiumPacket packet = new ImperiumPacket();
@@ -342,7 +344,6 @@ public class ImperiumDevice {
 				} catch (InterruptedException e) {}
 				long diff = System.currentTimeMillis()-time;
 				if(diff<2000){
-					System.out.println("got ping response in "+diff+"ms");
 					return (int)diff;
 				}
 				System.out.println("Ping timed out");
