@@ -2,6 +2,7 @@ package robot.imperium;
 
 import java.util.EnumSet;
 
+import robot.imperium.hardware.HardwareConfiguration;
 import robot.io.RobotDevice;
 
 
@@ -14,6 +15,35 @@ public abstract class ImperiumDeviceObject implements RobotDevice{
 	private final int typeId;
 	private final int[] pins;
 	private final int objectId;
+	
+
+	/**
+	 * create a new Imperium device object and register it with the Imperium device
+	 * 
+	 * @param device the device the object exists on
+	 * @param typeId the id that identifies the object type
+	 */
+	public ImperiumDeviceObject(int typeId, ImperiumDevice device){
+		this(typeId, device, new int[]{});
+	}
+	
+	/**
+	 * create a new Imperium device object and register it with the Imperium device
+	 * 
+	 * @param device the device the object exists on
+	 * @param typeId the id that identifies the object type
+	 * @param pinLabels the labels of  that the object uses
+	 */
+	public ImperiumDeviceObject(int typeId, ImperiumDevice device, String... pinLabels){
+		this(typeId, device, toPins(device.getHardwareConfiguration(), pinLabels));
+	}
+	
+	private static int[] toPins(HardwareConfiguration config, String... pinLabels){
+		int[] pins = new int[pinLabels.length];
+		for(int i = 0; i<pins.length; ++i)
+			pins[i] = config.getPinId(pinLabels[i]);
+		return pins;
+	}
 	
 	/**
 	 * create a new Imperium device object and register it with the Imperium device

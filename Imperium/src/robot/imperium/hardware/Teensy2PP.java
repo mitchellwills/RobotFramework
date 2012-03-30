@@ -1,6 +1,19 @@
 package robot.imperium.hardware;
 
-import static robot.imperium.PinCapability.*;
+import static robot.imperium.PinCapability.AnalogInput;
+import static robot.imperium.PinCapability.DigitalInput;
+import static robot.imperium.PinCapability.DigitalOutput;
+import static robot.imperium.PinCapability.I2C_SCL;
+import static robot.imperium.PinCapability.I2C_SDA;
+import static robot.imperium.PinCapability.MSPWM_Output;
+import static robot.imperium.PinCapability.PWM_Output;
+import static robot.imperium.PinCapability.SPI_MISO;
+import static robot.imperium.PinCapability.SPI_MOSI;
+import static robot.imperium.PinCapability.SPI_SCK;
+import static robot.imperium.PinCapability.SPI_SS;
+import static robot.imperium.PinCapability.SelectablePullUp;
+import static robot.imperium.PinCapability.SerialRx;
+import static robot.imperium.PinCapability.SerialTx;
 
 /**
  * @author Mitchell
@@ -8,7 +21,7 @@ import static robot.imperium.PinCapability.*;
  * Represents the Teensy++ 2.0
  *
  */
-public class Teensy2PP extends DefaultHardwareConfiguration {
+public class Teensy2PP extends HardwareConfiguration {
 	
 	private static final Teensy2PP INSTANCE = new Teensy2PP();
 	/**
@@ -19,9 +32,9 @@ public class Teensy2PP extends DefaultHardwareConfiguration {
 	}
 
 	private Teensy2PP() {
-		super("Teensy++ 2.0", 48, 490);
+		super("Teensy++ 2.0", 490);
 
-		addCapability(28, "A0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
+		/*addCapability(28, "A0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 		addCapability(29, "A1", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 		addCapability(30, "A2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 		addCapability(31, "A3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
@@ -71,16 +84,8 @@ public class Teensy2PP extends DefaultHardwareConfiguration {
 		addCapability(42, "F4", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput);
 		addCapability(43, "F5", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput);
 		addCapability(44, "F6", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput);
-		addCapability(45, "F7", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput);
+		addCapability(45, "F7", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput);*/
 	}
 	
-
-	
-	/**
-	 * @return the pin of the LED that is on the Teensy++ 2.0 board
-	 */
-	public int getOnboardLEDPin(){
-		return getPin("D6");
-	}
 
 }

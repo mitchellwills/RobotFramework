@@ -24,7 +24,7 @@ public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOu
 	 * @param device
 	 * @param pin
 	 */
-	public ImperiumMSPWMOutput(ImperiumDevice device, int pin) {
+	public ImperiumMSPWMOutput(ImperiumDevice device, String pin) {
 		super(MSPWM_OUTPUT_TYPE_ID, device, pin);
 	}
 

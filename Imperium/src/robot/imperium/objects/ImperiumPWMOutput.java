@@ -25,7 +25,7 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 	 * @param device
 	 * @param pin
 	 */
-	public ImperiumPWMOutput(ImperiumDevice device, int pin) {
+	public ImperiumPWMOutput(ImperiumDevice device, String pin) {
 		super(PWM_OUTPUT_TYPE_ID, device, pin);
 	}
 

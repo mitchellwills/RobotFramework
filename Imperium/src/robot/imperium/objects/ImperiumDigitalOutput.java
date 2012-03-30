@@ -24,7 +24,7 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements Binar
 	 * @param device
 	 * @param pin
 	 */
-	public ImperiumDigitalOutput(ImperiumDevice device, int pin) {
+	public ImperiumDigitalOutput(ImperiumDevice device, String pin) {
 		super(DIGITAL_OUTPUT_TYPE_ID, device, pin);
 	}
 

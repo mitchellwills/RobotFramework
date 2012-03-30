@@ -24,7 +24,7 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements Binary
 	 * @param device
 	 * @param pin
 	 */
-	public ImperiumDigitalInput(ImperiumDevice device, int pin) {
+	public ImperiumDigitalInput(ImperiumDevice device, String pin) {
 		super(DIGITAL_INPUT_TYPE_ID, device, pin);
 	}
 
