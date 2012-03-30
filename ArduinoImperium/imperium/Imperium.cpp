@@ -25,6 +25,7 @@ void initImperium(Stream & _stream){
 	stream = &_stream;
 	for(int i = 0; i<MAX_OBJECT_TYPES; ++i)
 		objectInitializers[i] = NULL;
+
 }
 
 void setObjectTypeInitializer(int typeId, ObjectInitializer initializer){

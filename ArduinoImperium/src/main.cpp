@@ -3,6 +3,7 @@
 #include "Imperium.h"
 #include "ImperiumDebug.h"
 #include "ImperiumDigitalOutput.h"
+#include "ImperiumPWMOutput.h"
 #include "ImperiumMSPWMOutput.h"
 #include "ImperiumDigitalInput.h"
 
@@ -18,7 +19,9 @@ int main(){
 	setObjectTypeInitializer(1, ImperiumDebug::newDebug);
 	setObjectTypeInitializer(2, ImperiumDigitalOutput::newDigitalOutput);
 	setObjectTypeInitializer(3, ImperiumDigitalInput::newDigitalInput);
+	setObjectTypeInitializer(4, ImperiumPWMOutput::newPWMOutput);
 	setObjectTypeInitializer(5, ImperiumMSPWMOutput::newMSPWMOutput);
+
 
 	while(true){
 		periodicImperium();
