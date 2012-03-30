@@ -6,7 +6,7 @@ import java.util.EnumSet;
 
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
-import robot.imperium.PinCapability;
+import robot.imperium.hardware.PinCapability;
 import robot.io.pwm.PWMOutput;
 import robot.util.RobotUtil;
 
@@ -46,7 +46,7 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 	}
 	
 	private static int dutyCycleToValue(double dutyCycle){
-		return (int) RobotUtil.limit(dutyCycle, 0, 1.0)*255;
+		return (int) (RobotUtil.limit(dutyCycle, 0, 1.0)*255);
 	}
 
 	@Override

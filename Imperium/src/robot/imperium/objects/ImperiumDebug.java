@@ -6,7 +6,7 @@ import java.util.EnumSet;
 
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
-import robot.imperium.PinCapability;
+import robot.imperium.hardware.PinCapability;
 
 
 /**

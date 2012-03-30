@@ -5,7 +5,6 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import robot.imperium.PinCapability;
 
 /**
  * @author Mitchell

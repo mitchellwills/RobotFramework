@@ -1,17 +1,18 @@
 package robot.imperium.hardware;
 
-import static robot.imperium.PinCapability.AnalogInput;
-import static robot.imperium.PinCapability.DigitalInput;
-import static robot.imperium.PinCapability.DigitalOutput;
-import static robot.imperium.PinCapability.I2C_SCL;
-import static robot.imperium.PinCapability.I2C_SDA;
-import static robot.imperium.PinCapability.MSPWM_Output;
-import static robot.imperium.PinCapability.PWM_Output;
-import static robot.imperium.PinCapability.SPI_MISO;
-import static robot.imperium.PinCapability.SPI_MOSI;
-import static robot.imperium.PinCapability.SPI_SCK;
-import static robot.imperium.PinCapability.SPI_SS;
-import static robot.imperium.PinCapability.SelectablePullUp;
+import static robot.imperium.hardware.PinCapability.Interrupt;
+import static robot.imperium.hardware.PinCapability.AnalogInput;
+import static robot.imperium.hardware.PinCapability.DigitalInput;
+import static robot.imperium.hardware.PinCapability.DigitalOutput;
+import static robot.imperium.hardware.PinCapability.I2C_SCL;
+import static robot.imperium.hardware.PinCapability.I2C_SDA;
+import static robot.imperium.hardware.PinCapability.MSPWM_Output;
+import static robot.imperium.hardware.PinCapability.PWM_Output;
+import static robot.imperium.hardware.PinCapability.SPI_MISO;
+import static robot.imperium.hardware.PinCapability.SPI_MOSI;
+import static robot.imperium.hardware.PinCapability.SPI_SCK;
+import static robot.imperium.hardware.PinCapability.SPI_SS;
+import static robot.imperium.hardware.PinCapability.SelectablePullUp;
 
 /**
  * @author Mitchell
@@ -36,9 +37,9 @@ public class ArduinoDuemilanove extends HardwareConfiguration {
 		
 		addPin(1, "1").addLabels("PD1", "RX");
 		
-		addPin(2, "2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output).addLabels("PD2", "INT0");
+		addPin(2, "2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt).addLabels("PD2", "INT0");
 		
-		addPin(3, "3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PD3", "INT1");
+		addPin(3, "3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output, Interrupt).addLabels("PD3", "INT1");
 		
 		addPin(4, "4", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output).addLabels("PD4", "T0");
 		

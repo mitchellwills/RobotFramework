@@ -1,4 +1,4 @@
-package robot.imperium;
+package robot.imperium.hardware;
 
 /**
  * @author Mitchell
@@ -44,6 +44,13 @@ public enum PinCapability {
 	 * Write a PWM using a duty cycle
 	 */
 	PWM_Output,
+	
+
+	/**
+	 * The pin supports hardware interrupts
+	 */
+	Interrupt,
+	
 	
 	/**
 	 * Serial transmit

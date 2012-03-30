@@ -3,6 +3,7 @@ package robot.imperium;
 import java.util.EnumSet;
 
 import robot.imperium.hardware.HardwareConfiguration;
+import robot.imperium.hardware.PinCapability;
 import robot.io.RobotDevice;
 
 

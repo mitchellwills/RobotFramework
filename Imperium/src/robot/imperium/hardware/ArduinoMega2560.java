@@ -1,10 +1,11 @@
 package robot.imperium.hardware;
 
-import static robot.imperium.PinCapability.DigitalInput;
-import static robot.imperium.PinCapability.DigitalOutput;
-import static robot.imperium.PinCapability.MSPWM_Output;
-import static robot.imperium.PinCapability.PWM_Output;
-import static robot.imperium.PinCapability.SelectablePullUp;
+import static robot.imperium.hardware.PinCapability.Interrupt;
+import static robot.imperium.hardware.PinCapability.DigitalInput;
+import static robot.imperium.hardware.PinCapability.DigitalOutput;
+import static robot.imperium.hardware.PinCapability.MSPWM_Output;
+import static robot.imperium.hardware.PinCapability.PWM_Output;
+import static robot.imperium.hardware.PinCapability.SelectablePullUp;
 
 /**
  * @author Mitchell
@@ -28,8 +29,8 @@ public class ArduinoMega2560 extends HardwareConfiguration {
 		addPin(0, "0").addLabels("PE0", "RX0");
 		addPin(1, "1").addLabels("PE1", "TX0");
 
-		addPin(2, "2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PE4");
-		addPin(3, "3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PE5");
+		addPin(2, "2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output, Interrupt).addLabels("PE4");
+		addPin(3, "3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output, Interrupt).addLabels("PE5");
 		
 		addPin(4, "4", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PG5");
 

@@ -9,7 +9,7 @@
 #define PINS_ARDUINO_H_
 
 
-#include "pins_arduino_standard.h"
+#include "pins_arduino_mega.h"
 
 
 

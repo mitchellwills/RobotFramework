@@ -1,19 +1,5 @@
 package robot.imperium.hardware;
 
-import static robot.imperium.PinCapability.AnalogInput;
-import static robot.imperium.PinCapability.DigitalInput;
-import static robot.imperium.PinCapability.DigitalOutput;
-import static robot.imperium.PinCapability.I2C_SCL;
-import static robot.imperium.PinCapability.I2C_SDA;
-import static robot.imperium.PinCapability.MSPWM_Output;
-import static robot.imperium.PinCapability.PWM_Output;
-import static robot.imperium.PinCapability.SPI_MISO;
-import static robot.imperium.PinCapability.SPI_MOSI;
-import static robot.imperium.PinCapability.SPI_SCK;
-import static robot.imperium.PinCapability.SPI_SS;
-import static robot.imperium.PinCapability.SelectablePullUp;
-import static robot.imperium.PinCapability.SerialRx;
-import static robot.imperium.PinCapability.SerialTx;
 
 /**
  * @author Mitchell
@@ -61,10 +47,10 @@ public class Teensy2PP extends HardwareConfiguration {
 		addCapability(16, "C6", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output);
 		addCapability(17, "C7", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 
-		addCapability(0, "D0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, I2C_SCL, PWM_Output);
-		addCapability(1, "D1", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, I2C_SDA, PWM_Output);
-		addCapability(2, "D2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, SerialRx);
-		addCapability(3, "D3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, SerialTx);
+		addCapability(0, "D0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, I2C_SCL, PWM_Output, Interrupt);
+		addCapability(1, "D1", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, I2C_SDA, PWM_Output, Interrupt);
+		addCapability(2, "D2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, SerialRx, Interrupt);
+		addCapability(3, "D3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, SerialTx, Interrupt);
 		addCapability(4, "D4", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 		addCapability(5, "D5", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 		addCapability(6, "D6", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
@@ -72,10 +58,10 @@ public class Teensy2PP extends HardwareConfiguration {
 
 		addCapability(8, "E0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 		addCapability(9, "E1", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
-		addCapability(36, "E4", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
-		addCapability(37, "E5", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
-		addCapability(18, "E6", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
-		addCapability(19, "E7", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
+		addCapability(36, "E4", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt);
+		addCapability(37, "E5", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt);
+		addCapability(18, "E6", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt);
+		addCapability(19, "E7", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt);
 
 		addCapability(38, "F0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput);
 		addCapability(39, "F1", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput);
