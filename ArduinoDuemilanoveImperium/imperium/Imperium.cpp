@@ -135,8 +135,8 @@ void periodicImperium(){
 	if(numObjects==0)
 		readOnePacket();
 
-	long time = millis();
-	if( minUpdateDelay>=0 && (time-lastUpdate)>=minUpdateDelay){
+	unsigned long time = millis();
+	if( minUpdateDelay>=0 && (time-lastUpdate)>=(unsigned)minUpdateDelay){
 		lastUpdate = time;
 		for(int i = 0; i<numObjects; ++i){
 			objects[i]->update();
