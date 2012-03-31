@@ -1,6 +1,7 @@
 package robot.io.speedcontroller;
 
 import robot.io.Output;
+import robot.pid.PIDOutput;
 
 
 /**
@@ -9,7 +10,7 @@ import robot.io.Output;
  * A speed controller
  *
  */
-public interface SpeedController extends Output {
+public interface SpeedController extends Output, PIDOutput {
 	/**
 	 * set the output of the speed controller
 	 * @param value the new speed (between -1.0 and 1.0)

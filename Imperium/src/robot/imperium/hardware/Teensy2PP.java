@@ -18,7 +18,7 @@ public class Teensy2PP extends HardwareConfiguration {
 	}
 
 	private Teensy2PP() {
-		super("Teensy++ 2.0", 490);
+		super("Teensy++ 2.0", 490, 5.0);
 
 		/*addCapability(28, "A0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);
 		addCapability(29, "A1", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output);

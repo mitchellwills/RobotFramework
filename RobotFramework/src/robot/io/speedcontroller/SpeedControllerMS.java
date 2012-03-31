@@ -73,4 +73,9 @@ public class SpeedControllerMS implements SpeedController {
 		return output.getValue();
 	}
 
+	@Override
+	public void setPIDOutput(double value) {
+		set(value);
+	}
+
 }

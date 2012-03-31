@@ -31,7 +31,7 @@ public class ArduinoDuemilanove extends HardwareConfiguration {
 	}
 
 	private ArduinoDuemilanove() {
-		super("Arduino Duemilanove", 490);
+		super("Arduino Duemilanove", 490, 5.0);
 
 		addPin(0, "0").addLabels("PD0", "TX");
 		

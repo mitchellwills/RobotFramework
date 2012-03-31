@@ -25,11 +25,13 @@ public abstract class HardwareConfiguration {
 	private final String name;
 	private final Map<Integer, Pin> pins;
 	private final double pwmFrequency;
+	private final double analogInputVoltage;
 	
-	protected HardwareConfiguration(String name, double pwmFrequency){
+	protected HardwareConfiguration(String name, double pwmFrequency, double analogInputVoltage){
 		this.name = name;
 		pins = new HashMap<Integer, Pin>();
 		this.pwmFrequency = pwmFrequency;
+		this.analogInputVoltage = analogInputVoltage;
 	}
 	
 	/**
@@ -113,5 +115,12 @@ public abstract class HardwareConfiguration {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * @return the voltage the device reads when the device returns that maximum analog value
+	 */
+	public double getMaxAnalogInputVoltage() {
+		return analogInputVoltage;
 	}
 }

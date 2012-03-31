@@ -12,4 +12,5 @@ public interface ObjectTypeIds {
 	int DIGITAL_INPUT_TYPE_ID = 3;
 	int PWM_OUTPUT_TYPE_ID = 4;
 	int MSPWM_OUTPUT_TYPE_ID = 5;
+	int ANALOG_INPUT_TYPE_ID = 6;
 }

@@ -1,8 +1,9 @@
 package robot.imperium.hardware;
 
-import static robot.imperium.hardware.PinCapability.Interrupt;
+import static robot.imperium.hardware.PinCapability.AnalogInput;
 import static robot.imperium.hardware.PinCapability.DigitalInput;
 import static robot.imperium.hardware.PinCapability.DigitalOutput;
+import static robot.imperium.hardware.PinCapability.Interrupt;
 import static robot.imperium.hardware.PinCapability.MSPWM_Output;
 import static robot.imperium.hardware.PinCapability.PWM_Output;
 import static robot.imperium.hardware.PinCapability.SelectablePullUp;
@@ -24,7 +25,7 @@ public class ArduinoMega2560 extends HardwareConfiguration {
 	}
 
 	private ArduinoMega2560() {
-		super("Arduino Duemilanove", 490);
+		super("Arduino Duemilanove", 490, 5.0);
 
 		addPin(0, "0").addLabels("PE0", "RX0");
 		addPin(1, "1").addLabels("PE1", "TX0");
@@ -45,6 +46,12 @@ public class ArduinoMega2560 extends HardwareConfiguration {
 		addPin(11, "11", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PB5");
 		addPin(12, "12", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PB6");
 		addPin(13, "13", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PB7", ONBOARD_LED);
+		
+
+		addPin(54, "A0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput).addLabels("PF0", "54");
+		addPin(55, "A1", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput).addLabels("PF1", "55");
+		addPin(56, "A2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput).addLabels("PF2", "56");
+		addPin(57, "A3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput).addLabels("PF3", "57");
 		
 		
 
