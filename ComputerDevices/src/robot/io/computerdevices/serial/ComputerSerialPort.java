@@ -1,11 +1,11 @@
-package robot.io.computerports.serial;
+package robot.io.computerdevices.serial;
 
 import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import robot.error.RobotInitializationException;
-import robot.io.computerports.ComputerPorts;
+import robot.io.computerdevices.ComputerPorts;
 import robot.io.serial.SerialInterface;
 
 /**

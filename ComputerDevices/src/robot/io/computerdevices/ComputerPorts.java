@@ -1,4 +1,4 @@
-package robot.io.computerports;
+package robot.io.computerdevices;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;

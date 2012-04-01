@@ -1,9 +1,9 @@
-package robot.io.computerports.serial;
+package robot.io.computerdevices.serial;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import robot.io.computerports.ComputerPorts;
+import robot.io.computerdevices.ComputerPorts;
 
 import com.sun.jna.Memory;
 
