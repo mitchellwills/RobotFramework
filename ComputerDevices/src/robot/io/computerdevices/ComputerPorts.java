@@ -15,7 +15,7 @@ public interface ComputerPorts extends Library {
 	 * instance of the port library
 	 */
 	ComputerPorts INSTANCE = (ComputerPorts) Native.loadLibrary(
-			"libComputerPortsNative", ComputerPorts.class);
+			"libComputerDevicesNative", ComputerPorts.class);
 
 	/**
 	 * open a serial port
