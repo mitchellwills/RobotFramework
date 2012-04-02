@@ -1,7 +1,7 @@
 package robot.io.analog;
 
+import robot.control.ControlLoopInput;
 import robot.io.Input;
-import robot.pid.PIDInput;
 
 /**
  * @author Mitchell
@@ -9,7 +9,7 @@ import robot.pid.PIDInput;
  * An input that reads a voltage
  *
  */
-public interface AnalogVoltageInput extends Input, PIDInput{
+public interface AnalogVoltageInput extends Input, ControlLoopInput{
 	/**
 	 * 
 	 * @return The maximum voltage that can be read

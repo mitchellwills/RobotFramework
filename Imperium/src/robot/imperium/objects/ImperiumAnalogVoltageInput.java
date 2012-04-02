@@ -56,7 +56,7 @@ public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements 
 	}
 
 	@Override
-	public double getPIDInput() {
+	public double get() {
 		return getVoltage();
 	}
 

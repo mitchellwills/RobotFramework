@@ -1,12 +1,12 @@
-package robot.pid;
+package robot.control;
 
 /**
  * @author Mitchell
  * 
- * An object that takes a PIDInput and PIDOutput to execute a PID loop
+ * A control loop that will bring a system to a given setpoint
  *
  */
-public interface PIDLoop {
+public interface ControlLoop {
 	/**
 	 * Set the setpoint of of the loop
 	 * @param setpoint

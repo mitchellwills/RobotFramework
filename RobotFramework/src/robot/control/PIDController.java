@@ -1,4 +1,4 @@
-package robot.pid;
+package robot.control;
 
 import robot.util.RobotUtil;
 
@@ -8,14 +8,14 @@ import robot.util.RobotUtil;
  * A simple implementation of a PID loop
  *
  */
-public class PIDController implements PIDLoop{
+public class PIDController implements ControlLoop{
 	
 	private double Kp;
 	private double Ki;
 	private double Kd;
 	
-	private final PIDInput input;
-	private final PIDOutput output;
+	private final ControlLoopInput input;
+	private final ControlLoopOutput output;
 	private final double minOutput;
 	private final double maxOutput;
 	
@@ -33,8 +33,8 @@ public class PIDController implements PIDLoop{
 	 * @param minOutput 
 	 * @param maxOutput 
 	 */
-	public PIDController(double Kp, double Ki, double Kd, PIDInput input,
-			PIDOutput output, double minOutput, double maxOutput) {
+	public PIDController(double Kp, double Ki, double Kd, ControlLoopInput input,
+			ControlLoopOutput output, double minOutput, double maxOutput) {
 		this(Kp, Ki, Kd, input, output, minOutput, maxOutput, 20);
 	}
 	/**
@@ -47,8 +47,8 @@ public class PIDController implements PIDLoop{
 	 * @param maxOutput 
 	 * @param updateDelay the delay between updates of the PID loop
 	 */
-	public PIDController(double Kp, double Ki, double Kd, PIDInput input,
-			PIDOutput output, double minOutput, double maxOutput, long updateDelay) {
+	public PIDController(double Kp, double Ki, double Kd, ControlLoopInput input,
+			ControlLoopOutput output, double minOutput, double maxOutput, long updateDelay) {
 		this.Kp = Kp;
 		this.Ki = Ki;
 		this.Kd = Kd;
@@ -74,7 +74,7 @@ public class PIDController implements PIDLoop{
 		//TODO do integral and derivative terms
 		
 		value = RobotUtil.limit(value, minOutput, maxOutput);
-		output.setPIDOutput(value);
+		output.set(value);
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class PIDController implements PIDLoop{
 
 	@Override
 	public double getPosition() {
-		return input.getPIDInput();
+		return input.get();
 	}
 	
 
