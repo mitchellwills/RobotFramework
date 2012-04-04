@@ -15,11 +15,11 @@ extern DIDATAFORMAT df;
 DIJoystick::DIJoystick(HWND window, LPDIRECTINPUTDEVICE8 _joystick){
 	joystick = _joystick;
 
+	joystick->SetDataFormat(&df);
+
 	info.dwSize = sizeof(DIDEVICEINSTANCE);
 	joystick->GetDeviceInfo(&info);
 
-
-	joystick->SetDataFormat(&df);
 
 	joystick->SetCooperativeLevel(window, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
 
@@ -27,6 +27,9 @@ DIJoystick::DIJoystick(HWND window, LPDIRECTINPUTDEVICE8 _joystick){
 	capabilities.dwSize = sizeof(DIDEVCAPS);
 	joystick->GetCapabilities(&capabilities);
 
+	axisCount = 0;
+	buttonCount = 0;
+	povCount = 0;
 	joystick->EnumObjects( DIJoystick::objectCallback, (void*)this, DIDFT_ALL );
 
 	clearState(&state);
@@ -37,16 +40,16 @@ BOOL CALLBACK DIJoystick::objectCallback( const DIDEVICEOBJECTINSTANCE* objectIn
 	DIJoystick* obj = (DIJoystick*)_obj;
 	int type = objectInfo->dwType&0xFF;
 	if((type&DIDFT_ABSAXIS)==DIDFT_ABSAXIS || (type&DIDFT_RELAXIS)==DIDFT_RELAXIS){
-		int id = offsetToAxis(objectInfo->dwOfs);
-		obj->axisNames[id] = strdup(objectInfo->tszName);
+		obj->axisNames[obj->axisCount] = strdup(objectInfo->tszName);
+		++obj->axisCount;
 	}
 	else if((type&DIDFT_POV)==DIDFT_POV){
-		int id = offsetToPov(objectInfo->dwOfs);
-		obj->povNames[id] = strdup(objectInfo->tszName);
+		obj->povNames[obj->povCount] = strdup(objectInfo->tszName);
+		++obj->povCount;
 	}
 	else if((type&DIDFT_PSHBUTTON)==DIDFT_PSHBUTTON || (type&DIDFT_TGLBUTTON)==DIDFT_TGLBUTTON){
-		int id = offsetToButton(objectInfo->dwOfs);
-		obj->buttonNames[id] = strdup(objectInfo->tszName);
+		obj->buttonNames[obj->buttonCount] = strdup(objectInfo->tszName);
+		++obj->buttonCount;
 	}
 
 	return DIENUM_CONTINUE;
@@ -59,24 +62,24 @@ char* DIJoystick::getName(){
 
 
 int DIJoystick::getNumButtons(){
-	return capabilities.dwButtons;
+	return buttonCount;
 }
 int DIJoystick::getNumAxes(){
-	return capabilities.dwAxes;
+	return axisCount;
 }
 int DIJoystick::getNumPOVs(){
-	return capabilities.dwPOVs;
+	return povCount;
 }
 
 
 long DIJoystick::getAxis(int id){
 	return state.axes[id];
 }
-boolean DIJoystick::getButton(int id){
-	return state.buttons[id]!=0;
-}
 int DIJoystick::getPOV(int id){
 	return state.povs[id];
+}
+boolean DIJoystick::getButton(int id){
+	return state.buttons[id];
 }
 
 const char* DIJoystick::getAxisName(int id){

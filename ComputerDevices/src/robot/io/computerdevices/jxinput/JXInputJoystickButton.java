@@ -1,7 +1,7 @@
 package robot.io.computerdevices.jxinput;
 
-import de.hardcode.jxinput.Button;
 import robot.io.joystick.JoystickButton;
+import de.hardcode.jxinput.Button;
 
 /**
  * @author Mitchell
@@ -19,17 +19,6 @@ public class JXInputJoystickButton implements JoystickButton {
 	@Override
 	public String getName() {
 		return nativeButton.getName();
-	}
-
-	@Override
-	public ButtonType getType() {
-		switch(nativeButton.getType()){
-		case Button.PUSHBUTTON:
-			return ButtonType.PUSHBUTTON;
-		case Button.TOGGLEBUTTON:
-			return ButtonType.TOGGLEBUTTON;
-		}
-		return ButtonType.UNKNOWN;
 	}
 
 	@Override

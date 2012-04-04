@@ -1,5 +1,7 @@
 package robot.io.computerdevices.joystick;
 
+import robot.io.RobotObjectListener;
+import robot.io.RobotObjectModel;
 import robot.io.computerdevices.DIJoystick;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickAxis;
@@ -14,7 +16,7 @@ import com.sun.jna.Pointer;
  * A joystick connected to the computer
  *
  */
-public class ComputerJoystick implements Joystick {
+public class ComputerJoystick implements Joystick{
 	static{
 		DIJoystick.INSTANCE.initDI();
 		DIJoystick.INSTANCE.enumerateDevices();
@@ -26,6 +28,22 @@ public class ComputerJoystick implements Joystick {
 	public static int getJoystickCount(){
 		return DIJoystick.INSTANCE.getJoystickCount();
 	}
+	
+	
+	
+
+
+	private final RobotObjectModel model = new RobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
+	
+	
 	
 	private Pointer nativeJoystickPointer;
 	private ComputerJoystickAxis[] axes;
@@ -90,6 +108,7 @@ public class ComputerJoystick implements Joystick {
 	
 	public void poll(){
 		DIJoystick.INSTANCE.poll(nativeJoystickPointer);
+		model.fireUpdateEvent();
 	}
 
 	Pointer getNativePointer() {

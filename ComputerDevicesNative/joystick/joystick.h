@@ -21,9 +21,12 @@ class DIJoystick {
 		DIDEVCAPS capabilities;
 		MYDATA state;
 
+		int axisCount;
 		const char* axisNames[MAX_NUM_AXES];
-		const char* buttonNames[MAX_NUM_BUTTONS];
+		int povCount;
 		const char* povNames[MAX_NUM_POVS];
+		int buttonCount;
+		const char* buttonNames[MAX_NUM_BUTTONS];
 
 	public:
 		DIJoystick(HWND window, LPDIRECTINPUTDEVICE8 joystick);

@@ -1,5 +1,6 @@
 package robot.io.speedcontroller;
 
+import robot.io.RobotObjectListener;
 import robot.io.pwmms.DeadbandedLinearMSPWMOutput;
 import robot.io.pwmms.LinearMSPWMOutput;
 import robot.io.pwmms.MSPWMOutput;

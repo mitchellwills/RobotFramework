@@ -6,6 +6,6 @@ package robot.io;
  * An input device
  *
  */
-public interface Input extends RobotDevice{
+public interface Input extends RobotObject{
 //
 }

@@ -17,11 +17,6 @@ public class ComputerJoystickAxis implements JoystickAxis{
 		return DIJoystick.INSTANCE.getAxisName(joystick.getNativePointer(), id);
 	}
 
-	@Override
-	public AxisType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public double getValue() {

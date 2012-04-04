@@ -1,5 +1,6 @@
 package robot.io.computerdevices.jxinput;
 
+import robot.io.RobotObjectListener;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickAxis;
 import robot.io.joystick.JoystickButton;
@@ -76,6 +77,20 @@ public class JXInputJoystick implements Joystick{
 	@Override
 	public int getDirectionalCount() {
 		return directionals.length;
+	}
+	
+	
+	
+	
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

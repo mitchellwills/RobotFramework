@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import robot.error.RobotInitializationException;
+import robot.io.RobotObjectListener;
 
 /**
  * @author Mitchell
@@ -72,5 +73,4 @@ public final class RxTxComputerSerialPort implements SerialInterface{
 	public OutputStream getOutputStream() {
 		return os;
 	}
-
 }

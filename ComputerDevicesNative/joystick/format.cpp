@@ -26,7 +26,7 @@ void initFormat(){
 	for(i = 0; i<MAX_NUM_AXES; ++i){
 		ptr->pguid = NULL;
 		ptr->dwOfs = offset;
-		ptr->dwType = DIDFT_AXIS | DIDFT_ANYINSTANCE | DIDFT_OPTIONAL;
+		ptr->dwType = DIDFT_AXIS | DIDFT_ANYINSTANCE | DIDFT_OPTIONAL | DIDFT_MAKEINSTANCE(i);
 		ptr->dwFlags = DIDOI_ASPECTPOSITION;
 		++ptr;
 		offset += sizeof(LONG);
@@ -34,7 +34,7 @@ void initFormat(){
 	for(i = 0; i<MAX_NUM_POVS; ++i){
 		ptr->pguid = NULL;
 		ptr->dwOfs = offset;
-		ptr->dwType = DIDFT_POV | DIDFT_ANYINSTANCE | DIDFT_OPTIONAL;
+		ptr->dwType = DIDFT_POV | DIDFT_ANYINSTANCE | DIDFT_OPTIONAL | DIDFT_MAKEINSTANCE(i);
 		ptr->dwFlags = 0x0;
 		++ptr;
 		offset += sizeof(DWORD);
@@ -42,7 +42,7 @@ void initFormat(){
 	for(i = 0; i<MAX_NUM_BUTTONS; ++i){
 		ptr->pguid = NULL;
 		ptr->dwOfs = offset;
-		ptr->dwType = DIDFT_BUTTON | DIDFT_ANYINSTANCE | DIDFT_OPTIONAL;
+		ptr->dwType = DIDFT_BUTTON | DIDFT_ANYINSTANCE | DIDFT_OPTIONAL | DIDFT_MAKEINSTANCE(i);
 		ptr->dwFlags = 0x0;
 		++ptr;
 		offset += sizeof(BYTE);

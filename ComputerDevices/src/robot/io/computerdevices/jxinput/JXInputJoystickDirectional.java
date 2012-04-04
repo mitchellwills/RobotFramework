@@ -1,6 +1,7 @@
 package robot.io.computerdevices.jxinput;
 
 import de.hardcode.jxinput.Directional;
+import robot.io.RobotObjectListener;
 import robot.io.joystick.JoystickDirectional;
 
 public class JXInputJoystickDirectional implements JoystickDirectional {

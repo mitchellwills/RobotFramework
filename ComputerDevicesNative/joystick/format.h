@@ -12,9 +12,9 @@
 #include <dinput.h>
 
 
-#define MAX_NUM_AXES 6
+#define MAX_NUM_AXES 10
 #define MAX_NUM_POVS 4
-#define MAX_NUM_BUTTONS 10
+#define MAX_NUM_BUTTONS 40
 
 typedef struct MYDATA {
     LONG  axes[MAX_NUM_AXES];
@@ -23,8 +23,6 @@ typedef struct MYDATA {
 
     BYTE  buttons[MAX_NUM_BUTTONS];
 
-
-    BYTE  bPadding[2];          // Must be DWORD multiple in size.
 } MYDATA;
 
 

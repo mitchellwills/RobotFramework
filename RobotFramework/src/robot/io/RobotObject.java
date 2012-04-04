@@ -3,9 +3,9 @@ package robot.io;
 /**
  * @author Mitchell
  * 
- * A device on a robot
+ * An object on a robot
  *
  */
-public interface RobotDevice {
-	//
+public interface RobotObject {
+//
 }

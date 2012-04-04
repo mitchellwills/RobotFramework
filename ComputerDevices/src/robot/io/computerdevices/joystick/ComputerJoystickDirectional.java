@@ -16,22 +16,29 @@ public class ComputerJoystickDirectional implements JoystickDirectional{
 	public String getName() {
 		return DIJoystick.INSTANCE.getButtonName(joystick.getNativePointer(), id);
 	}
-
-	@Override
-	public double getAngle() {
+	
+	private double getRaw(){
 		return DIJoystick.INSTANCE.getPOV(joystick.getNativePointer(), id);
 	}
 
 	@Override
+	public double getAngle() {
+		double raw = getRaw();
+		if(raw == -1)
+			return 0;
+		return getRaw()/100;
+	}
+
+	@Override
 	public double getMagnatude() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(getRaw()==-1)
+			return 0;
+		return 1;
 	}
 
 	@Override
 	public boolean isCentered() {
-		// TODO Auto-generated method stub
-		return false;
+		return getMagnatude()==0;
 	}
 
 }

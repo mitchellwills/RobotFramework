@@ -1,8 +1,9 @@
 package robot.io.joystick;
 
 import robot.io.Input;
+import robot.io.UpdatableObject;
 
-public interface Joystick extends Input{
+public interface Joystick extends Input, UpdatableObject{
 	public String getName();
 	
 	
@@ -15,4 +16,5 @@ public interface Joystick extends Input{
 
 	public JoystickDirectional getDirectional(int id);
 	public int getDirectionalCount();
+
 }
