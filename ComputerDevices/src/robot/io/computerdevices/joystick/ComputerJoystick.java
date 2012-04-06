@@ -48,13 +48,13 @@ public class ComputerJoystick implements Joystick{
 	
 
 
-	private final RobotObjectModel model = new RobotObjectModel(this);
+	private final RobotObjectModel<ComputerJoystick> model = new RobotObjectModel<>(this);
 	@Override
-	public void addUpdateListener(RobotObjectListener listener) {
+	public void addUpdateListener(RobotObjectListener<Joystick> listener) {
 		model.addUpdateListener(listener);
 	}
 	@Override
-	public void removeUpdateListener(RobotObjectListener listener) {
+	public void removeUpdateListener(RobotObjectListener<Joystick> listener) {
 		model.removeUpdateListener(listener);
 	}
 	
@@ -127,6 +127,9 @@ public class ComputerJoystick implements Joystick{
 		return directionals.length;
 	}
 	
+	/**
+	 * poll the device to update
+	 */
 	public void poll(){
 		DIJoystick.INSTANCE.poll(nativeJoystickPointer);
 		model.fireUpdateEvent();

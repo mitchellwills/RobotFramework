@@ -3,9 +3,10 @@ package robot.imperium.objects;
 /**
  * @author Mitchell
  * 
- * Class storing type ids for 
+ * Class storing type ids for Imperium objects
  *
  */
+@SuppressWarnings("javadoc")
 public interface ObjectTypeIds {
 	int DEBUG_TYPE_ID = 1;
 	int DIGITAL_OUTPUT_TYPE_ID = 2;

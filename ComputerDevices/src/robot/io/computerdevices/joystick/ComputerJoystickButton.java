@@ -3,6 +3,12 @@ package robot.io.computerdevices.joystick;
 import robot.io.computerdevices.DIJoystick;
 import robot.io.joystick.JoystickButton;
 
+/**
+ * @author Mitchell
+ * 
+ * represents a button on a joystick connected to a computer
+ *
+ */
 public class ComputerJoystickButton implements JoystickButton{
 	
 	private final ComputerJoystick joystick;

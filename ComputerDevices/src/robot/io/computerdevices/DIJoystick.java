@@ -10,6 +10,7 @@ import com.sun.jna.Pointer;
  * Interface used to access the native computer port library
  *
  */
+@SuppressWarnings("javadoc")
 public interface DIJoystick extends Library {
 	/**
 	 * instance of the port library

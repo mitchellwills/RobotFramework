@@ -1,6 +1,7 @@
 package robot.io.computerdevices.jxinput;
 
 import robot.io.RobotObjectListener;
+import robot.io.RobotObjectModel;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickAxis;
 import robot.io.joystick.JoystickButton;
@@ -11,14 +12,21 @@ import de.hardcode.jxinput.JXInputManager;
 /**
  * @author Mitchell
  * 
- * Represents a joystick on the computer
+ * Represents a joystick on the computer using the JXInput library
  *
  */
 public class JXInputJoystick implements Joystick{
 	
+	/**
+	 * @param id
+	 * @return a joystick that is attached to the computer
+	 */
 	public static JXInputJoystick getJoystick(int id){
 		return new JXInputJoystick(JXInputManager.getJXInputDevice(id));
 	}
+	/**
+	 * @return the number of joysticks attached to the computer
+	 */
 	public static int getJoystickCount(){
 		return JXInputManager.getNumberOfDevices();
 	}
@@ -80,17 +88,15 @@ public class JXInputJoystick implements Joystick{
 	}
 	
 	
-	
-	
+
+	private final RobotObjectModel<JXInputJoystick> model = new RobotObjectModel<>(this);
 	@Override
-	public void addUpdateListener(RobotObjectListener listener) {
-		// TODO Auto-generated method stub
-		
+	public void addUpdateListener(RobotObjectListener<Joystick> listener) {
+		model.addUpdateListener(listener);
 	}
 	@Override
-	public void removeUpdateListener(RobotObjectListener listener) {
-		// TODO Auto-generated method stub
-		
+	public void removeUpdateListener(RobotObjectListener<Joystick> listener) {
+		model.removeUpdateListener(listener);
 	}
 
 }

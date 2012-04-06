@@ -20,13 +20,23 @@ import robot.io.RobotObjectListener;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickDirectional;
 
+/**
+ * @author Mitchell
+ * 
+ * A widget that displays the state of a joysticks axes, buttons and directionals
+ *
+ */
 public class JoystickWidget extends Widget implements RobotObjectListener<Joystick>{
 	private final Joystick joystick;
 	private final AxesView axesView;
 	private final ButtonsView buttonsView;
 	private final DirectionalsView directionalsView;
-	public JoystickWidget(Joystick joystick){
-		this.joystick = joystick;
+	/**
+	 * Create a new widget
+	 * @param j
+	 */
+	public JoystickWidget(Joystick j){
+		this.joystick = j;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(new TitledBorder(joystick.getName()));
 
@@ -112,8 +122,8 @@ public class JoystickWidget extends Widget implements RobotObjectListener<Joysti
 		
 		private Joystick joystick;
 		private DirectionalView[] views;
-		public DirectionalsView(Joystick joystick){
-			this.joystick = joystick;
+		public DirectionalsView(Joystick joy){
+			this.joystick = joy;
 			setBorder(new TitledBorder("Directionals"));
 			setLayout(new GridBagLayout());
 			
@@ -155,6 +165,7 @@ public class JoystickWidget extends Widget implements RobotObjectListener<Joysti
 		public void update(){
 			repaint();
 		}
+		@Override
 		public void paintComponent(Graphics g){
 			g.setColor(Color.BLACK);
 			g.drawOval(PADDING, PADDING, SIZE-PADDING*2, SIZE-PADDING*2);

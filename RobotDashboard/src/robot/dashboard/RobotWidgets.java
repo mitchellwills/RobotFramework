@@ -13,6 +13,12 @@ import robot.io.analog.AnalogVoltageInput;
 import robot.io.binary.BinaryOutput;
 import robot.io.joystick.Joystick;
 
+/**
+ * @author Mitchell
+ * 
+ * The class that maps robot objects to widgets that can be added to a RobotDashboardWindow
+ *
+ */
 public final class RobotWidgets {
 	private RobotWidgets(){}//prevent instanciation
 	
@@ -23,10 +29,19 @@ public final class RobotWidgets {
 		registerWidget(AnalogVoltageInput.class, AnalogVoltageInputWidget.class);
 	}
 	
+	/**
+	 * Register that a given widget can support a given object type
+	 * @param objectType
+	 * @param widgetType
+	 */
 	public static void registerWidget(Class<? extends RobotObject> objectType, Class<? extends Widget> widgetType){
 		widgets.put(objectType, widgetType);
 	}
 	
+	/**
+	 * @param objectType
+	 * @return the constructor that can be used to construct a widget for a given object type
+	 */
 	public static Constructor<? extends Widget> getObjectWidgetConstructor(Class<? extends RobotObject> objectType){
 		for(Entry<Class<? extends RobotObject>, Class<? extends Widget>> e:widgets.entrySet()){
 			if(e.getKey().isAssignableFrom(objectType)){

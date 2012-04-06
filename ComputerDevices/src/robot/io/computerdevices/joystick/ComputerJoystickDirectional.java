@@ -3,6 +3,12 @@ package robot.io.computerdevices.joystick;
 import robot.io.computerdevices.DIJoystick;
 import robot.io.joystick.JoystickDirectional;
 
+/**
+ * @author Mitchell
+ * 
+ * Represents a directional on a joystick connected to a computer
+ *
+ */
 public class ComputerJoystickDirectional implements JoystickDirectional{
 	
 	private final ComputerJoystick joystick;

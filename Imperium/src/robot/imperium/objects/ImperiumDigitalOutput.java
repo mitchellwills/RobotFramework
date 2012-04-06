@@ -19,15 +19,15 @@ import robot.io.binary.BinaryOutput;
  *
  */
 public class ImperiumDigitalOutput extends ImperiumDeviceObject implements BinaryOutput{
-	private final RobotObjectModel model = new RobotObjectModel(this);
+	private final RobotObjectModel<ImperiumDigitalOutput> model = new RobotObjectModel<>(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener listener) {
+	public void addUpdateListener(RobotObjectListener<BinaryOutput> listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener listener) {
+	public void removeUpdateListener(RobotObjectListener<BinaryOutput> listener) {
 		model.removeUpdateListener(listener);
 	}
 

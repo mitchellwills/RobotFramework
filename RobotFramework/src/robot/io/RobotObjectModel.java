@@ -4,23 +4,44 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class RobotObjectModel {
-	private final Set<RobotObjectListener> listeners = new HashSet<>();
+/**
+ * @author Mitchell
+ * 
+ * A model that can be used to store data related to an implementation of an object
+ * @param <T> the type this object represents
+ *
+ */
+public class RobotObjectModel<T extends RobotObject> {
+	private final Set<RobotObjectListener<? super T>> listeners = new HashSet<>();
 
-	private final RobotObject object;
-	public RobotObjectModel(RobotObject object) {
+	private final T object;
+	/**
+	 * @param object the object that this model stores data for
+	 */
+	public RobotObjectModel(T object) {
 		this.object = object;
 	}
 	
-	public void addUpdateListener(RobotObjectListener listener){
+	/**
+	 * Add an update listener
+	 * @param listener
+	 */
+	public void addUpdateListener(RobotObjectListener<? super T> listener){
 		listeners.add(listener);
 	}
-	public void removeUpdateListener(RobotObjectListener listener){
+	/**
+	 * Remove an update listener
+	 * @param listener
+	 */
+	public void removeUpdateListener(RobotObjectListener<? super T> listener){
 		listeners.remove(listener);
 	}
 	
+	/**
+	 * 
+	 */
 	public void fireUpdateEvent(){
-		for(RobotObjectListener listener:listeners)
+		for(RobotObjectListener<? super T> listener:listeners)
 			listener.objectUpdated(object);
 	}
 }

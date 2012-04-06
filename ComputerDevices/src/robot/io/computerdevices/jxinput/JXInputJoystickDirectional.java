@@ -1,9 +1,14 @@
 package robot.io.computerdevices.jxinput;
 
-import de.hardcode.jxinput.Directional;
-import robot.io.RobotObjectListener;
 import robot.io.joystick.JoystickDirectional;
+import de.hardcode.jxinput.Directional;
 
+/**
+ * @author Mitchell
+ * 
+ * A directional on a joystick connected to a computer
+ *
+ */
 public class JXInputJoystickDirectional implements JoystickDirectional {
 
 	private final Directional nativeDirectional;
@@ -26,6 +31,7 @@ public class JXInputJoystickDirectional implements JoystickDirectional {
 		return nativeDirectional.getValue();
 	}
 	
+	@Override
 	public boolean isCentered(){
 		return nativeDirectional.isCentered();
 	}

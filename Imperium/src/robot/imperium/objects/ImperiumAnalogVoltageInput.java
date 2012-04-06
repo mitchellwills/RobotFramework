@@ -19,15 +19,15 @@ import robot.io.analog.AnalogVoltageInput;
  *
  */
 public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements AnalogVoltageInput{
-	private final RobotObjectModel model = new RobotObjectModel(this);
+	private final RobotObjectModel<ImperiumAnalogVoltageInput> model = new RobotObjectModel<ImperiumAnalogVoltageInput>(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener listener) {
+	public void addUpdateListener(RobotObjectListener<AnalogVoltageInput> listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener listener) {
+	public void removeUpdateListener(RobotObjectListener<AnalogVoltageInput> listener) {
 		model.removeUpdateListener(listener);
 	}
 

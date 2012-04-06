@@ -14,12 +14,22 @@ import robot.dashboard.Widget;
 import robot.imperium.ImperiumDevice;
 import robot.io.RobotObjectListener;
 
+/**
+ * @author Mitchell
+ * 
+ * A widget that displays the state of an Imperium device
+ *
+ */
 public class ImperiumDeviceWidget extends Widget implements RobotObjectListener<ImperiumDevice> {
 	private final ImperiumDevice device;
 	private final JLabel stateLabel;
 	
 	private final JButton pingButton;
 	private final JLabel pingLabel;
+	/**
+	 * Create a new widget
+	 * @param device the device the widget is representing
+	 */
 	public ImperiumDeviceWidget(ImperiumDevice device){
 		 this.device = device;
 		 setBorder(new TitledBorder("ImperiumDevice ["+device.getHardwareConfiguration().getName()+"]"));

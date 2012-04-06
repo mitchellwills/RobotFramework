@@ -11,7 +11,10 @@ import robot.util.RobotUtil;
 public class PIDController implements ControlLoop{
 	
 	private double Kp;
+	//TODO implement I and D terms of loop
+	@SuppressWarnings("unused")
 	private double Ki;
+	@SuppressWarnings("unused")
 	private double Kd;
 	
 	private final ControlLoopInput input;
@@ -99,7 +102,7 @@ public class PIDController implements ControlLoop{
 		public void run(){
 			while(true){
 				update();
-				RobotUtil.sleep(updateDelay);//TODO do calculation for loop to actully run every updateDelay
+				RobotUtil.sleep(updateDelay);//TODO do calculation for loop to actually run every updateDelay
 			}
 		}
 	}

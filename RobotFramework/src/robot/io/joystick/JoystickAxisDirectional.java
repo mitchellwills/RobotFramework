@@ -1,10 +1,21 @@
 package robot.io.joystick;
 
+/**
+ * @author Mitchell
+ * 
+ * A joystick directional that is formed by two axes from a joystick
+ *
+ */
 public class JoystickAxisDirectional implements JoystickDirectional {
 	private final JoystickAxis xAxis;
 	private final JoystickAxis yAxis;
 	
 
+	/**
+	 * Create a joystick from two axes
+	 * @param xAxis
+	 * @param yAxis
+	 */
 	public JoystickAxisDirectional(JoystickAxis xAxis, JoystickAxis yAxis) {
 		this.xAxis = xAxis;
 		this.yAxis = yAxis;

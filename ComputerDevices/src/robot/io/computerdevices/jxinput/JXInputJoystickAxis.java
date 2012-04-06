@@ -3,6 +3,12 @@ package robot.io.computerdevices.jxinput;
 import robot.io.joystick.JoystickAxis;
 import de.hardcode.jxinput.Axis;
 
+/**
+ * @author Mitchell
+ * 
+ * An axis joystick on a joystick connected to a computer
+ *
+ */
 public class JXInputJoystickAxis implements JoystickAxis {
 
 	private final Axis nativeAxis;

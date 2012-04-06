@@ -1,6 +1,5 @@
 package robot.io.servo;
 
-import robot.io.RobotObjectListener;
 import robot.io.pwmms.LinearMSPWMOutput;
 import robot.io.pwmms.MSPWMOutput;
 

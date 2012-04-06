@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import robot.error.RobotInitializationException;
-import robot.io.RobotObjectListener;
 import robot.io.computerdevices.ComputerPorts;
 import robot.io.serial.SerialInterface;
 

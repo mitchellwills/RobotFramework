@@ -24,17 +24,17 @@ import robot.util.RobotUtil;
  *         A serial device that that allows for fast GPIO
  * 
  */
-public class ImperiumDevice implements RobotObject, UpdatableObject {
+public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevice> {
 
-	private final RobotObjectModel model = new RobotObjectModel(this);
+	private final RobotObjectModel<ImperiumDevice> model = new RobotObjectModel<ImperiumDevice>(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener listener) {
+	public void addUpdateListener(RobotObjectListener<ImperiumDevice> listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener listener) {
+	public void removeUpdateListener(RobotObjectListener<ImperiumDevice> listener) {
 		model.removeUpdateListener(listener);
 	}
 

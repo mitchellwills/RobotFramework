@@ -1,7 +1,6 @@
 package robot.io.pwmms;
 
 import robot.io.Output;
-import robot.io.RobotObjectListener;
 import robot.util.RobotUtil;
 
 /**
