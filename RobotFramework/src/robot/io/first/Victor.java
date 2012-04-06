@@ -1,4 +1,5 @@
-package robot.io.vex;
+package robot.io.first;
+
 
 import robot.io.pwmms.MSPWMOutput;
 import robot.io.speedcontroller.SpeedControllerMS;
@@ -6,16 +7,16 @@ import robot.io.speedcontroller.SpeedControllerMS;
 /**
  * @author Mitchell
  * 
- * Represents a standard vex motor
+ * Represents a Victor Motor Controller
  *
  */
-public class VexMotor extends SpeedControllerMS{
+public class Victor extends SpeedControllerMS{
 
 	/**
 	 * @param output the ms pwm output connected to the motor
 	 */
-	public VexMotor(MSPWMOutput output) {
-		super(output, 1000, 1460, 1500, 1600, 2000);
+	public Victor(MSPWMOutput output) {
+		super(output, 1350, 1445, 1500, 1550, 1650);
 	}
 
 }

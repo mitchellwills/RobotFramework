@@ -1,44 +1,46 @@
 package robot.dashboard;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import robot.dashboard.widget.JoystickWidget;
 import robot.io.RobotObject;
-import robot.io.joystick.Joystick;
 
 public class RobotDashboardWindow extends JFrame {
-	private Map<Class<? extends RobotObject>, Class<? extends Widget>> widgets = new HashMap<>();
+	int i = 0;
+	int j = 0;
 	public RobotDashboardWindow(){
-		widgets.put(Joystick.class, JoystickWidget.class);
+		setLayout(new GridBagLayout());
 	}
 	
 	public void put(RobotObject device){
 		if(device==null)
 			return;
-		
-		for(Entry<Class<? extends RobotObject>, Class<? extends Widget>> e:widgets.entrySet()){
-			if(e.getKey().isAssignableFrom(device.getClass())){
-				Class<? extends Widget> widgetClass = e.getValue();
-				try {
-					putWidget(widgetClass.getConstructor(e.getKey()).newInstance(device));
-					return;
-				} catch (InstantiationException | IllegalAccessException
-						| IllegalArgumentException | InvocationTargetException
-						| NoSuchMethodException | SecurityException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+
+		try {
+			putWidget(RobotWidgets.getObjectWidgetConstructor(device.getClass()).newInstance(device));
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println("Could not find widget for "+device);
 		}
-		System.err.println("Could not find widget for "+device);
 	}
+
 	public void putWidget(Widget widget){
-		add(widget);
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = j;
+		c.gridy = i;
+		c.fill = GridBagConstraints.BOTH;
+		add(widget, c);
+		++j;
+		if(j>=3){
+			++i;
+			j = 0;
+		}
 		pack();
 	}
 }

@@ -4,14 +4,14 @@ import java.util.EnumSet;
 
 import robot.imperium.hardware.HardwareConfiguration;
 import robot.imperium.hardware.PinCapability;
-import robot.io.RobotDevice;
+import robot.io.RobotObject;
 
 
 /**
  * @author Mitchell
  *
  */
-public abstract class ImperiumDeviceObject implements RobotDevice{
+public abstract class ImperiumDeviceObject implements RobotObject{
 	private final ImperiumDevice device;
 	private final int typeId;
 	private final int[] pins;
@@ -110,7 +110,7 @@ public abstract class ImperiumDeviceObject implements RobotDevice{
 	
 	/**
 	 * @param value new value
-	 * NOTE: this is only intended to be called by a user
+	 * NOTE: this is not intended to be called by a user
 	 */
 	public abstract void setValue(int value);
 

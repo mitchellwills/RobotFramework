@@ -1,6 +1,7 @@
 package robot.io.binary;
 
 import robot.io.Output;
+import robot.io.UpdatableObject;
 
 
 /**
@@ -9,7 +10,7 @@ import robot.io.Output;
  * an output that can be either active or inactive
  *
  */
-public interface BinaryOutput extends Output {
+public interface BinaryOutput extends Output, UpdatableObject {
 	/**
 	 * Set the state of the output
 	 * @param value true if the output should be active

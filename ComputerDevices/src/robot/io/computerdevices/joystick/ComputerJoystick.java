@@ -1,5 +1,6 @@
 package robot.io.computerdevices.joystick;
 
+import robot.error.RobotInitializationException;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 import robot.io.computerdevices.DIJoystick;
@@ -17,16 +18,30 @@ import com.sun.jna.Pointer;
  *
  */
 public class ComputerJoystick implements Joystick{
+	private static ComputerJoystick[] joysticks;
 	static{
 		DIJoystick.INSTANCE.initDI();
 		DIJoystick.INSTANCE.enumerateDevices();
+		joysticks = new ComputerJoystick[DIJoystick.INSTANCE.getJoystickCount()];
 	}
 	
 	/**
 	 * @return the number of joysticks attacked to the computer
 	 */
 	public static int getJoystickCount(){
-		return DIJoystick.INSTANCE.getJoystickCount();
+		return joysticks.length;
+	}
+	/**
+	 * @param id the id of the joystick on the system
+	 * @return a joystick with the given id
+	 */
+	public static ComputerJoystick getJoystick(int id){
+		if(id<0 || id>=getJoystickCount())
+			throw new RobotInitializationException("Illegal computer joystick id: "+id+". There are  "+getJoystickCount()+" joysticks on the system");
+		ComputerJoystick joystick = joysticks[id];
+		if(joystick != null)
+			return joystick;
+		return joysticks[id] = new ComputerJoystick(id);
 	}
 	
 	
@@ -52,7 +67,7 @@ public class ComputerJoystick implements Joystick{
 	/**
 	 * @param id the id of the joystick
 	 */
-	public ComputerJoystick(int id){
+	ComputerJoystick(int id){
 		nativeJoystickPointer = DIJoystick.INSTANCE.getJoystickReference(id);
 		
 		int axisCount = DIJoystick.INSTANCE.getNumAxes(nativeJoystickPointer);
@@ -78,6 +93,8 @@ public class ComputerJoystick implements Joystick{
 
 	@Override
 	public JoystickButton getButton(int id) {
+		if(id<0 || id>=getButtonCount())
+			throw new RobotInitializationException("Illegal button id: "+id+". There are  "+getButtonCount()+" buttons on the joystick: "+getName());
 		return buttons[id];
 	}
 
@@ -88,6 +105,8 @@ public class ComputerJoystick implements Joystick{
 
 	@Override
 	public JoystickAxis getAxis(int id) {
+		if(id<0 || id>=getAxisCount())
+			throw new RobotInitializationException("Illegal axis id: "+id+". There are  "+getAxisCount()+" axes on the joystick: "+getName());
 		return axes[id];
 	}
 
@@ -98,6 +117,8 @@ public class ComputerJoystick implements Joystick{
 
 	@Override
 	public JoystickDirectional getDirectional(int id) {
+		if(id<0 || id>=getDirectionalCount())
+			throw new RobotInitializationException("Illegal directional id: "+id+". There are  "+getDirectionalCount()+" directionals on the joystick: "+getName());
 		return directionals[id];
 	}
 

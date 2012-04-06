@@ -133,7 +133,7 @@ static void readOnePacket(){
 
 
 void periodicImperium(){
-	if(numObjects==0)
+	if(numObjects==0 || minUpdateDelay==-1)
 		readOnePacket();
 
 	unsigned long time = millis();

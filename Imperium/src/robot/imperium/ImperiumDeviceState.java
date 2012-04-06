@@ -20,9 +20,5 @@ public enum ImperiumDeviceState {
 	/**
 	 * the device has been successfully configured
 	 */
-	CONNECTED,
-	/**
-	 * Attempted to configure the device but an error occurred
-	 */
-	CONFIGURE_ERROR;
+	CONNECTED;
 }

@@ -7,6 +7,8 @@ import java.util.EnumSet;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.hardware.PinCapability;
+import robot.io.RobotObjectListener;
+import robot.io.RobotObjectModel;
 import robot.io.analog.AnalogVoltageInput;
 
 
@@ -17,6 +19,17 @@ import robot.io.analog.AnalogVoltageInput;
  *
  */
 public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements AnalogVoltageInput{
+	private final RobotObjectModel model = new RobotObjectModel(this);
+
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
 
 	private double currentVoltage;
 	private final double maxVoltage;
@@ -48,6 +61,7 @@ public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements 
 	@Override
 	public void setValue(int value) {
 		currentVoltage = maxVoltage * value / 1023;
+		model.fireUpdateEvent();
 	}
 
 	@Override

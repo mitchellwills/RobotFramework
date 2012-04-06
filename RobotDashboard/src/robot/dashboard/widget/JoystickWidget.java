@@ -34,6 +34,7 @@ public class JoystickWidget extends Widget implements RobotObjectListener<Joysti
 		add(buttonsView = new ButtonsView(joystick));
 		add(directionalsView = new DirectionalsView(joystick));
 
+		objectUpdated(joystick);
 		joystick.addUpdateListener(this);
 	}
 	@Override

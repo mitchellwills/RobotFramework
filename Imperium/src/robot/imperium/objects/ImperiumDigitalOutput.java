@@ -7,6 +7,8 @@ import java.util.EnumSet;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.hardware.PinCapability;
+import robot.io.RobotObjectListener;
+import robot.io.RobotObjectModel;
 import robot.io.binary.BinaryOutput;
 
 
@@ -17,6 +19,18 @@ import robot.io.binary.BinaryOutput;
  *
  */
 public class ImperiumDigitalOutput extends ImperiumDeviceObject implements BinaryOutput{
+	private final RobotObjectModel model = new RobotObjectModel(this);
+
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
+
 
 	private boolean currentState;
 	/**
@@ -42,6 +56,7 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements Binar
 	public void set(boolean value) {
 		getDevice().sendSetPacket(this, value?1:0);
 		currentState = value;
+		model.fireUpdateEvent();
 	}
 
 	@Override
