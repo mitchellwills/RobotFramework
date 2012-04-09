@@ -34,10 +34,18 @@ public class RobotDashboardWindow extends JFrame {
 
 		try {
 			putWidget(RobotWidgets.getObjectWidgetConstructor(device.getClass()).newInstance(device));
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
+		} catch (InstantiationException e) {
 			e.printStackTrace();
 			System.err.println("Could not find widget for "+device);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

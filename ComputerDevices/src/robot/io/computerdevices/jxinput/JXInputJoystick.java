@@ -89,7 +89,7 @@ public class JXInputJoystick implements Joystick{
 	
 	
 
-	private final RobotObjectModel<JXInputJoystick> model = new RobotObjectModel<>(this);
+	private final RobotObjectModel<JXInputJoystick> model = new RobotObjectModel<JXInputJoystick>(this);
 	@Override
 	public void addUpdateListener(RobotObjectListener<Joystick> listener) {
 		model.addUpdateListener(listener);

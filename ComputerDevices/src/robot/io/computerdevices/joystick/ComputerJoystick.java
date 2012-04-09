@@ -48,7 +48,7 @@ public class ComputerJoystick implements Joystick{
 	
 
 
-	private final RobotObjectModel<ComputerJoystick> model = new RobotObjectModel<>(this);
+	private final RobotObjectModel<ComputerJoystick> model = new RobotObjectModel<ComputerJoystick>(this);
 	@Override
 	public void addUpdateListener(RobotObjectListener<Joystick> listener) {
 		model.addUpdateListener(listener);

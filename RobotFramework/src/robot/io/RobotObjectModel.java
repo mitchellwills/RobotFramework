@@ -12,7 +12,7 @@ import java.util.Set;
  *
  */
 public class RobotObjectModel<T extends RobotObject> {
-	private final Set<RobotObjectListener<? super T>> listeners = new HashSet<>();
+	private final Set<RobotObjectListener<? super T>> listeners = new HashSet<RobotObjectListener<? super T>>();
 
 	private final T object;
 	/**

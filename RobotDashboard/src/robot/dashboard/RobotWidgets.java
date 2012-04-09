@@ -22,7 +22,7 @@ import robot.io.joystick.Joystick;
 public final class RobotWidgets {
 	private RobotWidgets(){}//prevent instanciation
 	
-	private static Map<Class<? extends RobotObject>, Class<? extends Widget>> widgets = new HashMap<>();//TODO change to multimap
+	private static Map<Class<? extends RobotObject>, Class<? extends Widget>> widgets = new HashMap<Class<? extends RobotObject>, Class<? extends Widget>>();//TODO change to multimap
 	static{
 		registerWidget(Joystick.class, JoystickWidget.class);
 		registerWidget(BinaryOutput.class, BinaryOutputWidget.class);
@@ -48,7 +48,7 @@ public final class RobotWidgets {
 				Class<? extends Widget> widgetClass = e.getValue();
 				try {
 					return widgetClass.getConstructor(e.getKey());
-				} catch (NoSuchMethodException | SecurityException e1) {
+				} catch (NoSuchMethodException e1) {
 					return null;
 				}
 			}

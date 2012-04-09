@@ -144,7 +144,7 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 		return objects.size() - 1;
 	}
 
-	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException> configureLock = new ImperiumTaskExecutionLock<>();
+	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException> configureLock = new ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException>();
 
 	/**
 	 * configure the device based on currently registered
@@ -154,74 +154,69 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	public void configure() {
 		RobotUtil.sleep(1500);// TODO: wait for device to initialize
 
-		try {
-			synchronized (configureLock) {
-				setState(ImperiumDeviceState.CONFIGURING);
-				try {// catch any exception that occurs so that state can be
-						// restored to disconnected
-					ImperiumPacket configurePacket = new ImperiumPacket();
-					configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
-					configurePacket.setDataLength(0);
-					configurePacket.appendInteger(maxUpdateRate, 2);
+		synchronized (configureLock) {
+			setState(ImperiumDeviceState.CONFIGURING);
+			try {// catch any exception that occurs so that state can be
+					// restored to disconnected
+				ImperiumPacket configurePacket = new ImperiumPacket();
+				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
+				configurePacket.setDataLength(0);
+				configurePacket.appendInteger(maxUpdateRate, 2);
 
-					configurePacket.appendInteger(objects.size(), 1);
+				configurePacket.appendInteger(objects.size(), 1);
+
+				for (int i = 0; i < objects.size(); ++i) {
+					ImperiumDeviceObject object = objects.get(i);
+					configurePacket.appendInteger(object.getObjectId(), 1);
+					configurePacket.appendInteger(object.getTypeId(), 1);
+					configurePacket.appendInteger(object.getPinCount(), 1);
+					for (int pin = 0; pin < object.getPinCount(); ++pin)
+						configurePacket
+								.appendInteger(object.getPin(pin), 1);
+				}
+				sendPacket(configurePacket);
+				if (configureLock.waitOn(1000)) {
+					if (configureLock.isError())
+						throw configureLock.getException();
+
+					ImperiumPacket packet = configureLock.getReturnValue();
+					packet.resetReadPosition();
+					if (packet.getDataLength() != objects.size() * 2)
+						throw new RobotInitializationException(
+								"Error configuring Imperium Device. Response configure packet was the wrong size");
 
 					for (int i = 0; i < objects.size(); ++i) {
 						ImperiumDeviceObject object = objects.get(i);
-						configurePacket.appendInteger(object.getObjectId(), 1);
-						configurePacket.appendInteger(object.getTypeId(), 1);
-						configurePacket.appendInteger(object.getPinCount(), 1);
-						for (int pin = 0; pin < object.getPinCount(); ++pin)
-							configurePacket
-									.appendInteger(object.getPin(pin), 1);
-					}
-					sendPacket(configurePacket);
-					if (configureLock.waitOn(1000)) {
-						if (configureLock.isError())
-							throw configureLock.getException();
-
-						ImperiumPacket packet = configureLock.getReturnValue();
-						packet.resetReadPosition();
-						if (packet.getDataLength() != objects.size() * 2)
+						int typeId = packet.readInteger(1);
+						int errorCode = packet.readInteger(1);
+						if (typeId != object.getTypeId() || errorCode != 0)
 							throw new RobotInitializationException(
-									"Error configuring Imperium Device. Response configure packet was the wrong size");
+									"Error configuring Imperium Device. Object "
+											+ object.getObjectId()
+											+ " of type "
+											+ object.getTypeId()
+											+ " failed to configure");
+					}
 
-						for (int i = 0; i < objects.size(); ++i) {
-							ImperiumDeviceObject object = objects.get(i);
-							int typeId = packet.readInteger(1);
-							int errorCode = packet.readInteger(1);
-							if (typeId != object.getTypeId() || errorCode != 0)
-								throw new RobotInitializationException(
-										"Error configuring Imperium Device. Object "
-												+ object.getObjectId()
-												+ " of type "
-												+ object.getTypeId()
-												+ " failed to configure");
-						}
+					for (ImperiumDeviceObject object : objects)
+						object.initialize();
 
-						for (ImperiumDeviceObject object : objects)
-							object.initialize();
-
-						setState(ImperiumDeviceState.CONNECTED);
-						ping();
-					} else
-						throw new RobotInitializationException(
-								"Error configuring Imperium Device. The device did not respond within 1 second");
-				} catch (Exception e) {
-					setState(ImperiumDeviceState.DISCONNECTED);
-					throw e;
-				}
+					setState(ImperiumDeviceState.CONNECTED);
+					ping();
+				} else
+					throw new RobotInitializationException(
+							"Error configuring Imperium Device. The device did not respond within 1 second");
+			} catch (Exception e) {
+				setState(ImperiumDeviceState.DISCONNECTED);
+				throw new RobotException(e);
 			}
-		} catch (IOException e) {
-			throw new RobotInitializationException(
-					"Error configuring Imperium Device", e);
 		}
 	}
 	
 	
 	
 
-	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotException> pingLock = new ImperiumTaskExecutionLock<>();
+	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotException> pingLock = new ImperiumTaskExecutionLock<ImperiumPacket, RobotException>();
 	/**
 	 * @return the time it took the device to respond
 	 * will return -1 if the device failed to respond
