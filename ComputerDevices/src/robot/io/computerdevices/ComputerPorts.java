@@ -1,7 +1,6 @@
 package robot.io.computerdevices;
 
 import com.sun.jna.Library;
-import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
 /**
@@ -14,8 +13,7 @@ public interface ComputerPorts extends Library {
 	/**
 	 * instance of the port library
 	 */
-	ComputerPorts INSTANCE = (ComputerPorts) Native.loadLibrary(
-			"libComputerDevicesNative", ComputerPorts.class);
+	ComputerPorts INSTANCE = ComputerDevicesLibrary.load(ComputerPorts.class);
 
 	/**
 	 * open a serial port

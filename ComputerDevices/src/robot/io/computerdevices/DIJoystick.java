@@ -1,7 +1,6 @@
 package robot.io.computerdevices;
 
 import com.sun.jna.Library;
-import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
 /**
@@ -15,8 +14,7 @@ public interface DIJoystick extends Library {
 	/**
 	 * instance of the port library
 	 */
-	DIJoystick INSTANCE = (DIJoystick) Native.loadLibrary(
-			"libComputerDevicesNative", DIJoystick.class);
+	DIJoystick INSTANCE = ComputerDevicesLibrary.load(DIJoystick.class);
 
 	int initDI();
 	int enumerateDevices();
