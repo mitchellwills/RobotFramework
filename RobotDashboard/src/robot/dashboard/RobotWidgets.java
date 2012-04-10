@@ -8,10 +8,12 @@ import java.util.Map.Entry;
 import robot.dashboard.widget.AnalogVoltageInputWidget;
 import robot.dashboard.widget.BinaryOutputWidget;
 import robot.dashboard.widget.JoystickWidget;
+import robot.dashboard.widget.SpeedControllerWidget;
 import robot.io.RobotObject;
 import robot.io.analog.AnalogVoltageInput;
 import robot.io.binary.BinaryOutput;
 import robot.io.joystick.Joystick;
+import robot.io.speedcontroller.SpeedController;
 
 /**
  * @author Mitchell
@@ -27,6 +29,7 @@ public final class RobotWidgets {
 		registerWidget(Joystick.class, JoystickWidget.class);
 		registerWidget(BinaryOutput.class, BinaryOutputWidget.class);
 		registerWidget(AnalogVoltageInput.class, AnalogVoltageInputWidget.class);
+		registerWidget(SpeedController.class, SpeedControllerWidget.class);
 	}
 	
 	/**

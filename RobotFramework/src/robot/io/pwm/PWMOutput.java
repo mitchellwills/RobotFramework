@@ -1,6 +1,7 @@
 package robot.io.pwm;
 
 import robot.io.Output;
+import robot.io.UpdatableObject;
 
 
 /**
@@ -9,7 +10,7 @@ import robot.io.Output;
  * An output that takes a value the represents the duty cycle
  *
  */
-public interface PWMOutput extends Output {
+public interface PWMOutput extends Output, UpdatableObject<PWMOutput> {
 	/**
 	 * @param dutyCycle duty cycle (0.0 - 1.0)
 	 */

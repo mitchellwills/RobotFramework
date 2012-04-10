@@ -297,10 +297,16 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	private int packetReceivedSizeTmp = 0;
 	private int packetReceivedCount = 0;
 	private int packetReceivedSize = 0;
+	/**
+	 * @return the number of packets received in the previous second
+	 */
 	public int getPacketReceivedCount() {
 		return packetReceivedCount;
 	}
 
+	/**
+	 * @return the number of bytes of packets received in the previous second
+	 */
 	public int getPacketReceivedSize() {
 		return packetReceivedSize;
 	}
@@ -372,10 +378,16 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	private int packetSentSizeTmp = 0;
 	private int packetSentCount = 0;
 	private int packetSentSize = 0;
+	/**
+	 * @return the number of packets sent in the previous second
+	 */
 	public int getPacketSentCount() {
 		return packetSentCount;
 	}
 
+	/**
+	 * @return the number of bytes of packets sent in the previous second
+	 */
 	public int getPacketSentSize() {
 		return packetSentSize;
 	}

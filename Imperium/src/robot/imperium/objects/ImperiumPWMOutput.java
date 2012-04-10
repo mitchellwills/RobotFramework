@@ -7,6 +7,8 @@ import java.util.EnumSet;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.hardware.PinCapability;
+import robot.io.RobotObjectListener;
+import robot.io.RobotObjectModel;
 import robot.io.pwm.PWMOutput;
 import robot.util.RobotUtil;
 
@@ -20,6 +22,19 @@ import robot.util.RobotUtil;
 public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput{
 
 	private double currentState;
+
+	private final RobotObjectModel<ImperiumPWMOutput> model = new RobotObjectModel<ImperiumPWMOutput>(this);
+
+	@Override
+	public void addUpdateListener(RobotObjectListener<PWMOutput> listener) {
+		model.addUpdateListener(listener);
+	}
+
+	@Override
+	public void removeUpdateListener(RobotObjectListener<PWMOutput> listener) {
+		model.removeUpdateListener(listener);
+	}
+	
 	/**
 	 * Create a new USBIODigitalOutput
 	 * @param device

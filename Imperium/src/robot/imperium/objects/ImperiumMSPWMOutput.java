@@ -7,6 +7,8 @@ import java.util.EnumSet;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.hardware.PinCapability;
+import robot.io.RobotObjectListener;
+import robot.io.RobotObjectModel;
 import robot.io.pwmms.MSPWMOutput;
 
 
@@ -19,6 +21,21 @@ import robot.io.pwmms.MSPWMOutput;
 public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOutput{
 
 	private int currentState;
+	
+
+	private final RobotObjectModel<ImperiumMSPWMOutput> model = new RobotObjectModel<ImperiumMSPWMOutput>(this);
+
+	@Override
+	public void addUpdateListener(RobotObjectListener<MSPWMOutput> listener) {
+		model.addUpdateListener(listener);
+	}
+
+	@Override
+	public void removeUpdateListener(RobotObjectListener<MSPWMOutput> listener) {
+		model.removeUpdateListener(listener);
+	}
+	
+	
 	/**
 	 * Create a new USBIODigitalOutput
 	 * @param device
@@ -42,6 +59,7 @@ public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOu
 	public void set(int ms) {
 		getDevice().sendSetPacket(this, ms);
 		currentState = ms;
+		model.fireUpdateEvent();
 	}
 
 	@Override

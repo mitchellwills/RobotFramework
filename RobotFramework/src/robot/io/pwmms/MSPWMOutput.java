@@ -1,6 +1,7 @@
 package robot.io.pwmms;
 
 import robot.io.Output;
+import robot.io.UpdatableObject;
 
 
 /**
@@ -9,7 +10,7 @@ import robot.io.Output;
  * An output that takes a value in milliseconds that is the length of the pulses
  *
  */
-public interface MSPWMOutput extends Output {
+public interface MSPWMOutput extends Output, UpdatableObject<MSPWMOutput> {
 	/**
 	 * value to set the output to to disable the output
 	 */

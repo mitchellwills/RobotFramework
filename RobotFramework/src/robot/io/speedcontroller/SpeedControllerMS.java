@@ -1,5 +1,7 @@
 package robot.io.speedcontroller;
 
+import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObjectListener;
 import robot.io.pwmms.DeadbandedLinearMSPWMOutput;
 import robot.io.pwmms.LinearMSPWMOutput;
 import robot.io.pwmms.MSPWMOutput;
@@ -18,6 +20,16 @@ public class SpeedControllerMS implements SpeedController {
 	public static final double DISABLE_OUTPUT = LinearMSPWMOutput.DISABLE_OUTPUT;
 	
 	private final DeadbandedLinearMSPWMOutput output;
+	private final ForwardingRobotObjectModel<SpeedController, MSPWMOutput> model = new ForwardingRobotObjectModel<SpeedController, MSPWMOutput>(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener<SpeedController> listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(
+			RobotObjectListener<SpeedController> listener) {
+		model.removeUpdateListener(listener);
+	}
 	
 
 	/**
@@ -47,6 +59,7 @@ public class SpeedControllerMS implements SpeedController {
 	 */
 	public SpeedControllerMS(MSPWMOutput output, int fullBackward, int stopped, int fullForward) {
 		this.output = new DeadbandedLinearMSPWMOutput(output, fullBackward, stopped, stopped, stopped, fullForward);
+		output.addUpdateListener(model);
 	}
 
 	/**

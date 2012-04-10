@@ -7,6 +7,8 @@ import java.util.EnumSet;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.hardware.PinCapability;
+import robot.io.RobotObjectListener;
+import robot.io.RobotObjectModel;
 import robot.io.binary.BinaryInput;
 
 
@@ -19,6 +21,21 @@ import robot.io.binary.BinaryInput;
 public class ImperiumDigitalInput extends ImperiumDeviceObject implements BinaryInput{
 
 	private boolean currentState;
+	
+
+	private final RobotObjectModel<ImperiumDigitalInput> model = new RobotObjectModel<ImperiumDigitalInput>(this);
+
+	@Override
+	public void addUpdateListener(RobotObjectListener<BinaryInput> listener) {
+		model.addUpdateListener(listener);
+	}
+
+	@Override
+	public void removeUpdateListener(RobotObjectListener<BinaryInput> listener) {
+		model.removeUpdateListener(listener);
+	}
+	
+	
 	/**
 	 * Create a new USBIODigitalInput
 	 * @param device
