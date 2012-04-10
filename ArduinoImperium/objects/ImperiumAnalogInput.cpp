@@ -15,16 +15,14 @@ ImperiumObject* ImperiumAnalogInput::newAnalogInput(int objectId, int* pins, int
 
 ImperiumAnalogInput::ImperiumAnalogInput(int objectId, int* pins, int pinCount) : ImperiumObject(objectId, pins, pinCount){
 	pinMode(getPin(0), INPUT);
-	lastSent = -1;
 }
 
 
 void ImperiumAnalogInput::update(){
-	int value = analogRead(getPin(0));
-	if(lastSent!=value){
-		lastSent = value;
-		sendImperiumInputPacket(getObjectId(), value);
-	}
 }
 void ImperiumAnalogInput::setValue(long value){
+}
+
+long ImperiumAnalogInput::getValue(){
+	return analogRead(getPin(0));
 }

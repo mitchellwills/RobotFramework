@@ -22,6 +22,7 @@ class ImperiumObject {
 		int getPinCount();
 		virtual void update() = 0;
 		virtual void setValue(long value) = 0;
+		virtual long getValue() = 0;
 
 };
 

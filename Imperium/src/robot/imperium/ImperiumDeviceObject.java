@@ -109,8 +109,11 @@ public abstract class ImperiumDeviceObject implements RobotObject{
 	public abstract void initialize();
 	
 	/**
+	 * #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#<br>
+	 * NOTE: this is not intended to be called by a user<br>
+	 * #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
 	 * @param value new value
-	 * NOTE: this is not intended to be called by a user
+	 * 
 	 */
 	public abstract void setValue(int value);
 

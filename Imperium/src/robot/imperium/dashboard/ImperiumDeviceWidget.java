@@ -26,6 +26,9 @@ public class ImperiumDeviceWidget extends Widget implements RobotObjectListener<
 	
 	private final JButton pingButton;
 	private final JLabel pingLabel;
+	private final JLabel bulkUpdateLabel;
+	private final JLabel rxPacketLabel;
+	private final JLabel txPacketLabel;
 	/**
 	 * Create a new widget
 	 * @param device the device the widget is representing
@@ -42,7 +45,7 @@ public class ImperiumDeviceWidget extends Widget implements RobotObjectListener<
 		 
 		 c.gridy = 1;
 		 c.gridx = 0;
-		 add(pingLabel = new JLabel("Last Ping: Unknown"), c);
+		 add(pingLabel = new JLabel("Last Ping: ??"), c);
 		 c.gridx = 1;
 		 add(pingButton = new JButton("Ping"), c);
 		 pingButton.addActionListener(new ActionListener(){
@@ -51,6 +54,16 @@ public class ImperiumDeviceWidget extends Widget implements RobotObjectListener<
 				pingLabel.setText("Last Ping: "+ImperiumDeviceWidget.this.device.ping());
 			}
 		 });
+
+		 c.gridy = 2;
+		 c.gridx = 0;
+		 c.gridwidth = 2;
+		 add(bulkUpdateLabel = new JLabel("Bulk Update Rate: ??????"), c);
+		 c.gridy = 3;
+		 add(rxPacketLabel = new JLabel("Rx: ???"), c);
+		 c.gridy = 4;
+		 add(txPacketLabel = new JLabel("Tx: ???"), c);
+		 c.gridwidth = 1;
 		 
 		 device.addUpdateListener(this);
 
@@ -70,5 +83,9 @@ public class ImperiumDeviceWidget extends Widget implements RobotObjectListener<
 			stateLabel.setBackground(Color.GREEN);
 			break;
 		}
+		
+		bulkUpdateLabel.setText(String.format("Bulk Update Rate: %.2f", device.getBulkUpdateRate()));
+		rxPacketLabel.setText(String.format("Rx: %d (%d B)", device.getPacketReceivedCount(), device.getPacketReceivedSize()));
+		txPacketLabel.setText(String.format("Tx: %d (%d B)", device.getPacketSentCount(), device.getPacketSentSize()));
 	}
 }

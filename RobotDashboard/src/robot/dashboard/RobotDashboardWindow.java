@@ -2,10 +2,12 @@ package robot.dashboard;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 
+import robot.error.RobotInitializationException;
 import robot.io.RobotObject;
 
 /**
@@ -33,10 +35,12 @@ public class RobotDashboardWindow extends JFrame {
 			return;
 
 		try {
-			putWidget(RobotWidgets.getObjectWidgetConstructor(device.getClass()).newInstance(device));
+			Constructor<? extends Widget> constructor = RobotWidgets.getObjectWidgetConstructor(device.getClass());
+			if(constructor==null)
+				throw new RobotInitializationException("Could not find widget for "+device);
+			putWidget(constructor.newInstance(device));
 		} catch (InstantiationException e) {
-			e.printStackTrace();
-			System.err.println("Could not find widget for "+device);
+			throw new RobotInitializationException("Could not find widget for "+device);
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -48,4 +48,10 @@ public interface PacketIds {
 	int INPUT_VALUE = 20;
 	
 	
+	/**
+	 * an update of all values
+	 */
+	int BULK_INPUT = 21;
+	
+	
 }

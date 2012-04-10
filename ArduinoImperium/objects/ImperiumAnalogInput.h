@@ -13,7 +13,6 @@
 
 class ImperiumAnalogInput: public ImperiumObject {
 	private:
-		int lastSent;
 	public:
 		static ImperiumObject* newAnalogInput(int objectId, int* pins, int pinCount);
 
@@ -21,6 +20,7 @@ class ImperiumAnalogInput: public ImperiumObject {
 
 		virtual void update();
 		virtual void setValue(long value);
+		virtual long getValue();
 };
 
 #endif /* IMPERIUMANALOGINPUT_H_ */

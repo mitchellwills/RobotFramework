@@ -23,3 +23,7 @@ void ImperiumDigitalOutput::update(){
 void ImperiumDigitalOutput::setValue(long value){
 	digitalWrite(getPin(0), value!=0);
 }
+
+long ImperiumDigitalOutput::getValue(){
+	return digitalRead(getPin(0));
+}

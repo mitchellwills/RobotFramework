@@ -254,14 +254,55 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 		packet.resetReadPosition();
 		int objectId = packet.readInteger(1);
 		int value = packet.readInteger(4);
-		ImperiumDeviceObject object = objects.get(objectId);
-		object.setValue(value);
+		objects.get(objectId).setValue(value);
 	}
+	
+	private long lastBulkUpdate = 0;
+	private int bulkUpdateCount = 0;
+	private double bulkUpdateRate = 0;
+	/**
+	 * @return the rate at which the device is returning bulk updates (updated once a second)
+	 */
+	public double getBulkUpdateRate(){
+		return bulkUpdateRate;
+	}
+	private void bulkValues(ImperiumPacket packet) {
+		long time = System.currentTimeMillis();
+		long diff = time-lastBulkUpdate;
+		if(diff>=1000){
+			bulkUpdateRate = bulkUpdateCount*1000d/diff;
+			bulkUpdateCount = 0;
+			lastBulkUpdate = time;
+			model.fireUpdateEvent();
+		}
+		++bulkUpdateCount;
+		
+		packet.resetReadPosition();
+		int objectCount = packet.readInteger(1);
+		for(int i = 0; i<objectCount; ++i){
+			int value = packet.readInteger(4);
+			objects.get(i).setValue(value);
+		}
+	}
+	
 
 	private void error(ImperiumPacket packet) {
 		packet.resetReadPosition();
 		int errorCode = packet.readInteger(1);
 		throw new RobotException("Error occured on device: " + errorCode);
+	}
+
+	private long lastReceivedPacketUpdate = 0;
+	private int packetReceivedCountTmp = 0;
+	private int packetReceivedSizeTmp = 0;
+	private int packetReceivedCount = 0;
+	private int packetReceivedSize = 0;
+	public int getPacketReceivedCount() {
+		return packetReceivedCount;
+	}
+
+	public int getPacketReceivedSize() {
+		return packetReceivedSize;
 	}
 
 	private class ImperiumEventThread implements Runnable {
@@ -274,6 +315,19 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 					if (is.available() > 0) {
 						packet.read(is);
 						processInputPacket(packet);
+
+						long time = System.currentTimeMillis();
+						long diff = time-lastReceivedPacketUpdate;
+						if(diff>=1000){
+							packetReceivedSize = packetReceivedSizeTmp;
+							packetReceivedCount = packetReceivedCountTmp;
+							packetReceivedSizeTmp = 0;
+							packetReceivedCountTmp = 0;
+							lastReceivedPacketUpdate = time;
+							model.fireUpdateEvent();
+						}
+						packetReceivedSizeTmp+=packet.size();
+						++packetReceivedCountTmp;
 						//System.out.println("Received: "+packet);
 					} else
 						RobotUtil.sleep(2);
@@ -292,10 +346,10 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	private void processInputPacket(ImperiumPacket packet) {
 		switch (packet.getId()) {
 		case PacketIds.CONFIGURE_CONFIRM:
-			configureLock.finish(packet);
+			configureLock.finish(packet.clone());//must clone for other thread to process
 			break;
 		case PacketIds.PING_RESPONSE:
-			pingLock.finish(packet);
+			pingLock.finish(packet.clone());//must clone for other thread to process
 			break;
 		case PacketIds.ERROR_MESSAGE:
 			error(packet);
@@ -303,11 +357,27 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 		case PacketIds.INPUT_VALUE:
 			inputValue(packet);
 			break;
+		case PacketIds.BULK_INPUT:
+			bulkValues(packet);
+			break;
 		default:
 			System.out.println("Received unknown packet: " + packet + " at "
 					+ System.currentTimeMillis());
 			break;
 		}
+	}
+
+	private long lastSentPacketUpdate = 0;
+	private int packetSentCountTmp = 0;
+	private int packetSentSizeTmp = 0;
+	private int packetSentCount = 0;
+	private int packetSentSize = 0;
+	public int getPacketSentCount() {
+		return packetSentCount;
+	}
+
+	public int getPacketSentSize() {
+		return packetSentSize;
 	}
 
 	/**
@@ -318,8 +388,22 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	 */
 	public synchronized void sendPacket(ImperiumPacket packet)
 			throws IOException {
-		if (packet != null)
+		if (packet != null){
 			packet.write(os);
+
+			long time = System.currentTimeMillis();
+			long diff = time-lastSentPacketUpdate;
+			if(diff>=1000){
+				packetSentSize = packetSentSizeTmp;
+				packetSentCount = packetSentCountTmp;
+				packetSentSizeTmp = 0;
+				packetSentCountTmp = 0;
+				lastSentPacketUpdate = time;
+				model.fireUpdateEvent();
+			}
+			packetSentSizeTmp+=packet.size();
+			++packetSentCountTmp;
+		}
 		//System.out.println("Sent: "+packet);
 	}
 

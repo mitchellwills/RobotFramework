@@ -13,8 +13,6 @@
 
 class ImperiumDigitalInput: public ImperiumObject {
 	private:
-		boolean lastSent;
-		boolean sentInitial;
 	public:
 		static ImperiumObject* newDigitalInput(int objectId, int* pins, int pinCount);
 
@@ -22,6 +20,7 @@ class ImperiumDigitalInput: public ImperiumObject {
 
 		virtual void update();
 		virtual void setValue(long value);
+		virtual long getValue();
 };
 
 #endif /* IMPERIUMDIGITALINPUT_H_ */

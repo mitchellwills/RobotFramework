@@ -12,10 +12,6 @@
 
 class ImperiumDebug: public ImperiumObject {
 	private:
-		unsigned long updateCount;
-		unsigned long countTotal;
-		unsigned long lastUpdate;
-		unsigned long lastSend;
 	public:
 		static ImperiumObject* newDebug(int objectId, int* pins, int pinCount);
 
@@ -23,6 +19,7 @@ class ImperiumDebug: public ImperiumObject {
 
 		virtual void update();
 		virtual void setValue(long value);
+		virtual long getValue();
 };
 
 #endif /* IMPERIUMDEBUG_H_ */

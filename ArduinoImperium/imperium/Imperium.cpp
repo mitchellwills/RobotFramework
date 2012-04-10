@@ -103,6 +103,15 @@ static void processPing(ImperiumPacket& packet){
 	sendPacket.setId(PACKETID_PING_RESPONSE);
 	sendImperiumPacket(sendPacket);
 }
+static void sendBulkInput(){
+	sendPacket.setId(PACKETID_BULK_INPUT);
+	sendPacket.setDataLength(0);
+	sendPacket.appendInteger(numObjects, 1);
+	for(int i = 0; i<numObjects; ++i){
+		sendPacket.appendInteger(objects[i]->getValue(), 4);
+	}
+	sendImperiumPacket(sendPacket);
+}
 
 
 static void readOnePacket(){
@@ -139,6 +148,10 @@ void periodicImperium(){
 	unsigned long time = millis();
 	if( minUpdateDelay>=0 && (time-lastUpdate)>=(unsigned)minUpdateDelay){
 		lastUpdate = time;
+
+		if(numObjects>0)
+			sendBulkInput();
+
 		for(int i = 0; i<numObjects; ++i){
 			objects[i]->update();
 			readOnePacket();

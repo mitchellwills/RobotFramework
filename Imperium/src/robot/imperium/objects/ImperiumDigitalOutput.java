@@ -66,7 +66,7 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements Binar
 
 	@Override
 	public void setValue(int value) {
-		currentState = (value!=0);
+		//don't do anything or could get out of sync
 	}
 
 }

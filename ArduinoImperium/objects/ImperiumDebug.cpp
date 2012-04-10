@@ -13,25 +13,17 @@ ImperiumObject* ImperiumDebug::newDebug(int objectId, int* pins, int pinCount){
 }
 
 ImperiumDebug::ImperiumDebug(int objectId, int* pins, int pinCount) : ImperiumObject(objectId, pins, pinCount){
-	updateCount = 0;
-	lastUpdate = 0;
-	countTotal = 0;
-	lastSend = 0;
 }
 
 
 
 void ImperiumDebug::update(){
-	countTotal += (micros()-lastUpdate);
-	++updateCount;
-
-	if(millis()-lastSend>1000){
-		sendImperiumInputPacket(getObjectId(), countTotal/updateCount);
-		lastSend = millis();
-	}
-
-	lastUpdate = micros();
 }
 
 void ImperiumDebug::setValue(long value){
+}
+
+
+long ImperiumDebug::getValue(){
+	return 0;
 }

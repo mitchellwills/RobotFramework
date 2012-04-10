@@ -40,6 +40,14 @@ public class ImperiumPacket {
 	private byte[] data = new byte[MAX_DATA_SIZE];//n bytes
 	//checksum: 1 byte
 	
+	@Override
+	public ImperiumPacket clone(){
+		ImperiumPacket packet = new ImperiumPacket();
+		packet.id = id;
+		packet.dataLength = dataLength;
+		packet.data = data.clone();
+		return packet;
+	}
 	
 	/**
 	 * read a packet from an input stream and validate it

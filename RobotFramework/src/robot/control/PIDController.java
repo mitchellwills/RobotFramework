@@ -16,6 +16,8 @@ public class PIDController implements ControlLoop{
 	private double Ki;
 	@SuppressWarnings("unused")
 	private double Kd;
+
+	private double threshold;
 	
 	private final ControlLoopInput input;
 	private final ControlLoopOutput output;
@@ -52,6 +54,21 @@ public class PIDController implements ControlLoop{
 	 */
 	public PIDController(double Kp, double Ki, double Kd, ControlLoopInput input,
 			ControlLoopOutput output, double minOutput, double maxOutput, long updateDelay) {
+		this(Kp, Ki, Kd, input, output, minOutput, maxOutput, 0, updateDelay);
+	}
+	/**
+	 * @param Kp
+	 * @param Ki
+	 * @param Kd
+	 * @param input
+	 * @param output
+	 * @param minOutput 
+	 * @param maxOutput 
+	 * @param threshold 
+	 * @param updateDelay the delay between updates of the PID loop
+	 */
+	public PIDController(double Kp, double Ki, double Kd, ControlLoopInput input,
+			ControlLoopOutput output, double minOutput, double maxOutput, double threshold, long updateDelay) {
 		this.Kp = Kp;
 		this.Ki = Ki;
 		this.Kd = Kd;
@@ -59,6 +76,7 @@ public class PIDController implements ControlLoop{
 		this.output = output;
 		this.minOutput = minOutput;
 		this.maxOutput = maxOutput;
+		this.threshold = threshold;
 		this.updateDelay = updateDelay;
 		
 		setpoint = getPosition();
@@ -77,6 +95,8 @@ public class PIDController implements ControlLoop{
 		//TODO do integral and derivative terms
 		
 		value = RobotUtil.limit(value, minOutput, maxOutput);
+		if(Math.abs(value)<threshold)
+			value = 0;
 		output.set(value);
 	}
 

@@ -56,7 +56,7 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 
 	@Override
 	public void setValue(int value) {
-		currentState = value/255.0;
+		//don't do anything or could get out of sync
 	}
 
 	@Override

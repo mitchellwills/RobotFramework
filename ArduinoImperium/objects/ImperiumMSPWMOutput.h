@@ -23,6 +23,7 @@ class ImperiumMSPWMOutput: public ImperiumObject {
 
 		virtual void update();
 		virtual void setValue(long value);
+		virtual long getValue();
 };
 
 #endif /* IMPERIUMMSPWMOUTPUT_H_ */

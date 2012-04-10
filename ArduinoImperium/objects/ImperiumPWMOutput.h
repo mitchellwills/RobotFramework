@@ -11,6 +11,8 @@
 #include "ImperiumObject.h"
 
 class ImperiumPWMOutput: public ImperiumObject {
+	private:
+		long _value;
 	public:
 		static ImperiumObject* newPWMOutput(int objectId, int* pins, int pinCount);
 
@@ -18,6 +20,7 @@ class ImperiumPWMOutput: public ImperiumObject {
 
 		virtual void update();
 		virtual void setValue(long value);
+		virtual long getValue();
 };
 
 #endif /* IMPERIUMPWMOUTPUT_H_ */

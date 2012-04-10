@@ -18,6 +18,7 @@ class ImperiumDigitalOutput: public ImperiumObject {
 
 		virtual void update();
 		virtual void setValue(long value);
+		virtual long getValue();
 };
 
 #endif /* IMPERIUMDIGITALOUTPUT_H_ */

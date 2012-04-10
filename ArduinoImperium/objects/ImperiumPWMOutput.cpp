@@ -23,4 +23,9 @@ void ImperiumPWMOutput::update(){
 }
 void ImperiumPWMOutput::setValue(long value){
 	analogWrite(getPin(0), value);
+	_value = value;
+}
+
+long ImperiumPWMOutput::getValue(){
+	return _value;
 }

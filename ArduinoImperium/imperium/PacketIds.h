@@ -24,5 +24,7 @@
 
 #define PACKETID_INPUT_VALUE 20
 
+#define PACKETID_BULK_INPUT 21
+
 
 #endif /* PACKETIDS_H_ */

@@ -31,3 +31,9 @@ void ImperiumMSPWMOutput::setValue(long value){
 		msOutput.writeMicroseconds(value);
 	}
 }
+
+long ImperiumMSPWMOutput::getValue(){
+	if(!msOutput.attached())
+		return MSPWM_DISABLED_VALUE;
+	return msOutput.readMicroseconds();
+}
