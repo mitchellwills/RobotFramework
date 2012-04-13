@@ -140,5 +140,16 @@ public class ByteUtilTest {
 										--value;
 									}
 	}
+	
+
+	@Test
+	public void testToUnsigned() {
+		assertEquals(255, ByteUtil.toUnsigned(255));
+		assertEquals(0, ByteUtil.toUnsigned(0));
+		assertEquals(4294967295L, ByteUtil.toUnsigned(-1));
+		assertEquals(4294967294L, ByteUtil.toUnsigned(-2));
+		assertEquals(4294967292L, ByteUtil.toUnsigned(-4));
+		
+	}
 
 }

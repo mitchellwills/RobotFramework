@@ -7,6 +7,7 @@
 #include "ImperiumMSPWMOutput.h"
 #include "ImperiumDigitalInput.h"
 #include "ImperiumAnalogInput.h"
+#include "ImperiumPulseCounter.h"
 
 #include "MemoryFree.h"
 
@@ -23,6 +24,7 @@ int main(){
 	setObjectTypeInitializer(4, ImperiumPWMOutput::newPWMOutput);
 	setObjectTypeInitializer(5, ImperiumMSPWMOutput::newMSPWMOutput);
 	setObjectTypeInitializer(6, ImperiumAnalogInput::newAnalogInput);
+	setObjectTypeInitializer(7, ImperiumPulseCounter::newPulseCounter);
 
 
 	while(true){

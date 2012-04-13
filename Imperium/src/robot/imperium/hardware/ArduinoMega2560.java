@@ -30,8 +30,8 @@ public class ArduinoMega2560 extends HardwareConfiguration {
 		addPin(0, "0").addLabels("PE0", "RX0");
 		addPin(1, "1").addLabels("PE1", "TX0");
 
-		addPin(2, "2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output, Interrupt).addLabels("PE4");
-		addPin(3, "3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output, Interrupt).addLabels("PE5");
+		addPin(2, "2", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output, Interrupt).addLabels("PE4", "INT2");
+		addPin(3, "3", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output, Interrupt).addLabels("PE5", "INT3");
 		
 		addPin(4, "4", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PG5");
 
@@ -46,6 +46,12 @@ public class ArduinoMega2560 extends HardwareConfiguration {
 		addPin(11, "11", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PB5");
 		addPin(12, "12", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PB6");
 		addPin(13, "13", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, PWM_Output).addLabels("PB7", ONBOARD_LED);
+		
+
+		addPin(18, "18", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt).addLabels("INT18");
+		addPin(19, "19", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt).addLabels("INT19");
+		addPin(20, "20", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt).addLabels("INT20");
+		addPin(21, "21", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, Interrupt).addLabels("INT21");
 		
 
 		addPin(54, "A0", DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output, AnalogInput).addLabels("PF0", "54");

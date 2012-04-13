@@ -92,7 +92,7 @@ public final class DeadbandedLinearMSPWMOutput implements Output {
 			return CENTER_VALUE;
 		if(ms<minDeadbandMS)
 			return ((double)(ms-minDeadbandMS))/(minDeadbandMS-minMS);
-		if(ms<maxDeadbandMS)
+		if(ms>maxDeadbandMS)
 			return ((double)(ms-maxDeadbandMS))/(maxMS-maxDeadbandMS);
 		return CENTER_VALUE;
 	}

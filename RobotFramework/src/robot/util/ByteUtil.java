@@ -138,4 +138,12 @@ public class ByteUtil {
 		int mask = 1<<index;
 		return (mask&b)!=0;
 	}
+	
+	/**
+	 * @param value
+	 * @return the bits of an integer as an unsigned decimal stored in a long
+	 */
+	public static long toUnsigned(int value) {
+		return Long.parseLong(Integer.toBinaryString(value), 2);
+	}
 }

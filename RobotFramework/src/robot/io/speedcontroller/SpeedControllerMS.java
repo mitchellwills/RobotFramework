@@ -58,8 +58,7 @@ public class SpeedControllerMS implements SpeedController {
 	 * @param fullForward 
 	 */
 	public SpeedControllerMS(MSPWMOutput output, int fullBackward, int stopped, int fullForward) {
-		this.output = new DeadbandedLinearMSPWMOutput(output, fullBackward, stopped, stopped, stopped, fullForward);
-		output.addUpdateListener(model);
+		this(output, fullBackward, stopped, stopped, stopped, fullForward);
 	}
 
 	/**
@@ -73,6 +72,7 @@ public class SpeedControllerMS implements SpeedController {
 	 */
 	public SpeedControllerMS(MSPWMOutput output, int fullBackward, int backwardDeadband, int stopped, int forwardDeadband, int fullForward) {
 		this.output = new DeadbandedLinearMSPWMOutput(output, fullBackward, backwardDeadband, stopped, forwardDeadband, fullForward);
+		output.addUpdateListener(model);
 	}
 	
 
