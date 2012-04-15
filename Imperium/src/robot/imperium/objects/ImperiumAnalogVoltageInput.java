@@ -3,6 +3,7 @@ package robot.imperium.objects;
 import static robot.imperium.objects.ObjectTypeIds.ANALOG_INPUT_TYPE_ID;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
@@ -44,7 +45,7 @@ public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements 
 	}
 
 	@Override
-	public EnumSet<PinCapability> getRequiredCapabilities(int pinId) {
+	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.AnalogInput);
 	}
 	
@@ -72,6 +73,11 @@ public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements 
 	@Override
 	public double get() {
 		return getVoltage();
+	}
+
+	@Override
+	public void message(long[] values) {
+		//
 	}
 
 }

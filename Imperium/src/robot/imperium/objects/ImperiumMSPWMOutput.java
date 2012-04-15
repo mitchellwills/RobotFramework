@@ -3,6 +3,7 @@ package robot.imperium.objects;
 import static robot.imperium.objects.ObjectTypeIds.MSPWM_OUTPUT_TYPE_ID;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
@@ -46,7 +47,7 @@ public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOu
 	}
 
 	@Override
-	public EnumSet<PinCapability> getRequiredCapabilities(int pinId) {
+	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.MSPWM_Output);
 	}
 	
@@ -70,6 +71,11 @@ public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOu
 	@Override
 	public void setValue(int value) {
 		//don't do anything or could get out of sync
+	}
+
+	@Override
+	public void message(long[] values) {
+		//
 	}
 
 }

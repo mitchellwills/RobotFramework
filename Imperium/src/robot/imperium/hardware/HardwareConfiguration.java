@@ -1,7 +1,6 @@
 package robot.imperium.hardware;
 
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -48,7 +47,7 @@ public abstract class HardwareConfiguration {
 	 * @param capabilities capabilities to check for
 	 * @return true if the pin can support all the capabilities
 	 */
-	public boolean supports(int pinId, EnumSet<PinCapability> capabilities){
+	public boolean supports(int pinId, Set<PinCapability> capabilities){
 		return getCapabilities(pinId).containsAll(capabilities);
 	}
 

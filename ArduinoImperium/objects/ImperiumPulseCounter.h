@@ -12,8 +12,6 @@
 #include "Arduino.h"
 
 
-typedef void (*Interrupt)(void);
-
 class ImperiumPulseCounter: public ImperiumObject {
 	private:
 		unsigned int interruptNum;

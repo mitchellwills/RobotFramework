@@ -12,34 +12,36 @@
 
 
 static ImperiumPulseCounter* counterObjects[NUM_INTERRUPTS];
-
+static inline void intHandler(int interruptNum){
+	counterObjects[interruptNum]->count++;
+}
 #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega2560__)
 static void int0(){
-	counterObjects[0]->count++;
+	intHandler(0);
 }
 static void int1(){
-	counterObjects[1]->count++;
+	intHandler(1);
 }
 #if defined(__AVR_ATmega2560__)
 static void int2(){
-	counterObjects[2]->count++;
+	intHandler(2);
 }
 static void int3(){
-	counterObjects[3]->count++;
+	intHandler(3);
 }
 static void int4(){
-	counterObjects[4]->count++;
+	intHandler(4);
 }
 static void int5(){
-	counterObjects[5]->count++;
+	intHandler(5);
 }
 #endif
 #endif
 
 #if defined(__AVR_ATmega328P__)
-static Interrupt interruptHandlers[] = {int0, int1};
+static void (*interruptHandlers[])(void) = {int0, int1};
 #elif defined(__AVR_ATmega2560__)
-static Interrupt interruptHandlers[] = {int0, int1, int2, int3, int4, int5};
+static void (*interruptHandlers[])(void) = {int0, int1, int2, int3, int4, int5};
 #endif
 
 
@@ -49,10 +51,11 @@ ImperiumObject* ImperiumPulseCounter::newPulseCounter(int objectId, int* pins, i
 
 ImperiumPulseCounter::ImperiumPulseCounter(int objectId, int* pins, int pinCount) : ImperiumObject(objectId, pins, pinCount){
 	pinMode(getPin(0), INPUT);
-	digitalWrite(getPin(0), HIGH);
+	digitalWrite(getPin(0), HIGH);//pullup
+
 	interruptNum = digitalPinToInterrupt(getPin(0));
 	counterObjects[interruptNum] = this;
-	count = interruptNum;
+	count = 0;
 	attachInterrupt(interruptNum, interruptHandlers[interruptNum], RISING);
 }
 

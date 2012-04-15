@@ -285,6 +285,20 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 		}
 	}
 	
+	
+
+	private void message(ImperiumPacket packet) {
+		packet.resetReadPosition();
+		int objectId = packet.readInteger(1);
+		int numberSize = packet.readInteger(1);
+		int numberCount = (packet.getDataLength()-2)/numberSize;
+		long[] values = new long[numberCount];
+		for(int i = 0; i<numberCount; ++i){
+			values[i] = packet.readInteger(numberSize);
+		}
+		objects.get(objectId).message(values);
+	}
+	
 
 	private void error(ImperiumPacket packet) {
 		packet.resetReadPosition();
@@ -365,6 +379,9 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 			break;
 		case PacketIds.BULK_INPUT:
 			bulkValues(packet);
+			break;
+		case PacketIds.MESSAGE:
+			message(packet);
 			break;
 		default:
 			System.out.println("Received unknown packet: " + packet + " at "

@@ -3,6 +3,7 @@ package robot.imperium.objects;
 import static robot.imperium.objects.ObjectTypeIds.DIGITAL_INPUT_TYPE_ID;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
@@ -46,7 +47,7 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements Binary
 	}
 
 	@Override
-	public EnumSet<PinCapability> getRequiredCapabilities(int pinId) {
+	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.DigitalInput);
 	}
 	
@@ -63,6 +64,11 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements Binary
 	@Override
 	public void setValue(int value) {
 		currentState = value!=0;
+	}
+
+	@Override
+	public void message(long[] values) {
+		//
 	}
 
 }

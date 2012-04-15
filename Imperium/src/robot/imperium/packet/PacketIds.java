@@ -35,6 +35,11 @@ public interface PacketIds {
 	 */
 	int PING_RESPONSE = 6;
 	
+	/**
+	 * a message to/from an object
+	 */
+	int MESSAGE = 7;
+	
 	
 	/**
 	 * set a single value

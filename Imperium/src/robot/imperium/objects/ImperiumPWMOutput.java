@@ -3,6 +3,7 @@ package robot.imperium.objects;
 import static robot.imperium.objects.ObjectTypeIds.PWM_OUTPUT_TYPE_ID;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
@@ -45,7 +46,7 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 	}
 
 	@Override
-	public EnumSet<PinCapability> getRequiredCapabilities(int pinId) {
+	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.PWM_Output);
 	}
 	
@@ -77,6 +78,11 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 	@Override
 	public double getFrequency() {
 		return getDevice().getHardwareConfiguration().getPWMFrequency();
+	}
+
+	@Override
+	public void message(long[] values) {
+		//
 	}
 
 }

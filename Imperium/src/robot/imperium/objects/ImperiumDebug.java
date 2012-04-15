@@ -3,6 +3,7 @@ package robot.imperium.objects;
 import static robot.imperium.objects.ObjectTypeIds.DEBUG_TYPE_ID;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
@@ -27,7 +28,7 @@ public class ImperiumDebug extends ImperiumDeviceObject {
 	}
 
 	@Override
-	public EnumSet<PinCapability> getRequiredCapabilities(int pinId) {
+	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.noneOf(PinCapability.class);
 	}
 	
@@ -39,6 +40,11 @@ public class ImperiumDebug extends ImperiumDeviceObject {
 	@Override
 	public void setValue(int value) {
 		System.out.println("Debug Value: "+value);
+	}
+
+	@Override
+	public void message(long[] values) {
+		//
 	}
 
 

@@ -15,4 +15,5 @@ public interface ObjectTypeIds {
 	int MSPWM_OUTPUT_TYPE_ID = 5;
 	int ANALOG_INPUT_TYPE_ID = 6;
 	int PULSE_COUNTER_TYPE_ID = 7;
+	int PPM_READER_TYPE_ID = 8;
 }

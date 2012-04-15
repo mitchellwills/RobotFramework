@@ -44,6 +44,15 @@ void sendImperiumInputPacket(int objectId, long value){
 	sendPacket.appendInteger(value, 4);
 	sendImperiumPacket(sendPacket);
 }
+void sendImperiumMessagePacket(int objectId, long* data, int dataSize, int dataLength){
+	sendPacket.setId(PACKETID_MESSAGE);
+	sendPacket.setDataLength(0);
+	sendPacket.appendInteger(objectId, 1);
+	sendPacket.appendInteger(dataSize, 1);
+	for(int i = 0; i<dataLength; ++i)
+		sendPacket.appendInteger(data[i], dataSize);
+	sendImperiumPacket(sendPacket);
+}
 
 
 

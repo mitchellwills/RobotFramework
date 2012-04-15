@@ -1,6 +1,6 @@
 package robot.imperium;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 import robot.imperium.hardware.HardwareConfiguration;
 import robot.imperium.hardware.PinCapability;
@@ -100,7 +100,7 @@ public abstract class ImperiumDeviceObject implements RobotObject{
 	 * @param pinId
 	 * @return the required capabilities for a given pinId
 	 */
-	public abstract EnumSet<PinCapability> getRequiredCapabilities(int pinId);
+	public abstract Set<PinCapability> getRequiredCapabilities(int pinId);
 	
 	/**
 	 * initialize the device
@@ -116,6 +116,15 @@ public abstract class ImperiumDeviceObject implements RobotObject{
 	 * 
 	 */
 	public abstract void setValue(int value);
+
+	/**
+	 * #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#<br>
+	 * NOTE: this is not intended to be called by a user<br>
+	 * #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
+	 * @param values the values in the message
+	 * 
+	 */
+	public abstract void message(long[] values);
 
 	
 }
