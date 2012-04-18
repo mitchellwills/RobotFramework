@@ -60,6 +60,7 @@ void sendImperiumMessagePacket(int objectId, long* data, int dataSize, int dataL
 
 
 static void processGlobalConfigure(ImperiumPacket& packet){
+	//TODO: Reset interrupts
 	sendPacket.setId(PACKETID_CONFIGURE_CONFIRM);
 	sendPacket.setDataLength(0);
 
