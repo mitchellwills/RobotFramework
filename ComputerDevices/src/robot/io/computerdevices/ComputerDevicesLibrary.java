@@ -27,9 +27,9 @@ public class ComputerDevicesLibrary {
 	static{
 		try {
 			URL nativeLibarayURL = ComputerDevicesLibrary.class.getResource(System.mapLibraryName(LIBRARY_NAME));
-			System.out.println("copying "+nativeLibarayURL);
 			InputStream is = nativeLibarayURL.openStream();
 			File tmpFile = new File(System.mapLibraryName(LIBRARY_NAME));
+			System.out.println("copying "+nativeLibarayURL+" to "+tmpFile.getAbsolutePath());
 			tmpFile.deleteOnExit();
 			OutputStream os = new FileOutputStream(tmpFile);
 			

@@ -1,6 +1,6 @@
 package robot.imperium.objects;
 
-import static robot.imperium.objects.ObjectTypeIds.PULSE_COUNTER_TYPE_ID;
+import static robot.imperium.objects.ObjectTypeIds.QUAD_ENCODER_TYPE_ID;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -11,21 +11,20 @@ import robot.imperium.hardware.PinCapability;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 import robot.io.counter.Counter;
-import robot.util.ByteUtil;
 
 
 /**
  * @author Mitchell
  * 
- * A pulse counter
+ * A quadrature encoder
  *
  */
-public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counter{
+public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Counter{
 
 	private long count;
 	
 
-	private final RobotObjectModel<ImperiumPulseCounter> model = new RobotObjectModel<ImperiumPulseCounter>(this);
+	private final RobotObjectModel<ImperiumQuadEncoder> model = new RobotObjectModel<ImperiumQuadEncoder>(this);
 
 	@Override
 	public void addUpdateListener(RobotObjectListener<Counter> listener) {
@@ -39,12 +38,13 @@ public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counte
 	
 	
 	/**
-	 * Create a new USBIODigitalInput
+	 * Create a new ImeriumQuadEncoder
 	 * @param device
-	 * @param pin
+	 * @param pinA 
+	 * @param pinB 
 	 */
-	public ImperiumPulseCounter(ImperiumDevice device, String pin) {
-		super(PULSE_COUNTER_TYPE_ID, device, pin);
+	public ImperiumQuadEncoder(ImperiumDevice device, String pinA, String pinB) {
+		super(QUAD_ENCODER_TYPE_ID, device, pinA, pinB);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counte
 
 	@Override
 	public void setValue(int value) {
-		count = ByteUtil.toUnsigned(value);
+		count = value;
 	}
 
 	@Override
