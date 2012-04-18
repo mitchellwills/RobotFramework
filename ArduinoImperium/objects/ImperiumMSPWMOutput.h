@@ -11,11 +11,14 @@
 #include "ImperiumObject.h"
 #include "Servo.h"
 
+#define MSPWM_TIMEOUT 300
+
 #define MSPWM_DISABLED_VALUE (-1)
 
 class ImperiumMSPWMOutput: public ImperiumObject {
 	private:
 		Servo msOutput;
+		long lastSet;
 	public:
 		static ImperiumObject* newMSPWMOutput(int objectId, int* pins, int pinCount);
 

@@ -9,12 +9,11 @@
 #include "ImperiumAnalogInput.h"
 #include "ImperiumPulseCounter.h"
 #include "ImperiumPPMReader.h"
+#include "ImperiumQuadEncoder.h"
 
 #include "MemoryFree.h"
 
-int main(){
-	init();
-
+void setup(){
 	Serial.begin(115200);
 
 	initImperium(Serial);
@@ -27,9 +26,9 @@ int main(){
 	setObjectTypeInitializer(6, ImperiumAnalogInput::newAnalogInput);
 	setObjectTypeInitializer(7, ImperiumPulseCounter::newPulseCounter);
 	setObjectTypeInitializer(8, ImperiumPPMReader::newPPMReader);
+	setObjectTypeInitializer(9, ImperiumQuadEncoder::newQuadEncoder);
+}
 
-
-	while(true){
-		periodicImperium();
-	}
+void loop(){
+	periodicImperium();
 }

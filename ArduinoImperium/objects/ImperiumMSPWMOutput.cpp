@@ -19,9 +19,13 @@ ImperiumMSPWMOutput::ImperiumMSPWMOutput(int objectId, int* pins, int pinCount) 
 
 
 void ImperiumMSPWMOutput::update(){
-
+#if MSPWM_TIMEOUT!=0
+	if(millis()-lastSet>MSPWM_TIMEOUT)
+		setValue(MSPWM_DISABLED_VALUE);
+#endif
 }
 void ImperiumMSPWMOutput::setValue(long value){
+	lastSet = millis();
 	if(value==MSPWM_DISABLED_VALUE){
 		msOutput.detach();
 	}

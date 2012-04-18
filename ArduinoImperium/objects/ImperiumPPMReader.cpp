@@ -10,6 +10,7 @@
 
 #include "ImperiumPPMReader.h"
 #include "Imperium.h"
+#include "pins.h"
 
 #define SYNC_PULSE_LENGTH 3000
 static ImperiumPPMReader* readerObjects[NUM_INTERRUPTS];
@@ -34,35 +35,10 @@ static inline void intHandler(int interruptNum, int pin){
 		reader->lastFall = micros();
 	}
 }
-#if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega2560__)
-static void int0(){//pin 2
-	intHandler(0, 2);
-}
-static void int1(){//pin 3
-	intHandler(1, 3);
-}
-#if defined(__AVR_ATmega2560__)
-static void int2(){//pin 21
-	intHandler(2, 21);
-}
-static void int3(){//pin 20
-	intHandler(3, 20);
-}
-static void int4(){//pin 19
-	intHandler(4, 19);
-}
-static void int5(){//pin 18
-	intHandler(5, 18);
-}
-#endif
-#endif
 
-#if defined(__AVR_ATmega328P__)
-static void (*interruptHandlers[])(void) = {int0, int1};
-#elif defined(__AVR_ATmega2560__)
-static void (*interruptHandlers[])(void) = {int0, int1, int2, int3, int4, int5};
-#endif
-
+#define INTERRUPT_HANDLER intHandler
+#include "interrupts.h"
+#undef INTERRUPT_HANDLER
 
 
 

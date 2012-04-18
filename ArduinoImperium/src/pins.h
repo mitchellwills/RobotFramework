@@ -10,11 +10,11 @@
 
 
 #if defined(__AVR_ATmega328P__)
-#include "pins_arduino_standard.h"
 #define NUM_INTERRUPTS 2
 #elif defined(__AVR_ATmega2560__)
-#include "pins_arduino_mega.h"
 #define NUM_INTERRUPTS 6
+#elif defined(__AVR_AT90USB1286__)
+#define NUM_INTERRUPTS 8
 #endif
 
 
