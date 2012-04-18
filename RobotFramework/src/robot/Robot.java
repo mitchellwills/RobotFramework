@@ -8,7 +8,7 @@ package robot;
  */
 public abstract class Robot {
 	/**
-	 * Initialization of all robot commuincation with other devices should occur here
+	 * Initialization of all robot communication with other devices should occur here
 	 */
 	public abstract void initializeIO();
 	/**

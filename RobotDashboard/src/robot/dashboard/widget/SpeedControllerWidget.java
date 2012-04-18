@@ -24,7 +24,6 @@ public class SpeedControllerWidget extends Widget implements
 		RobotObjectListener<SpeedController> {
 
 	private final SpeedController output;
-	private final SpeedControllerWidgetCanvas canvas;
 
 	/**
 	 * Create a new widget
@@ -36,7 +35,7 @@ public class SpeedControllerWidget extends Widget implements
 		setBorder(new TitledBorder("Speed Controller: " + output));
 		setLayout(new BorderLayout());
 
-		add(canvas = new SpeedControllerWidgetCanvas());
+		add(new SpeedControllerWidgetCanvas());
 
 		objectUpdated(output);
 		output.addUpdateListener(this);

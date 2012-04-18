@@ -6,15 +6,13 @@ import robot.util.RobotUtil;
  * @author Mitchell
  * 
  * A simple implementation of a PID loop
+ * based on http://en.wikipedia.org/wiki/PID_loop
  *
  */
 public class PIDController implements ControlLoop{
 	
 	private double Kp;
-	//TODO implement I and D terms of loop
-	@SuppressWarnings("unused")
 	private double Ki;
-	@SuppressWarnings("unused")
 	private double Kd;
 
 	private double threshold;
@@ -27,6 +25,9 @@ public class PIDController implements ControlLoop{
 	private final long updateDelay;
 	
 	private double setpoint;
+	private double integral;
+	private double previousError;
+	private double lastUpdate;
 	
 
 	/**
@@ -80,6 +81,9 @@ public class PIDController implements ControlLoop{
 		this.updateDelay = updateDelay;
 		
 		setpoint = getPosition();
+		lastUpdate = System.currentTimeMillis();
+		integral = 0;
+		previousError = 0;
 		
 		new PIDControllerThread().start();
 	}
@@ -87,17 +91,24 @@ public class PIDController implements ControlLoop{
 	/**
 	 * perform an update on the pid loop
 	 */
-	public void update(){
-		double error = getPosition() - setpoint;
+	public synchronized void update(){
+		double position = getPosition();
+		double time = System.currentTimeMillis();
+		double dt = time - lastUpdate;
 		
-		double value = Kp * error;
+		double error = position - setpoint;
+		integral += dt * error;
+		double derivative = (error - previousError)/dt;
 		
-		//TODO do integral and derivative terms
+		double value = Kp * error + Ki * integral + Kd * derivative;
 		
 		value = RobotUtil.limit(value, minOutput, maxOutput);
 		if(Math.abs(value)<threshold)
 			value = 0;
 		output.set(value);
+		
+		previousError = error;
+		lastUpdate = time;
 	}
 
 	@Override
