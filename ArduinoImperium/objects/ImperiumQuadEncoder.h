@@ -17,7 +17,7 @@ class ImperiumQuadEncoder: public ImperiumObject {
 	public:
 		unsigned int pinAInterrupt;
 		unsigned int pinBInterrupt;
-		int last;
+		volatile long state;
 		volatile long count;
 		static ImperiumObject* newQuadEncoder(int objectId, int* pins, int pinCount);
 

@@ -14,20 +14,51 @@
 
 static ImperiumQuadEncoder* counterObjects[NUM_INTERRUPTS];
 static inline void intHandler(unsigned int interruptNum, unsigned int pin){
-	int current = pin==counterObjects[interruptNum]->pinAInterrupt;
-	if(counterObjects[interruptNum]->last){
-		if(current)
+	int currentPin = (interruptNum==counterObjects[interruptNum]->pinAInterrupt);//true for pin A
+	int currentPinState = digitalRead(pin);//just went high
+	int state = counterObjects[interruptNum]->state;
+
+	if(state==1){
+		if(currentPin && currentPinState){
+			state = 4;
 			counterObjects[interruptNum]->count--;
-		else
+		}
+		else if(!currentPin && currentPinState){
+			state = 2;
 			counterObjects[interruptNum]->count++;
+		}
 	}
-	else{
-		if(current)
-			counterObjects[interruptNum]->count++;
-		else
+	else if(state==2){
+		if(!currentPin && !currentPinState){
+			state = 1;
 			counterObjects[interruptNum]->count--;
+		}
+		else if(currentPin && currentPinState){
+			state = 3;
+			counterObjects[interruptNum]->count++;
+		}
 	}
-	counterObjects[interruptNum]->last = current;
+	else if(state==3){
+		if(currentPin && !currentPinState){
+			state = 2;
+			counterObjects[interruptNum]->count--;
+		}
+		else if(!currentPin && !currentPinState){
+			state = 4;
+			counterObjects[interruptNum]->count++;
+		}
+	}
+	else if(state==4){
+		if(!currentPin && currentPinState){
+			state = 3;
+			counterObjects[interruptNum]->count--;
+		}
+		else if(currentPin && !currentPinState){
+			state = 1;
+			counterObjects[interruptNum]->count++;
+		}
+	}
+	counterObjects[interruptNum]->state = state;
 }
 
 
@@ -54,10 +85,10 @@ ImperiumQuadEncoder::ImperiumQuadEncoder(int objectId, int* pins, int pinCount) 
 	counterObjects[pinBInterrupt] = this;
 
 	count = 0;
-	last = 0;
+	state = 1;
 
-	attachInterrupt(pinAInterrupt, interruptHandlers[pinAInterrupt], RISING);
-	attachInterrupt(pinBInterrupt, interruptHandlers[pinBInterrupt], RISING);
+	attachInterrupt(pinAInterrupt, interruptHandlers[pinAInterrupt], CHANGE);
+	attachInterrupt(pinBInterrupt, interruptHandlers[pinBInterrupt], CHANGE);
 }
 
 
@@ -68,7 +99,7 @@ void ImperiumQuadEncoder::setValue(long value){
 }
 
 long ImperiumQuadEncoder::getValue(){
-	return count;
+	return count | (state<<16);
 }
 
 
