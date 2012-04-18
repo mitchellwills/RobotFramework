@@ -22,7 +22,7 @@ import robot.util.ByteUtil;
  */
 public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counter{
 
-	private long count;
+	private int count;
 	
 
 	private final RobotObjectModel<ImperiumPulseCounter> model = new RobotObjectModel<ImperiumPulseCounter>(this);
@@ -58,13 +58,13 @@ public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counte
 	}
 
 	@Override
-	public long getCount() {
+	public int getCount() {
 		return count;
 	}
 
 	@Override
 	public void setValue(int value) {
-		count = ByteUtil.toUnsigned(value);
+		count = (int) ByteUtil.toUnsigned(value);
 	}
 
 	@Override

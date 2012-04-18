@@ -22,7 +22,10 @@ public class PPMChannelJoystickAxis implements JoystickAxis{
 
 	@Override
 	public double getValue() {
-		return (reader.getChannel(channel)-center)/((double)range);
+		long value = reader.getChannel(channel);
+		if(value == PPMReader.INVALID_VALUE)
+			return 0;
+		return (value-center)/((double)range);
 	}
 
 }

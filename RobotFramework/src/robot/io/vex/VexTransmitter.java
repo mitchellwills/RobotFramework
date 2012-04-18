@@ -6,6 +6,7 @@ import robot.io.RobotObjectListener;
 import robot.io.binary.BinaryInput;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickAxis;
+import robot.io.joystick.JoystickAxisDirectional;
 import robot.io.joystick.JoystickButton;
 import robot.io.joystick.JoystickDirectional;
 import robot.io.ppm.PPMChannelJoystickAxis;
@@ -39,6 +40,8 @@ public class VexTransmitter implements Joystick{
 	private final PPMReader reader;
 	private final PPMChannelJoystickAxis[] axes;
 	private final VexTransmitterButton[] buttons;
+	private final JoystickDirectional leftDirectional;
+	private final JoystickDirectional rightDirectional;
 	/**
 	 * @param reader the reader that reads the input from the transmitter
 	 */
@@ -56,6 +59,8 @@ public class VexTransmitter implements Joystick{
 		buttons[1] = new VexTransmitterButton(reader, 4, true);
 		buttons[2] = new VexTransmitterButton(reader, 5, false);
 		buttons[3] = new VexTransmitterButton(reader, 5, true);
+		leftDirectional = new JoystickAxisDirectional(getLeftXAxis(), getLeftYAxis());
+		rightDirectional = new JoystickAxisDirectional(getRightXAxis(), getRightYAxis());
 		reader.addUpdateListener(model);
 	}
 	@Override
@@ -102,9 +107,12 @@ public class VexTransmitter implements Joystick{
 
 		@Override
 		public boolean get() {
+			long value = reader.getChannel(channel);
+			if(value == PPMReader.INVALID_VALUE)
+				return false;
 			if(up)
-				return reader.getChannel(channel)<BUTTON_CENTER-BUTTON_THRESHOLD;
-			return reader.getChannel(channel)>BUTTON_CENTER+BUTTON_THRESHOLD;
+				return value<BUTTON_CENTER-BUTTON_THRESHOLD;
+			return value>BUTTON_CENTER+BUTTON_THRESHOLD;
 		}
 		
 	}
@@ -128,6 +136,77 @@ public class VexTransmitter implements Joystick{
 	@Override
 	public int getDirectionalCount() {
 		return 0;
+	}
+
+	
+	/**
+	 * @return the left x axis of the vex transmitter
+	 */
+	public JoystickAxis getLeftXAxis(){
+		return getAxis(3);
+	}
+	
+	/**
+	 * @return the left y axis of the vex transmitter
+	 */
+	public JoystickAxis getLeftYAxis(){
+		return getAxis(2);
+	}
+	
+	/**
+	 * @return the right x axis of the vex transmitter
+	 */
+	public JoystickAxis getRightXAxis(){
+		return getAxis(0);
+	}
+	
+	/**
+	 * @return the right y axis of the vex transmitter
+	 */
+	public JoystickAxis getRightYAxis(){
+		return getAxis(1);
+	}
+
+	/**
+	 * @return the left up button of the vex transmitter
+	 */
+	public JoystickButton getLeftUpButton(){
+		return getButton(1);
+	}
+
+	/**
+	 * @return the left down button of the vex transmitter
+	 */
+	public JoystickButton getLeftDownButton(){
+		return getButton(0);
+	}
+
+	/**
+	 * @return the right up button of the vex transmitter
+	 */
+	public JoystickButton getRightUpButton(){
+		return getButton(3);
+	}
+
+	/**
+	 * @return the right down button of the vex transmitter
+	 */
+	public JoystickButton getRightDownButton(){
+		return getButton(2);
+	}
+
+	/**
+	 * @return the left x and y axes of the vex transmitter as a directional
+	 */
+	public JoystickDirectional getLeftDirectional(){
+		return leftDirectional;
+	}
+
+	/**
+	 * @return the right x and y axes of the vex transmitter as a directional
+	 */
+	public JoystickDirectional getRightDirectional(){
+		return rightDirectional;
 	}
 	
 

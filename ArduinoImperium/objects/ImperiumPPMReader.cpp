@@ -12,7 +12,10 @@
 #include "Imperium.h"
 #include "pins.h"
 
-#define SYNC_PULSE_LENGTH 3000
+#define INVALID_VALUE -1
+#define SYNC_PULSE_LENGTH 5000
+
+
 static ImperiumPPMReader* readerObjects[NUM_INTERRUPTS];
 static inline void intHandler(int interruptNum, int pin){
 	ImperiumPPMReader* reader = readerObjects[interruptNum];
@@ -62,6 +65,9 @@ ImperiumPPMReader::ImperiumPPMReader(int objectId, int* pins, int pinCount) : Im
 	numChannels = getPin(1);//use pin for number of channels
 	channels = (long volatile*) malloc(sizeof(long)*numChannels);
 	currentChannel = -1;
+	int i;
+	for(i = 0; i<numChannels; ++i)
+		channels[i] = INVALID_VALUE;
 
 	interruptNum = digitalPinToInterrupt(getPin(0));
 	readerObjects[interruptNum] = this;

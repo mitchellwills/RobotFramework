@@ -11,6 +11,11 @@ import robot.io.UpdatableObject;
  */
 public interface PPMReader extends Input, UpdatableObject<PPMReader>{
 	/**
+	 * the value returned by getChannel if there is no valid data to be returned
+	 */
+	public static final int INVALID_VALUE = -1;
+	
+	/**
 	 * @param channel a ppm channel
 	 * @return the value of the given channel in us
 	 */

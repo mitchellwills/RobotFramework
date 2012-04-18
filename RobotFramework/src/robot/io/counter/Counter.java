@@ -14,5 +14,5 @@ public interface Counter  extends Input, UpdatableObject<Counter> {
 	/**
 	 * @return the value of the counter
 	 */
-	public long getCount();
+	public int getCount();
 }

@@ -10,7 +10,7 @@ import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.hardware.PinCapability;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
-import robot.io.counter.Counter;
+import robot.io.encoder.Encoder;
 
 
 /**
@@ -19,20 +19,20 @@ import robot.io.counter.Counter;
  * A quadrature encoder
  *
  */
-public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Counter{
+public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Encoder{
 
-	private long count;
+	private int position;
 	
 
 	private final RobotObjectModel<ImperiumQuadEncoder> model = new RobotObjectModel<ImperiumQuadEncoder>(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener<Counter> listener) {
+	public void addUpdateListener(RobotObjectListener<Encoder> listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<Counter> listener) {
+	public void removeUpdateListener(RobotObjectListener<Encoder> listener) {
 		model.removeUpdateListener(listener);
 	}
 	
@@ -54,17 +54,17 @@ public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Counter
 	
 	@Override
 	public void initialize(){
-		count = 0;
+		position = 0;
 	}
 
 	@Override
-	public long getCount() {
-		return count;
+	public int getPosition() {
+		return position;
 	}
 
 	@Override
 	public void setValue(int value) {
-		count = value;
+		position = value;
 	}
 
 	@Override
