@@ -1,5 +1,11 @@
 package robot.imperium.hardware;
 
+import static robot.imperium.hardware.PinCapability.DigitalInput;
+import static robot.imperium.hardware.PinCapability.DigitalOutput;
+import static robot.imperium.hardware.PinCapability.MSPWM_Output;
+import static robot.imperium.hardware.PinCapability.SelectablePullUp;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +57,13 @@ public abstract class HardwareConfiguration {
 		return getCapabilities(pinId).containsAll(capabilities);
 	}
 
+	private static final PinCapability[] AVRPinCapabilities = {DigitalInput, DigitalOutput, SelectablePullUp, MSPWM_Output};
+	protected Pin addAVRPin(int pinId, String boardLabel, PinCapability... capabilities){
+		PinCapability[] cap = Arrays.copyOf(capabilities, capabilities.length+AVRPinCapabilities.length);
+		System.arraycopy(AVRPinCapabilities, 0, cap, capabilities.length, AVRPinCapabilities.length);
+		return addPin(pinId, boardLabel, cap);
+	}
+
 	protected Pin addPin(int pinId, String boardLabel, PinCapability... capabilities){
 		Pin pin = new Pin(pinId, boardLabel);
 		for(PinCapability capability:capabilities)
@@ -84,7 +97,7 @@ public abstract class HardwareConfiguration {
 	 * @param label the name or label of a pin
 	 * @return the pin with the given label or name, null if no pin was found
 	 */
-	private Pin getPin(String label){
+	protected Pin getPin(String label){
 		for(Pin pin:pins.values()){
 			if(pin.hasLabel(label))
 				return pin;

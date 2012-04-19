@@ -51,15 +51,15 @@ public final class RxTxComputerSerialPort implements SerialInterface{
 			is = port.getInputStream();
 			os = port.getOutputStream();
 		} catch (NoSuchPortException e) {
-			throw new RobotInitializationException("Could not initialize Serial Port: The port does not exist", e);
+			throw new RobotInitializationException("Could not initialize Serial Port ("+name+"): The port does not exist", e);
 		} catch (PortInUseException e) {
-			throw new RobotInitializationException("Could not initialize Serial Port: The port is in use", e);
+			throw new RobotInitializationException("Could not initialize Serial Port ("+name+"): The port is in use", e);
 		} catch (ClassCastException e) {
-			throw new RobotInitializationException("Could not initialize Serial Port: It is not a serial port", e);
+			throw new RobotInitializationException("Could not initialize Serial Port ("+name+"): It is not a serial port", e);
 		} catch (UnsupportedCommOperationException e) {
-			throw new RobotInitializationException("Could not initialize Serial Port: The configuration is not supported", e);
+			throw new RobotInitializationException("Could not initialize Serial Port ("+name+"): The configuration is not supported", e);
 		} catch (IOException e) {
-			throw new RobotInitializationException("Could not initialize Serial Port: IO error", e);
+			throw new RobotInitializationException("Could not initialize Serial Port ("+name+"): IO error", e);
 		}
 	}
 

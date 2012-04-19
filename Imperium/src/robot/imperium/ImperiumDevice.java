@@ -202,7 +202,6 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 						object.initialize();
 
 					setState(ImperiumDeviceState.CONNECTED);
-					ping();
 				} else
 					throw new RobotInitializationException(
 							"Error configuring Imperium Device. The device did not respond within 1 second");
@@ -251,6 +250,8 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	
 
 	private void inputValue(ImperiumPacket packet) {
+		if(getState() != ImperiumDeviceState.CONNECTED)
+			return;
 		packet.resetReadPosition();
 		int objectId = packet.readInteger(1);
 		int value = packet.readInteger(4);
@@ -267,6 +268,9 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 		return bulkUpdateRate;
 	}
 	private void bulkValues(ImperiumPacket packet) {
+		if(getState() != ImperiumDeviceState.CONNECTED)
+			return;
+		
 		long time = System.currentTimeMillis();
 		long diff = time-lastBulkUpdate;
 		if(diff>=1000){
@@ -288,6 +292,9 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	
 
 	private void message(ImperiumPacket packet) {
+		if(getState() != ImperiumDeviceState.CONNECTED)
+			return;
+		
 		packet.resetReadPosition();
 		int objectId = packet.readInteger(1);
 		int numberSize = packet.readInteger(1);
@@ -334,6 +341,7 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 				try {
 					if (is.available() > 0) {
 						packet.read(is);
+						//System.out.println("Received: "+packet);
 						processInputPacket(packet);
 
 						long time = System.currentTimeMillis();
@@ -348,7 +356,6 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 						}
 						packetReceivedSizeTmp+=packet.size();
 						++packetReceivedCountTmp;
-						//System.out.println("Received: "+packet);
 					} else
 						RobotUtil.sleep(2);
 				} catch (Exception e) {
