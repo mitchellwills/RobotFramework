@@ -25,7 +25,6 @@ void initImperium(Stream & _stream){
 	stream = &_stream;
 	for(int i = 0; i<MAX_OBJECT_TYPES; ++i)
 		objectInitializers[i] = NULL;
-
 }
 
 void setObjectTypeInitializer(int typeId, ObjectInitializer initializer){
@@ -36,6 +35,9 @@ void setObjectTypeInitializer(int typeId, ObjectInitializer initializer){
 
 void sendImperiumPacket(ImperiumPacket& packet){
 	packet.write(*stream);
+#if defined(__AVR_AT90USB1286__)
+	Serial.send_now();
+#endif
 }
 void sendImperiumInputPacket(int objectId, long value){
 	sendPacket.setId(PACKETID_INPUT_VALUE);

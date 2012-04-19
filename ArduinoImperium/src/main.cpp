@@ -11,10 +11,11 @@
 #include "ImperiumPPMReader.h"
 #include "ImperiumQuadEncoder.h"
 
-#include "MemoryFree.h"
 
 void setup(){
+
 	Serial.begin(115200);
+	Serial.flush();
 
 	initImperium(Serial);
 
