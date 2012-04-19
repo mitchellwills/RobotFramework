@@ -20,6 +20,8 @@ ImperiumDigitalOutput::ImperiumDigitalOutput(int objectId, int* pins, int pinCou
 void ImperiumDigitalOutput::update(){
 
 }
+void ImperiumDigitalOutput::receiveMessage(ImperiumPacket& packet){
+}
 void ImperiumDigitalOutput::setValue(long value){
 	digitalWrite(getPin(0), value!=0);
 }

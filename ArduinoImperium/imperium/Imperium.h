@@ -19,6 +19,7 @@ void initImperium(Stream & _stream);
 void sendImperiumPacket(ImperiumPacket& packet);
 void sendImperiumInputPacket(int objectId, long value);
 void sendImperiumMessagePacket(int objectId, long* data, int dataSize, int dataLength);
+void sendImperiumMessagePacket(int objectId, char* data, int dataLength);
 
 typedef ImperiumObject* (*ObjectInitializer)(int objectId, int* pins, int pinCount);
 

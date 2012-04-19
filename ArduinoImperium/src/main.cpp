@@ -10,6 +10,7 @@
 #include "ImperiumPulseCounter.h"
 #include "ImperiumPPMReader.h"
 #include "ImperiumQuadEncoder.h"
+#include "ImperiumSerialPort.h"
 
 
 void setup(){
@@ -28,6 +29,7 @@ void setup(){
 	setObjectTypeInitializer(7, ImperiumPulseCounter::newPulseCounter);
 	setObjectTypeInitializer(8, ImperiumPPMReader::newPPMReader);
 	setObjectTypeInitializer(9, ImperiumQuadEncoder::newQuadEncoder);
+	setObjectTypeInitializer(10, ImperiumSerialPort::newSerialPort);
 }
 
 void loop(){

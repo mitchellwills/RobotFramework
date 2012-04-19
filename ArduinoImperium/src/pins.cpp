@@ -27,3 +27,36 @@ int digitalPinToInterrupt(int pin) { //see WInterrupts.c
 		return -1;
 	}
 }
+
+
+#if defined(__AVR_AT90USB1286__)
+HardwareSerial UART = HardwareSerial();
+#endif
+
+Stream* digitalPinToSerial(int pin, unsigned long baud){
+#if defined(__AVR_ATmega328P__)
+	return NULL;
+
+#elif defined(__AVR_ATmega2560__)
+	if(pin==19 || pin==18){
+		Serial1.begin(baud);
+		return &Serial1;
+	}
+	if(pin==17 || pin==16){
+		Serial2.begin(baud);
+		return &Serial2;
+	}
+	if(pin==15 || pin==14){
+		Serial3.begin(baud);
+		return &Serial3;
+	}
+	return NULL;
+
+#elif defined(__AVR_AT90USB1286__)
+	if(pin==2 || pin==3){
+		UART.begin(baud);
+		return &UART;
+	}
+	return NULL;
+#endif
+}

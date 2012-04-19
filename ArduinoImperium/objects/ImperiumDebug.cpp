@@ -19,6 +19,8 @@ ImperiumDebug::ImperiumDebug(int objectId, int* pins, int pinCount) : ImperiumOb
 
 void ImperiumDebug::update(){
 }
+void ImperiumDebug::receiveMessage(ImperiumPacket& packet){
+}
 
 void ImperiumDebug::setValue(long value){
 }

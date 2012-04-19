@@ -24,6 +24,8 @@ void ImperiumMSPWMOutput::update(){
 		setValue(MSPWM_DISABLED_VALUE);
 #endif
 }
+void ImperiumMSPWMOutput::receiveMessage(ImperiumPacket& packet){
+}
 void ImperiumMSPWMOutput::setValue(long value){
 	lastSet = millis();
 	if(value==MSPWM_DISABLED_VALUE){

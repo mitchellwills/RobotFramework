@@ -81,6 +81,8 @@ void ImperiumPPMReader::update(){
 		lastSentFrame = frameId;
 	}
 }
+void ImperiumPPMReader::receiveMessage(ImperiumPacket& packet){
+}
 
 void ImperiumPPMReader::setValue(long value){
 }

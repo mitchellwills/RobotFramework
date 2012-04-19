@@ -22,6 +22,7 @@ class ImperiumPulseCounter: public ImperiumObject {
 		ImperiumPulseCounter(int objectId, int* pins, int pinCount);
 
 		virtual void update();
+		virtual void receiveMessage(ImperiumPacket& packet);
 		virtual void setValue(long value);
 		virtual long getValue();
 };

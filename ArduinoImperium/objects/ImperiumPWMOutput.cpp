@@ -21,6 +21,8 @@ ImperiumPWMOutput::ImperiumPWMOutput(int objectId, int* pins, int pinCount) : Im
 void ImperiumPWMOutput::update(){
 
 }
+void ImperiumPWMOutput::receiveMessage(ImperiumPacket& packet){
+}
 void ImperiumPWMOutput::setValue(long value){
 	analogWrite(getPin(0), value);
 	_value = value;

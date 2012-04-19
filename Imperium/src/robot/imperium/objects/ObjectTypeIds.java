@@ -17,4 +17,5 @@ public interface ObjectTypeIds {
 	int PULSE_COUNTER_TYPE_ID = 7;
 	int PPM_READER_TYPE_ID = 8;
 	int QUAD_ENCODER_TYPE_ID = 9;
+	int SERIAL_PORT_TYPE_ID = 10;
 }

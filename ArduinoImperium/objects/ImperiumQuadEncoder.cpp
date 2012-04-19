@@ -61,6 +61,8 @@ ImperiumQuadEncoder::ImperiumQuadEncoder(int objectId, int* pins, int pinCount) 
 
 void ImperiumQuadEncoder::update(){
 }
+void ImperiumQuadEncoder::receiveMessage(ImperiumPacket& packet){
+}
 
 void ImperiumQuadEncoder::setValue(long value){
 }

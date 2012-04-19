@@ -56,6 +56,15 @@ void sendImperiumMessagePacket(int objectId, long* data, int dataSize, int dataL
 	sendImperiumPacket(sendPacket);
 }
 
+void sendImperiumMessagePacket(int objectId, char* data, int dataLength){
+	sendPacket.setId(PACKETID_MESSAGE);
+	sendPacket.setDataLength(0);
+	sendPacket.appendInteger(objectId, 1);
+	sendPacket.appendInteger(1, 1);
+	for(int i = 0; i<dataLength; ++i)
+		sendPacket.appendInteger(data[i], 1);
+	sendImperiumPacket(sendPacket);
+}
 
 
 
@@ -124,6 +133,11 @@ static void sendBulkInput(){
 	}
 	sendImperiumPacket(sendPacket);
 }
+static void processMessage(ImperiumPacket& packet){
+	packet.resetReadPosition();
+	int objectId = packet.readUInteger(1);
+	objects[objectId]->receiveMessage(packet);
+}
 
 
 static void readOnePacket(){
@@ -138,6 +152,9 @@ static void readOnePacket(){
 			break;
 		case PACKETID_PING_REQUEST:
 			processPing(readPacket);
+			break;
+		case PACKETID_MESSAGE:
+			processMessage(readPacket);
 			break;
 		default:
 			errorCode = 5;

@@ -462,4 +462,26 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 		}
 	}
 
+	/**
+	 * Send a message to an object on the device
+	 * @param object the object this message is for
+	 * @param data the message data
+	 * @param off offset from the start
+	 * @param length number of bytes to write
+	 */
+	public void sendMessagePacket(ImperiumDeviceObject object, byte[] data, int off, int length) {
+		ImperiumPacket packet = new ImperiumPacket();
+		packet.setId(PacketIds.MESSAGE);
+		packet.setDataLength(0);
+		packet.appendInteger(object.getObjectId(), 1);
+		packet.appendInteger(length, 1);
+		for(int i = 0; i<length; ++i)
+			packet.appendInteger(data[off+i], 1);
+		try {
+			sendPacket(packet);
+		} catch (IOException e) {
+			throw new RobotException("Error setting output of " + object, e);
+		}
+	}
+
 }

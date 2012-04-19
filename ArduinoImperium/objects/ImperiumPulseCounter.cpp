@@ -41,6 +41,8 @@ ImperiumPulseCounter::ImperiumPulseCounter(int objectId, int* pins, int pinCount
 
 void ImperiumPulseCounter::update(){
 }
+void ImperiumPulseCounter::receiveMessage(ImperiumPacket& packet){
+}
 
 void ImperiumPulseCounter::setValue(long value){
 }

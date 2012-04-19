@@ -8,6 +8,8 @@
 #ifndef PINS_ARDUINO_H_
 #define PINS_ARDUINO_H_
 
+#include "Arduino.h"
+
 
 #if defined(__AVR_ATmega328P__)
 #define NUM_INTERRUPTS 2
@@ -39,6 +41,7 @@
 
 
 int digitalPinToInterrupt(int pin);
+Stream* digitalPinToSerial(int pin, unsigned long baud);
 
 
 #endif /* PINS_ARDUINO_H_ */

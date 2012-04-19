@@ -20,6 +20,8 @@ ImperiumDigitalInput::ImperiumDigitalInput(int objectId, int* pins, int pinCount
 
 void ImperiumDigitalInput::update(){
 }
+void ImperiumDigitalInput::receiveMessage(ImperiumPacket& packet){
+}
 
 void ImperiumDigitalInput::setValue(long value){
 }

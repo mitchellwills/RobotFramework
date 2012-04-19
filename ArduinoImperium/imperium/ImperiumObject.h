@@ -8,6 +8,7 @@
 #ifndef IMPERIUMOBJECT_H_
 #define IMPERIUMOBJECT_H_
 
+#include "ImperiumPacket.h"
 
 class ImperiumObject {
 	private:
@@ -21,6 +22,7 @@ class ImperiumObject {
 		int getPin(int index);
 		int getPinCount();
 		virtual void update() = 0;
+		virtual void receiveMessage(ImperiumPacket& packet) = 0;
 		virtual void setValue(long value) = 0;
 		virtual long getValue() = 0;
 
