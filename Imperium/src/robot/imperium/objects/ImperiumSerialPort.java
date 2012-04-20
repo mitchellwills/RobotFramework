@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
@@ -49,6 +48,7 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 			
 			@Override
 			public void write(byte b[], int off, int len) throws IOException {
+				//System.out.println("Sent "+Arrays.toString(b));
 				device.sendMessagePacket(ImperiumSerialPort.this, b, off, len);
 		    }
 
@@ -94,7 +94,7 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 				throw new RobotException("Error writing to input stream", e);
 			}
 		}
-		System.out.println("Received "+Arrays.toString(values));
+		//System.out.println("Received "+Arrays.toString(values));
 	}
 
 	@Override
