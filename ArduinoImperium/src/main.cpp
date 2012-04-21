@@ -11,6 +11,7 @@
 #include "ImperiumPPMReader.h"
 #include "ImperiumQuadEncoder.h"
 #include "ImperiumSerialPort.h"
+#include "ImperiumDutyCycle.h"
 
 
 void setup(){
@@ -30,6 +31,7 @@ void setup(){
 	setObjectTypeInitializer(8, ImperiumPPMReader::newPPMReader);
 	setObjectTypeInitializer(9, ImperiumQuadEncoder::newQuadEncoder);
 	setObjectTypeInitializer(10, ImperiumSerialPort::newSerialPort);
+	setObjectTypeInitializer(11, ImperiumDutyCycle::newDutyCycle);
 }
 
 void loop(){

@@ -18,4 +18,5 @@ public interface ObjectTypeIds {
 	int PPM_READER_TYPE_ID = 8;
 	int QUAD_ENCODER_TYPE_ID = 9;
 	int SERIAL_PORT_TYPE_ID = 10;
+	int DUTY_CYCLE_TYPE_ID = 11;
 }
