@@ -10,7 +10,7 @@ import robot.io.UpdatableObject;
  * an input that can be active of not active (such as a digital input pin)
  *
  */
-public interface BinaryInput extends Input, UpdatableObject<BinaryInput>{
+public interface BinaryInput extends Input, UpdatableObject{
 	/**
 	 * @return true if the input is active
 	 */

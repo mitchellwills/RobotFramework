@@ -11,7 +11,7 @@ import robot.io.RobotObjectModel;
  */
 public class VirtualSpeedController implements SpeedController{
 	private double value = 0;
-	private RobotObjectModel<SpeedController> model = new RobotObjectModel<SpeedController>(this);
+	private RobotObjectModel model = new RobotObjectModel(this);
 	@Override
 	public void set(double value) {
 		this.value = value;
@@ -25,13 +25,13 @@ public class VirtualSpeedController implements SpeedController{
 
 	@Override
 	public void addUpdateListener(
-			RobotObjectListener<SpeedController> listener) {
+			RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
 	public void removeUpdateListener(
-			RobotObjectListener<SpeedController> listener) {
+			RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 }

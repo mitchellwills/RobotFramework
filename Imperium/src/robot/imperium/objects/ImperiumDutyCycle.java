@@ -25,15 +25,15 @@ public class ImperiumDutyCycle extends ImperiumDeviceObject implements DutyCycle
 	private double duty;
 	
 
-	private final RobotObjectModel<ImperiumDutyCycle> model = new RobotObjectModel<ImperiumDutyCycle>(this);
+	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener<DutyCycleInput> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<DutyCycleInput> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 	

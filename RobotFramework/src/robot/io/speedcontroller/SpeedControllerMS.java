@@ -20,14 +20,14 @@ public class SpeedControllerMS implements SpeedController {
 	public static final double DISABLE_OUTPUT = LinearMSPWMOutput.DISABLE_OUTPUT;
 	
 	private final DeadbandedLinearMSPWMOutput output;
-	private final ForwardingRobotObjectModel<SpeedController, MSPWMOutput> model = new ForwardingRobotObjectModel<SpeedController, MSPWMOutput>(this);
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 	@Override
-	public void addUpdateListener(RobotObjectListener<SpeedController> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 	@Override
 	public void removeUpdateListener(
-			RobotObjectListener<SpeedController> listener) {
+			RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 	

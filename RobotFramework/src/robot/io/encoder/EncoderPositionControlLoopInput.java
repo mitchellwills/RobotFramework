@@ -21,12 +21,12 @@ public class EncoderPositionControlLoopInput implements Encoder, ControlLoopInpu
 		this.input = input;
 	}
 	@Override
-	public void addUpdateListener(RobotObjectListener<Encoder> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		input.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<Encoder> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		input.addUpdateListener(listener);
 	}
 

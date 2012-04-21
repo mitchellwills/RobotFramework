@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JProgressBar;
 
 import robot.dashboard.Widget;
+import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.analog.AnalogVoltageInput;
 
@@ -15,7 +16,7 @@ import robot.io.analog.AnalogVoltageInput;
  * A widget that displays an analog voltage input using a progress bar
  *
  */
-public class AnalogVoltageInputWidget extends Widget<AnalogVoltageInput> implements RobotObjectListener<AnalogVoltageInput> {
+public class AnalogVoltageInputWidget extends Widget<AnalogVoltageInput> implements RobotObjectListener {
 	private AnalogVoltageInput input;
 	private final JProgressBar valueBar;
 	/**
@@ -45,7 +46,7 @@ public class AnalogVoltageInputWidget extends Widget<AnalogVoltageInput> impleme
 		objectUpdated(input);
 	}
 	@Override
-	public void objectUpdated(AnalogVoltageInput output) {
+	public void objectUpdated(RobotObject output) {
 		if(input!=null){
 			valueBar.setValue((int) (input.getVoltage()*1000));
 			valueBar.setString(String.format("%.3f V", input.getVoltage()));

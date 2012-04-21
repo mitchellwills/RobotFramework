@@ -9,7 +9,7 @@ import robot.io.UpdatableObject;
  * Abstract representation of a joystick
  *
  */
-public interface Joystick extends Input, UpdatableObject<Joystick>{
+public interface Joystick extends Input, UpdatableObject{
 	/**
 	 * @return the name of the joystick
 	 */

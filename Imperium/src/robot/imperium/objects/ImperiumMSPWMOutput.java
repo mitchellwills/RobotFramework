@@ -24,15 +24,15 @@ public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOu
 	private int currentState;
 	
 
-	private final RobotObjectModel<ImperiumMSPWMOutput> model = new RobotObjectModel<ImperiumMSPWMOutput>(this);
+	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener<MSPWMOutput> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<MSPWMOutput> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 	

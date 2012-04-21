@@ -25,15 +25,15 @@ public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counte
 	private int count;
 	
 
-	private final RobotObjectModel<ImperiumPulseCounter> model = new RobotObjectModel<ImperiumPulseCounter>(this);
+	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener<Counter> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<Counter> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 	

@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import robot.dashboard.Widget;
+import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickDirectional;
@@ -27,8 +28,7 @@ import robot.io.joystick.JoystickDirectional;
  *         directionals
  * 
  */
-public class JoystickWidget extends Widget<Joystick> implements
-		RobotObjectListener<Joystick> {
+public class JoystickWidget extends Widget<Joystick> implements RobotObjectListener {
 	private Joystick joystick;
 	private final AxesView axesView;
 	private final ButtonsView buttonsView;
@@ -65,7 +65,7 @@ public class JoystickWidget extends Widget<Joystick> implements
 	}
 
 	@Override
-	public void objectUpdated(Joystick joystick) {
+	public void objectUpdated(RobotObject object) {
 		axesView.update(joystick);
 		buttonsView.update(joystick);
 		directionalsView.update(joystick);
@@ -104,9 +104,11 @@ public class JoystickWidget extends Widget<Joystick> implements
 
 		public void update(Joystick joystick) {
 			if (joystick != null) {
-				for (int i = 0; i < valueBars.length; ++i){
-					valueBars[i].setValue((int) (joystick.getAxis(i).getValue() * 1000));
-					valueBars[i].setString(String.format("%.2f", joystick.getAxis(i).getValue()));
+				for (int i = 0; i < valueBars.length; ++i) {
+					valueBars[i]
+							.setValue((int) (joystick.getAxis(i).getValue() * 1000));
+					valueBars[i].setString(String.format("%.2f", joystick
+							.getAxis(i).getValue()));
 				}
 			}
 		}

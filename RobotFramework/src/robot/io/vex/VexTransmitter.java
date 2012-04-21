@@ -3,7 +3,6 @@ package robot.io.vex;
 import robot.error.RobotInitializationException;
 import robot.io.ForwardingRobotObjectModel;
 import robot.io.RobotObjectListener;
-import robot.io.binary.BinaryInput;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickAxis;
 import robot.io.joystick.JoystickAxisDirectional;
@@ -26,13 +25,13 @@ public class VexTransmitter implements Joystick{
 	private static final long BUTTON_CENTER = 1000;
 	private static final long BUTTON_THRESHOLD = 200;
 	
-	private final ForwardingRobotObjectModel<VexTransmitter, PPMReader> model = new ForwardingRobotObjectModel<VexTransmitter, PPMReader>(this);
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 	@Override
-	public void addUpdateListener(RobotObjectListener<Joystick> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 	@Override
-	public void removeUpdateListener(RobotObjectListener<Joystick> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 	
@@ -80,14 +79,14 @@ public class VexTransmitter implements Joystick{
 	
 	private static class VexTransmitterButton implements JoystickButton{
 
-		private final ForwardingRobotObjectModel<VexTransmitterButton, VexTransmitter> model = new ForwardingRobotObjectModel<VexTransmitterButton, VexTransmitter>(this);
+		private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 		@Override
-		public void addUpdateListener(RobotObjectListener<BinaryInput> listener) {
+		public void addUpdateListener(RobotObjectListener listener) {
 			model.addUpdateListener(listener);
 		}
 		@Override
 		public void removeUpdateListener(
-				RobotObjectListener<BinaryInput> listener) {
+				RobotObjectListener listener) {
 			model.removeUpdateListener(listener);
 		}
 		

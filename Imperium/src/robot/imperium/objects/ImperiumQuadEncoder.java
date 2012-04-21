@@ -24,15 +24,15 @@ public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Encoder
 	private int position;
 	
 
-	private final RobotObjectModel<ImperiumQuadEncoder> model = new RobotObjectModel<ImperiumQuadEncoder>(this);
+	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener<Encoder> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<Encoder> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 	

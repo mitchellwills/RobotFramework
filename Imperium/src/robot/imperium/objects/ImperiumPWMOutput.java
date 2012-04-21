@@ -24,15 +24,15 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 
 	private double currentState;
 
-	private final RobotObjectModel<ImperiumPWMOutput> model = new RobotObjectModel<ImperiumPWMOutput>(this);
+	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener<PWMOutput> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<PWMOutput> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 	

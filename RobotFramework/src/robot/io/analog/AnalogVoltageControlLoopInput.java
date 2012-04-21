@@ -27,13 +27,13 @@ public class AnalogVoltageControlLoopInput implements ControlLoopInput, AnalogVo
 
 	@Override
 	public void addUpdateListener(
-			RobotObjectListener<AnalogVoltageInput> listener) {
+			RobotObjectListener listener) {
 		input.addUpdateListener(listener);
 	}
 
 	@Override
 	public void removeUpdateListener(
-			RobotObjectListener<AnalogVoltageInput> listener) {
+			RobotObjectListener listener) {
 		input.removeUpdateListener(listener);
 	}
 

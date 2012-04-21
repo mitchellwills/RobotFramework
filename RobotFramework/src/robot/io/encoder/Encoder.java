@@ -10,7 +10,7 @@ import robot.io.UpdatableObject;
  * @author Mitchell
  *
  */
-public interface Encoder extends Input, UpdatableObject<Encoder> {
+public interface Encoder extends Input, UpdatableObject {
 	/**
 	 * @return the position
 	 */

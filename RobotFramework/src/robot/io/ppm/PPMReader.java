@@ -9,7 +9,7 @@ import robot.io.UpdatableObject;
  * An input that reads a voltage
  *
  */
-public interface PPMReader extends Input, UpdatableObject<PPMReader>{
+public interface PPMReader extends Input, UpdatableObject{
 	/**
 	 * the value returned by getChannel if there is no valid data to be returned
 	 */

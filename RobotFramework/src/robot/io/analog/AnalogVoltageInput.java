@@ -9,7 +9,7 @@ import robot.io.UpdatableObject;
  * An input that reads a voltage
  *
  */
-public interface AnalogVoltageInput extends Input, UpdatableObject<AnalogVoltageInput>{
+public interface AnalogVoltageInput extends Input, UpdatableObject{
 	/**
 	 * 
 	 * @return The maximum voltage that can be read

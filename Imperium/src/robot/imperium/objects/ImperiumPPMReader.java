@@ -22,15 +22,15 @@ import robot.io.ppm.PPMReader;
  *
  */
 public class ImperiumPPMReader extends ImperiumDeviceObject implements PPMReader{
-	private final RobotObjectModel<ImperiumPPMReader> model = new RobotObjectModel<ImperiumPPMReader>(this);
+	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
-	public void addUpdateListener(RobotObjectListener<PPMReader> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 
 	@Override
-	public void removeUpdateListener(RobotObjectListener<PPMReader> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 

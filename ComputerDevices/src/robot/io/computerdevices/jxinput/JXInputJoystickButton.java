@@ -2,8 +2,6 @@ package robot.io.computerdevices.jxinput;
 
 import robot.io.ForwardingRobotObjectModel;
 import robot.io.RobotObjectListener;
-import robot.io.binary.BinaryInput;
-import robot.io.computerdevices.joystick.ComputerJoystick;
 import robot.io.joystick.JoystickButton;
 import de.hardcode.jxinput.Button;
 
@@ -20,14 +18,13 @@ public class JXInputJoystickButton implements JoystickButton {
 		this.nativeButton = nativeButton;
 	}
 
-	private final ForwardingRobotObjectModel<JXInputJoystickButton, ComputerJoystick> model = new ForwardingRobotObjectModel<JXInputJoystickButton, ComputerJoystick>(this);
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 	@Override
-	public void addUpdateListener(RobotObjectListener<BinaryInput> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 	@Override
-	public void removeUpdateListener(
-			RobotObjectListener<BinaryInput> listener) {
+	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 

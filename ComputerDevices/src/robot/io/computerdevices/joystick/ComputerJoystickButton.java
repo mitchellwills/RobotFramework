@@ -2,7 +2,6 @@ package robot.io.computerdevices.joystick;
 
 import robot.io.ForwardingRobotObjectModel;
 import robot.io.RobotObjectListener;
-import robot.io.binary.BinaryInput;
 import robot.io.computerdevices.DIJoystick;
 import robot.io.joystick.JoystickButton;
 
@@ -22,14 +21,14 @@ public class ComputerJoystickButton implements JoystickButton{
 	}
 	
 
-	private final ForwardingRobotObjectModel<ComputerJoystickButton, ComputerJoystick> model = new ForwardingRobotObjectModel<ComputerJoystickButton, ComputerJoystick>(this);
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 	@Override
-	public void addUpdateListener(RobotObjectListener<BinaryInput> listener) {
+	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
 	@Override
 	public void removeUpdateListener(
-			RobotObjectListener<BinaryInput> listener) {
+			RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
 

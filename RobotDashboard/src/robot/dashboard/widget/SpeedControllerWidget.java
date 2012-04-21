@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 
 import robot.dashboard.Widget;
+import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.speedcontroller.SpeedController;
 
@@ -20,7 +21,7 @@ import robot.io.speedcontroller.SpeedController;
  * 
  */
 public class SpeedControllerWidget extends Widget<SpeedController> implements
-		RobotObjectListener<SpeedController> {
+		RobotObjectListener {
 
 	private SpeedController output;
 
@@ -49,7 +50,7 @@ public class SpeedControllerWidget extends Widget<SpeedController> implements
 	}
 
 	@Override
-	public void objectUpdated(SpeedController output) {
+	public void objectUpdated(RobotObject output) {
 		repaint();
 	}
 

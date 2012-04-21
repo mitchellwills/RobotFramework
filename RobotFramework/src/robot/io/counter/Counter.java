@@ -9,7 +9,7 @@ import robot.io.UpdatableObject;
  * An object that counts something
  *
  */
-public interface Counter  extends Input, UpdatableObject<Counter> {
+public interface Counter  extends Input, UpdatableObject {
 
 	/**
 	 * @return the value of the counter

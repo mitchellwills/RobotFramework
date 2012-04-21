@@ -8,17 +8,16 @@ import java.util.Set;
  * @author Mitchell
  * 
  * A model that can be used to store data related to an implementation of an object
- * @param <T> the type this object represents
  *
  */
-public class RobotObjectModel<T extends RobotObject> {
-	private final Set<RobotObjectListener<? super T>> listeners = new HashSet<RobotObjectListener<? super T>>();
+public class RobotObjectModel {
+	private final Set<RobotObjectListener> listeners = new HashSet<RobotObjectListener>();
 
-	private final T object;
+	private final RobotObject object;
 	/**
 	 * @param object the object that this model stores data for
 	 */
-	public RobotObjectModel(T object) {
+	public RobotObjectModel(RobotObject object) {
 		this.object = object;
 	}
 	
@@ -26,14 +25,14 @@ public class RobotObjectModel<T extends RobotObject> {
 	 * Add an update listener
 	 * @param listener
 	 */
-	public void addUpdateListener(RobotObjectListener<? super T> listener){
+	public void addUpdateListener(RobotObjectListener listener){
 		listeners.add(listener);
 	}
 	/**
 	 * Remove an update listener
 	 * @param listener
 	 */
-	public void removeUpdateListener(RobotObjectListener<? super T> listener){
+	public void removeUpdateListener(RobotObjectListener listener){
 		listeners.remove(listener);
 	}
 	
@@ -41,7 +40,7 @@ public class RobotObjectModel<T extends RobotObject> {
 	 * 
 	 */
 	public void fireUpdateEvent(){
-		for(RobotObjectListener<? super T> listener:listeners)
+		for(RobotObjectListener listener:listeners)
 			listener.objectUpdated(object);
 	}
 }

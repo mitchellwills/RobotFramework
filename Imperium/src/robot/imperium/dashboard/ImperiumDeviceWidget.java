@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 
 import robot.dashboard.Widget;
 import robot.imperium.ImperiumDevice;
+import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 
 /**
@@ -20,8 +21,7 @@ import robot.io.RobotObjectListener;
  *         A widget that displays the state of an Imperium device
  * 
  */
-public class ImperiumDeviceWidget extends Widget<ImperiumDevice> implements
-		RobotObjectListener<ImperiumDevice> {
+public class ImperiumDeviceWidget extends Widget<ImperiumDevice> implements RobotObjectListener {
 	private ImperiumDevice device;
 	private final JLabel stateLabel;
 
@@ -84,7 +84,7 @@ public class ImperiumDeviceWidget extends Widget<ImperiumDevice> implements
 	}
 
 	@Override
-	public void objectUpdated(ImperiumDevice device) {
+	public void objectUpdated(RobotObject object) {
 		if (device != null) {
 			stateLabel.setText(device.getState().toString());
 			switch (device.getState()) {

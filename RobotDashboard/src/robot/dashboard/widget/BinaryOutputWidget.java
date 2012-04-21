@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 
 import robot.dashboard.Widget;
+import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.binary.BinaryOutput;
 
@@ -15,7 +16,7 @@ import robot.io.binary.BinaryOutput;
  * 
  *
  */
-public class BinaryOutputWidget extends Widget<BinaryOutput> implements RobotObjectListener<BinaryOutput> {
+public class BinaryOutputWidget extends Widget<BinaryOutput> implements RobotObjectListener {
 	private BinaryOutput output;
 	private final JButton button;
 	/**
@@ -40,7 +41,7 @@ public class BinaryOutputWidget extends Widget<BinaryOutput> implements RobotObj
 		objectUpdated(output);
 	}
 	@Override
-	public void objectUpdated(BinaryOutput o) {
+	public void objectUpdated(RobotObject o) {
 		if(output==null){
 			button.setEnabled(false);
 			button.setText("Not Connected");
