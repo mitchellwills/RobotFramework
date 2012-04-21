@@ -1,5 +1,12 @@
 package robot.io.parallax;
 
+import java.util.EnumSet;
+import java.util.Set;
+
+import robot.error.RobotException;
+import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObjectListener;
+import robot.io.accelerometer.Accelerometer;
 import robot.io.analog.AnalogVoltageInput;
 import robot.io.dutycycle.DutyCycleInput;
 
@@ -9,10 +16,23 @@ import robot.io.dutycycle.DutyCycleInput;
  * Represents the Memsic 2125 Accelerometer
  *
  */
-public class Memsic2125{
+public class Memsic2125 implements Accelerometer{
 	private DutyCycleInput xAxis;
 	private final DutyCycleInput yAxis;
 	private final AnalogVoltageInput temp;
+	
+
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
+	
+	
 	/**
 	 * 
 	 * Create a new Accelerometer
@@ -25,6 +45,9 @@ public class Memsic2125{
 		this.xAxis = xAxis;
 		this.yAxis = yAxis;
 		this.temp = temp;
+		xAxis.addUpdateListener(model);
+		yAxis.addUpdateListener(model);
+		temp.addUpdateListener(model);
 	}
 	
 	private double getAxisValue(DutyCycleInput input){
@@ -52,5 +75,19 @@ public class Memsic2125{
 		if(temp==null)
 			return Double.NaN;
 		return (temp.getVoltage()-1.25)/.05 + 25;
+	}
+
+	@Override
+	public double getAcceleration(AccelerometerAxis axis) {
+		if(axis==AccelerometerAxis.XAxis)
+			return getXAxis();
+		else if(axis==AccelerometerAxis.YAxis)
+			return getYAxis();
+		throw new RobotException("The Memsic 2125 Accelerometer only has X and Y axes");
+	}
+
+	@Override
+	public Set<AccelerometerAxis> getAxes() {
+		return EnumSet.of(AccelerometerAxis.XAxis, AccelerometerAxis.YAxis);
 	}
 }
