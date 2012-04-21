@@ -72,9 +72,4 @@ public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Encoder
 		//
 	}
 
-	@Override
-	public double get() {
-		return getPosition();
-	}
-
 }

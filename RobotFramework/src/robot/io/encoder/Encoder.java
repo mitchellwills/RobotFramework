@@ -1,6 +1,5 @@
 package robot.io.encoder;
 
-import robot.control.ControlLoopInput;
 import robot.io.Input;
 import robot.io.UpdatableObject;
 
@@ -11,7 +10,7 @@ import robot.io.UpdatableObject;
  * @author Mitchell
  *
  */
-public interface Encoder extends Input, UpdatableObject<Encoder>, ControlLoopInput {
+public interface Encoder extends Input, UpdatableObject<Encoder> {
 	/**
 	 * @return the position
 	 */

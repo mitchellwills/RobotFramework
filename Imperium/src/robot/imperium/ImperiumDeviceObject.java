@@ -2,7 +2,7 @@ package robot.imperium;
 
 import java.util.Set;
 
-import robot.imperium.hardware.HardwareConfiguration;
+import robot.imperium.hardware.ImperiumHardwareConfiguration;
 import robot.imperium.hardware.PinCapability;
 import robot.io.RobotObject;
 
@@ -39,7 +39,7 @@ public abstract class ImperiumDeviceObject implements RobotObject{
 		this(typeId, device, toPins(device.getHardwareConfiguration(), pinLabels));
 	}
 	
-	private static int[] toPins(HardwareConfiguration config, String... pinLabels){
+	private static int[] toPins(ImperiumHardwareConfiguration config, String... pinLabels){
 		int[] pins = new int[pinLabels.length];
 		for(int i = 0; i<pins.length; ++i)
 			pins[i] = config.getPinId(pinLabels[i]);

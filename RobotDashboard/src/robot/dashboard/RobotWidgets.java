@@ -1,6 +1,5 @@
 package robot.dashboard;
 
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,7 +23,7 @@ import robot.io.speedcontroller.SpeedController;
 public final class RobotWidgets {
 	private RobotWidgets(){}//prevent instanciation
 	
-	private static Map<Class<? extends RobotObject>, Class<? extends Widget>> widgets = new HashMap<Class<? extends RobotObject>, Class<? extends Widget>>();//TODO change to multimap
+	private static Map<Class<? extends RobotObject>, Class<? extends Widget<?>>> widgets = new HashMap<Class<? extends RobotObject>, Class<? extends Widget<?>>>();//TODO change to multimap
 	static{
 		registerWidget(Joystick.class, JoystickWidget.class);
 		registerWidget(BinaryOutput.class, BinaryOutputWidget.class);
@@ -37,7 +36,7 @@ public final class RobotWidgets {
 	 * @param objectType
 	 * @param widgetType
 	 */
-	public static void registerWidget(Class<? extends RobotObject> objectType, Class<? extends Widget> widgetType){
+	public static void registerWidget(Class<? extends RobotObject> objectType, Class<? extends Widget<?>> widgetType){
 		widgets.put(objectType, widgetType);
 	}
 	
@@ -45,15 +44,10 @@ public final class RobotWidgets {
 	 * @param objectType
 	 * @return the constructor that can be used to construct a widget for a given object type
 	 */
-	public static Constructor<? extends Widget> getObjectWidgetConstructor(Class<? extends RobotObject> objectType){
-		for(Entry<Class<? extends RobotObject>, Class<? extends Widget>> e:widgets.entrySet()){
+	public static Class<? extends Widget<?>> getObjectWidgetClass(Class<? extends RobotObject> objectType){
+		for(Entry<Class<? extends RobotObject>, Class<? extends Widget<?>>> e:widgets.entrySet()){
 			if(e.getKey().isAssignableFrom(objectType)){
-				Class<? extends Widget> widgetClass = e.getValue();
-				try {
-					return widgetClass.getConstructor(e.getKey());
-				} catch (NoSuchMethodException e1) {
-					return null;
-				}
+				return e.getValue();
 			}
 		}
 		return null;

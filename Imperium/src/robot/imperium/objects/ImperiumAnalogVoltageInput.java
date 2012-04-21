@@ -71,11 +71,6 @@ public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements 
 	}
 
 	@Override
-	public double get() {
-		return getVoltage();
-	}
-
-	@Override
 	public void message(long[] values) {
 		//
 	}

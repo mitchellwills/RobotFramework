@@ -1,9 +1,9 @@
 package robot.dashboard.widget;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JButton;
-import javax.swing.border.TitledBorder;
 
 import robot.dashboard.Widget;
 import robot.io.RobotObjectListener;
@@ -15,26 +15,37 @@ import robot.io.binary.BinaryOutput;
  * 
  *
  */
-public class BinaryOutputWidget extends Widget implements RobotObjectListener<BinaryOutput> {
-	private final BinaryOutput output;
-	private JButton button;
+public class BinaryOutputWidget extends Widget<BinaryOutput> implements RobotObjectListener<BinaryOutput> {
+	private BinaryOutput output;
+	private final JButton button;
 	/**
 	 * Create a new widget
 	 * @param output
 	 */
-	public BinaryOutputWidget(BinaryOutput output){
-		this.output = output;
-		setBorder(new TitledBorder("Binary Output: "+output));
+	public BinaryOutputWidget(){
 		setLayout(new BorderLayout());
 		
+		add(button = new JButton());
+		setPreferredSize(new Dimension(150, 50));
 		
-		add(button = new JButton("    "));
-		
+		objectUpdated(null);
+	}
+	@Override
+	public void setObject(BinaryOutput newOutput){
+		if(output!=null)
+			output.removeUpdateListener(this);
+		if(newOutput!=null)
+			newOutput.addUpdateListener(this);
+		output = newOutput;
 		objectUpdated(output);
-		output.addUpdateListener(this);
 	}
 	@Override
 	public void objectUpdated(BinaryOutput o) {
+		if(output==null){
+			button.setEnabled(false);
+			button.setText("Not Connected");
+			return;
+		}
 		if(output.get()){
 			button.setEnabled(true);
 			button.setText("HIGH");

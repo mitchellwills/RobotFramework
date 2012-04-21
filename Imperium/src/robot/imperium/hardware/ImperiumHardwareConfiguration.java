@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import robot.error.RobotInitializationException;
+
 
 
 
@@ -21,7 +23,37 @@ import java.util.Set;
  * The device has a list of pins which have a name (what the hardware calls them), a label (what they are labeled on the board), and a list of capabilities
  *
  */
-public abstract class HardwareConfiguration {
+public abstract class ImperiumHardwareConfiguration {
+	private static final Map<String, ImperiumHardwareConfiguration> configurations = new HashMap<String, ImperiumHardwareConfiguration>();
+	static{
+		register(ArduinoDuemilanove.get());
+		register(ArduinoMega2560.get());
+		register(Teensy2PP.get());
+	}
+	/**
+	 * @param name the name of the hardware configuration
+	 * @return the hardware configuration registered with that name
+	 */
+	public static ImperiumHardwareConfiguration get(String name){
+		ImperiumHardwareConfiguration config =  configurations.get(name);
+		if(config==null)
+			throw new RobotInitializationException("Unknown Hardware configuration: "+name);
+		return config;
+	}
+	/**
+	 * Register a Hardware configuration so that it can be found by {@link #get(String)}
+	 * @param config the configuration to be registered
+	 */
+	public static void register(ImperiumHardwareConfiguration config){
+		configurations.put(config.getName(), config);
+	}
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * label of a pin that has an onboard led
 	 */
@@ -32,7 +64,7 @@ public abstract class HardwareConfiguration {
 	private final double pwmFrequency;
 	private final double analogInputVoltage;
 	
-	protected HardwareConfiguration(String name, double pwmFrequency, double analogInputVoltage){
+	protected ImperiumHardwareConfiguration(String name, double pwmFrequency, double analogInputVoltage){
 		this.name = name;
 		pins = new HashMap<Integer, Pin>();
 		this.pwmFrequency = pwmFrequency;

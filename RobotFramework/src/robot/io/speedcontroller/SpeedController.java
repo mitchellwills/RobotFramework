@@ -11,7 +11,7 @@ import robot.io.UpdatableObject;
  * A speed controller
  *
  */
-public interface SpeedController extends Output, ControlLoopOutput, UpdatableObject<SpeedController> {
+public interface SpeedController extends Output, UpdatableObject<SpeedController>, ControlLoopOutput {
 	/**
 	 * set the output of the speed controller
 	 * @param value the new speed (between -1.0 and 1.0)

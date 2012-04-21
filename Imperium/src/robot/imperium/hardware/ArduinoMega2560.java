@@ -18,7 +18,7 @@ import static robot.imperium.hardware.PinCapability.SerialTx;
  * Represents the Arduino Mega 2560 board
  *
  */
-public class ArduinoMega2560 extends HardwareConfiguration {
+public class ArduinoMega2560 extends ImperiumHardwareConfiguration {
 	
 	private static final ArduinoMega2560 INSTANCE = new ArduinoMega2560();
 	/**
@@ -29,7 +29,7 @@ public class ArduinoMega2560 extends HardwareConfiguration {
 	}
 
 	private ArduinoMega2560() {
-		super("Arduino Duemilanove", 490, 5.0);
+		super("Arduino Mega 2560", 490, 5.0);
 
 		addPin(0, "0").addLabels("PE0", "RX0", "RX");
 		addPin(1, "1").addLabels("PE1", "TX0", "TX");
@@ -46,7 +46,7 @@ public class ArduinoMega2560 extends HardwareConfiguration {
 		addAVRPin(10, "10", PWM_Output).addLabels("PB4");
 		addAVRPin(11, "11", PWM_Output).addLabels("PB5");
 		addAVRPin(12, "12", PWM_Output).addLabels("PB6");
-		addAVRPin(13, "13", PWM_Output).addLabels("PB7");
+		addAVRPin(13, "13", PWM_Output).addLabels("PB7", ONBOARD_LED);
 		addAVRPin(14, "14", SerialTx).addLabels("PJ1", "TX3");
 		addAVRPin(15, "15", SerialRx).addLabels("PJ0", "RX3");
 		addAVRPin(16, "16", PWM_Output, SerialTx).addLabels("PH1", "TX2");

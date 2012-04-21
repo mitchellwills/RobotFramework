@@ -18,7 +18,7 @@ import static robot.imperium.hardware.PinCapability.SerialTx;
  * Represents the Teensy++ 2.0
  *
  */
-public class Teensy2PP extends HardwareConfiguration {
+public class Teensy2PP extends ImperiumHardwareConfiguration {
 	
 	private static final Teensy2PP INSTANCE = new Teensy2PP();
 	/**
@@ -37,7 +37,7 @@ public class Teensy2PP extends HardwareConfiguration {
 		addAVRPin(3, "3", Interrupt, SerialTx).addLabels("PD3", "INT3", "TX");
 		addAVRPin(4, "4").addLabels("PD4");
 		addAVRPin(5, "5").addLabels("PD5");
-		addAVRPin(6, "6").addLabels("PD6", HardwareConfiguration.ONBOARD_LED);
+		addAVRPin(6, "6").addLabels("PD6", ImperiumHardwareConfiguration.ONBOARD_LED);
 		addAVRPin(7, "7").addLabels("PD7");
 		addAVRPin(8, "8").addLabels("PE0");
 		addAVRPin(9, "9").addLabels("PE1");

@@ -16,7 +16,7 @@ import static robot.imperium.hardware.PinCapability.SPI_SS;
  * Represents the Arduino Duemilanove
  *
  */
-public class ArduinoDuemilanove extends HardwareConfiguration {
+public class ArduinoDuemilanove extends ImperiumHardwareConfiguration {
 	
 	private static final ArduinoDuemilanove INSTANCE = new ArduinoDuemilanove();
 	/**

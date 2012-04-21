@@ -8,7 +8,7 @@ import java.util.List;
 
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
-import robot.imperium.hardware.HardwareConfiguration;
+import robot.imperium.hardware.ImperiumHardwareConfiguration;
 import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
 import robot.io.RobotObject;
@@ -21,7 +21,7 @@ import robot.util.RobotUtil;
 /**
  * @author Mitchell
  * 
- *         A serial device that that allows for fast GPIO
+ *         A serial device that that allows for fast GPIO over serial
  * 
  */
 public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevice> {
@@ -40,15 +40,23 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 
 	private final InputStream is;
 	private final OutputStream os;
-	private final HardwareConfiguration hardwareConfiguration;
+	private final ImperiumHardwareConfiguration hardwareConfiguration;
+
+	/**
+	 * @param serialPort
+	 *            the port over which the computer will interact with the device
+	 * @param hardwareConfigurationName the name of the hardware configuration
+	 */
+	public ImperiumDevice(SerialInterface serialPort, String hardwareConfigurationName) {
+		this(serialPort, ImperiumHardwareConfiguration.get(hardwareConfigurationName));
+	}
 
 	/**
 	 * @param serialPort
 	 *            the port over which the computer will interact with the device
 	 * @param hardwareConfiguration
 	 */
-	public ImperiumDevice(SerialInterface serialPort,
-			HardwareConfiguration hardwareConfiguration) {
+	public ImperiumDevice(SerialInterface serialPort, ImperiumHardwareConfiguration hardwareConfiguration) {
 		this(serialPort.getInputStream(), serialPort.getOutputStream(),
 				hardwareConfiguration);
 	}
@@ -59,7 +67,7 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	 * @param hardwareConfiguration
 	 */
 	public ImperiumDevice(InputStream is, OutputStream os,
-			HardwareConfiguration hardwareConfiguration) {
+			ImperiumHardwareConfiguration hardwareConfiguration) {
 		if (is == null)
 			throw new RobotInitializationException(
 					"Imperium Input Stream was null");
@@ -118,7 +126,7 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	 * @return the configuration of the hardware device that this object
 	 *         communicates with
 	 */
-	public HardwareConfiguration getHardwareConfiguration() {
+	public ImperiumHardwareConfiguration getHardwareConfiguration() {
 		return hardwareConfiguration;
 	}
 
