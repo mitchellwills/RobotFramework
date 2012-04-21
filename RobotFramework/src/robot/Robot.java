@@ -127,12 +127,24 @@ public abstract class Robot {
 	 * @param input string
 	 * @return the original string with ${name} replaced with their equivalent values
 	 */
+	public String e(String input){
+		return evaluateDefinitions(input);
+	}
+	/**
+	 * replace ${name} with the value
+	 * @param input string
+	 * @return the original string with ${name} replaced with their equivalent values
+	 */
 	public String evaluateDefinitions(String input){
 		Pattern p = Pattern.compile("\\$\\{([^\\}]+)\\}");
 	    Matcher m = p.matcher(input);
 	    StringBuffer s = new StringBuffer();
-	    while (m.find())
-	        m.appendReplacement(s, getDefinition(m.group(1)));
+	    while (m.find()){
+	    	String value = getDefinition(m.group(1));
+	    	if(value==null)
+	    		throw new RobotInitializationException("Invalid definition in '"+input+"'. "+m.group(1)+" does not exist");
+	        m.appendReplacement(s, value);
+	    }
 	    return s.toString();
 	}
 	

@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import robot.error.RobotInitializationException;
-
 
 
 
@@ -24,36 +22,6 @@ import robot.error.RobotInitializationException;
  *
  */
 public abstract class ImperiumHardwareConfiguration {
-	private static final Map<String, ImperiumHardwareConfiguration> configurations = new HashMap<String, ImperiumHardwareConfiguration>();
-	static{
-		register(ArduinoDuemilanove.get());
-		register(ArduinoMega2560.get());
-		register(Teensy2PP.get());
-	}
-	/**
-	 * @param name the name of the hardware configuration
-	 * @return the hardware configuration registered with that name
-	 */
-	public static ImperiumHardwareConfiguration get(String name){
-		ImperiumHardwareConfiguration config =  configurations.get(name);
-		if(config==null)
-			throw new RobotInitializationException("Unknown Hardware configuration: "+name);
-		return config;
-	}
-	/**
-	 * Register a Hardware configuration so that it can be found by {@link #get(String)}
-	 * @param config the configuration to be registered
-	 */
-	public static void register(ImperiumHardwareConfiguration config){
-		configurations.put(config.getName(), config);
-	}
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * label of a pin that has an onboard led
 	 */

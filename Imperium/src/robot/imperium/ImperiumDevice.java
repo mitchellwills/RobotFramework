@@ -45,15 +45,6 @@ public class ImperiumDevice implements RobotObject, UpdatableObject<ImperiumDevi
 	/**
 	 * @param serialPort
 	 *            the port over which the computer will interact with the device
-	 * @param hardwareConfigurationName the name of the hardware configuration
-	 */
-	public ImperiumDevice(SerialInterface serialPort, String hardwareConfigurationName) {
-		this(serialPort, ImperiumHardwareConfiguration.get(hardwareConfigurationName));
-	}
-
-	/**
-	 * @param serialPort
-	 *            the port over which the computer will interact with the device
 	 * @param hardwareConfiguration
 	 */
 	public ImperiumDevice(SerialInterface serialPort, ImperiumHardwareConfiguration hardwareConfiguration) {
