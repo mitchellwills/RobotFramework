@@ -19,4 +19,5 @@ public interface ObjectTypeIds {
 	int QUAD_ENCODER_TYPE_ID = 9;
 	int SERIAL_PORT_TYPE_ID = 10;
 	int DUTY_CYCLE_TYPE_ID = 11;
+	int FREQUENCY_TYPE_ID = 12;
 }

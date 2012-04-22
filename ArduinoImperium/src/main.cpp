@@ -12,6 +12,7 @@
 #include "ImperiumQuadEncoder.h"
 #include "ImperiumSerialPort.h"
 #include "ImperiumDutyCycle.h"
+#include "ImperiumFrequency.h"
 
 
 void setup(){
@@ -32,6 +33,7 @@ void setup(){
 	setObjectTypeInitializer(9, ImperiumQuadEncoder::newQuadEncoder);
 	setObjectTypeInitializer(10, ImperiumSerialPort::newSerialPort);
 	setObjectTypeInitializer(11, ImperiumDutyCycle::newDutyCycle);
+	setObjectTypeInitializer(12, ImperiumFrequency::newFrequency);
 }
 
 void loop(){
