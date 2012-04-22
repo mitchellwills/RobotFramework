@@ -104,11 +104,6 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 	}
 
 	@Override
-	public void initialize() {
-		//
-	}
-
-	@Override
 	public void setValue(int value) {
 		//
 	}

@@ -49,11 +49,6 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.PWM_Output);
 	}
-	
-	@Override
-	public void initialize(){
-		set(0);
-	}
 
 	@Override
 	public void set(double dutyCycle) {

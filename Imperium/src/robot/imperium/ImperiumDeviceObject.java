@@ -124,12 +124,6 @@ public abstract class ImperiumDeviceObject implements RobotObject{
 	}
 	
 	/**
-	 * initialize the device
-	 * will be called after the device is globally configured
-	 */
-	public abstract void initialize();
-	
-	/**
 	 * #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#<br>
 	 * NOTE: this is not intended to be called by a user<br>
 	 * #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#

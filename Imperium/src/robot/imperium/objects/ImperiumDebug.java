@@ -21,11 +21,6 @@ public class ImperiumDebug extends ImperiumDeviceObject {
 	public ImperiumDebug(ImperiumDevice device) {
 		super(DEBUG_TYPE_ID, device);
 	}
-	
-	@Override
-	public void initialize(){
-		//nothing to initialize
-	}
 
 	@Override
 	public void setValue(int value) {

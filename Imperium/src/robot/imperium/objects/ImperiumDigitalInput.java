@@ -44,16 +44,12 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements Binary
 	 */
 	public ImperiumDigitalInput(ImperiumDevice device, String pin) {
 		super(DIGITAL_INPUT_TYPE_ID, device, pin);
+		currentState = false;
 	}
 
 	@Override
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.DigitalInput);
-	}
-	
-	@Override
-	public void initialize(){
-		currentState = false;
 	}
 
 	@Override

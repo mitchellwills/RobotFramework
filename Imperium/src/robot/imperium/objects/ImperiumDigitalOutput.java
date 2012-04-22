@@ -47,11 +47,6 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements Binar
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.DigitalOutput);
 	}
-	
-	@Override
-	public void initialize(){
-		set(false);
-	}
 
 	@Override
 	public void set(boolean value) {

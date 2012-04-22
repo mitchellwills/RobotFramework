@@ -42,16 +42,12 @@ public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements 
 	public ImperiumAnalogVoltageInput(ImperiumDevice device, String pin) {
 		super(ANALOG_INPUT_TYPE_ID, device, pin);
 		maxVoltage = device.getHardwareConfiguration().getMaxAnalogInputVoltage();
+		currentVoltage = 0;
 	}
 
 	@Override
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.AnalogInput);
-	}
-	
-	@Override
-	public void initialize(){
-		currentVoltage = 0;
 	}
 
 	@Override

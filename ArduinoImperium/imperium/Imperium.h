@@ -13,6 +13,7 @@
 #include "ImperiumPacket.h"
 
 #define MAX_OBJECT_TYPES 30
+#define MAX_NUM_OBJECTS 30
 
 void initImperium(Stream & _stream);
 

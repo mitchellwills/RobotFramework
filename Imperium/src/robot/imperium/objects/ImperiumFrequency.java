@@ -45,16 +45,12 @@ public class ImperiumFrequency extends ImperiumDeviceObject implements Frequency
 	 */
 	public ImperiumFrequency(ImperiumDevice device, String pin) {
 		super(FREQUENCY_TYPE_ID, device, pin);
+		frequency = 0;
 	}
 
 	@Override
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.Interrupt);
-	}
-	
-	@Override
-	public void initialize(){
-		frequency = 0;
 	}
 
 	@Override

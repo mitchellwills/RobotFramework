@@ -22,7 +22,7 @@ import robot.util.ByteUtil;
  */
 public class ImperiumDutyCycle extends ImperiumDeviceObject implements DutyCycleInput{
 
-	private double duty;
+	private double duty = 0;
 	
 
 	private final RobotObjectModel model = new RobotObjectModel(this);
@@ -50,11 +50,6 @@ public class ImperiumDutyCycle extends ImperiumDeviceObject implements DutyCycle
 	@Override
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.Interrupt);
-	}
-	
-	@Override
-	public void initialize(){
-		duty = 0;
 	}
 
 	@Override

@@ -15,7 +15,7 @@ static ImperiumPacket sendPacket;
 static ImperiumPacket readPacket;
 
 static int numObjects = 0;
-static ImperiumObject** objects = NULL;
+static ImperiumObject* objects[MAX_NUM_OBJECTS];
 static ObjectInitializer objectInitializers[MAX_OBJECT_TYPES];
 
 static int minUpdateDelay = 0;
@@ -75,10 +75,8 @@ static void processGlobalConfigure(ImperiumPacket& packet){
 	sendPacket.setId(PACKETID_CONFIGURE_CONFIRM);
 	sendPacket.setDataLength(0);
 
-	if(objects!=NULL){
-		//TODO free ImperiumObjects
-		free(objects);
-	}
+
+	//TODO free ImperiumObjects
 
 	packet.resetReadPosition();
 
@@ -89,7 +87,6 @@ static void processGlobalConfigure(ImperiumPacket& packet){
 		minUpdateDelay = 1000/updateRate;
 
 	numObjects = packet.readInteger(1);
-	objects = (ImperiumObject**)malloc(numObjects * sizeof(ImperiumObject*));
 
 	for(int i = 0; i<numObjects; ++i){
 		int objectId = packet.readInteger(1);
@@ -100,7 +97,7 @@ static void processGlobalConfigure(ImperiumPacket& packet){
 			pins[p] = packet.readInteger(1);
 		}
 		if(objectInitializers[typeId]!=NULL){
-			objects[i] =(*objectInitializers[typeId])(objectId, pins, pinCount);
+			objects[objectId] =(*objectInitializers[typeId])(objectId, pins, pinCount);
 			sendPacket.appendInteger(typeId, 1);
 			sendPacket.appendInteger(0, 1);
 		}
@@ -108,6 +105,33 @@ static void processGlobalConfigure(ImperiumPacket& packet){
 			sendPacket.appendInteger(typeId, 1);
 			sendPacket.appendInteger(1, 1);
 		}
+	}
+
+	sendImperiumPacket(sendPacket);
+}
+static void processConfigure(ImperiumPacket& packet){
+	sendPacket.setId(PACKETID_CONFIGURE_CONFIRM);
+	sendPacket.setDataLength(0);
+
+	packet.resetReadPosition();
+
+	numObjects++;
+
+	int objectId = packet.readInteger(1);
+	int typeId = packet.readInteger(1);
+	int pinCount = packet.readInteger(1);
+	int* pins = (int*)malloc(pinCount*sizeof(int*));
+	for(int p = 0; p<pinCount; ++p){
+		pins[p] = packet.readInteger(1);
+	}
+	if(objectInitializers[typeId]!=NULL){
+		objects[objectId] =(*objectInitializers[typeId])(objectId, pins, pinCount);
+		sendPacket.appendInteger(typeId, 1);
+		sendPacket.appendInteger(0, 1);
+	}
+	else{
+		sendPacket.appendInteger(typeId, 1);
+		sendPacket.appendInteger(1, 1);
 	}
 
 	sendImperiumPacket(sendPacket);
@@ -146,6 +170,9 @@ static void readOnePacket(){
 		switch(readPacket.getId()){
 		case PACKETID_GLOBAL_CONFIGURE:
 			processGlobalConfigure(readPacket);
+			break;
+		case PACKETID_CONFIGURE_OBJECT:
+			processConfigure(readPacket);
 			break;
 		case PACKETID_SET_VALUE:
 			processSet(readPacket);

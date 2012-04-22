@@ -44,16 +44,12 @@ public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOu
 	 */
 	public ImperiumMSPWMOutput(ImperiumDevice device, String pin) {
 		super(MSPWM_OUTPUT_TYPE_ID, device, pin);
+		currentState = DISABLED;
 	}
 
 	@Override
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.MSPWM_Output);
-	}
-	
-	@Override
-	public void initialize(){
-		set(DISABLED);
 	}
 
 	@Override

@@ -72,13 +72,6 @@ public class ImperiumPPMReader extends ImperiumDeviceObject implements PPMReader
 			return EnumSet.of(PinCapability.Interrupt);
 		return Collections.<PinCapability>emptySet();
 	}
-	
-	@Override
-	public void initialize(){
-		for(int b = 0; b<getBufferCount(); ++b)
-			for(int i = 0; i<getChannelCount(); ++i)
-				channels[b][i] = INVALID_VALUE;
-	}
 
 	@Override
 	public synchronized void message(long[] values) {

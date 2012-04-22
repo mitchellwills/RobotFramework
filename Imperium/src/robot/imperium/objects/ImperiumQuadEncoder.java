@@ -45,16 +45,12 @@ public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Encoder
 	 */
 	public ImperiumQuadEncoder(ImperiumDevice device, String pinA, String pinB) {
 		super(QUAD_ENCODER_TYPE_ID, device, pinA, pinB);
+		position = 0;
 	}
 
 	@Override
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.Interrupt);
-	}
-	
-	@Override
-	public void initialize(){
-		position = 0;
 	}
 
 	@Override

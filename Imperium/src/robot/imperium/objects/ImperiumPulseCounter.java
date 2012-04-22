@@ -45,16 +45,12 @@ public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counte
 	 */
 	public ImperiumPulseCounter(ImperiumDevice device, String pin) {
 		super(PULSE_COUNTER_TYPE_ID, device, pin);
+		count = 0;
 	}
 
 	@Override
 	public Set<PinCapability> getRequiredCapabilities(int pinId) {
 		return EnumSet.of(PinCapability.Interrupt);
-	}
-	
-	@Override
-	public void initialize(){
-		count = 0;
 	}
 
 	@Override

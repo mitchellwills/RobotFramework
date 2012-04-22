@@ -47,19 +47,19 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 	 * @param serialPort
 	 *            the port over which the computer will interact with the device
 	 * @param hardwareConfiguration
+	 * @param maxUpdateRate the maximum number of input updates per second the device will send
 	 */
-	public ImperiumDevice(SerialInterface serialPort, ImperiumHardwareConfiguration hardwareConfiguration) {
-		this(serialPort.getInputStream(), serialPort.getOutputStream(),
-				hardwareConfiguration);
+	public ImperiumDevice(SerialInterface serialPort, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
+		this(serialPort.getInputStream(), serialPort.getOutputStream(), hardwareConfiguration, maxUpdateRate);
 	}
 
 	/**
 	 * @param is
 	 * @param os
 	 * @param hardwareConfiguration
+	 * @param maxUpdateRate the maximum number of input updates per second the device will send
 	 */
-	public ImperiumDevice(InputStream is, OutputStream os,
-			ImperiumHardwareConfiguration hardwareConfiguration) {
+	public ImperiumDevice(InputStream is, OutputStream os, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
 		if (is == null)
 			throw new RobotInitializationException(
 					"Imperium Input Stream was null");
@@ -72,8 +72,10 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 		this.is = is;
 		this.os = os;
 		this.hardwareConfiguration = hardwareConfiguration;
+		this.maxUpdateRate = maxUpdateRate;
 		state = ImperiumDeviceState.DISCONNECTED;
 		new Thread(new ImperiumEventThread()).start();
+		configure();
 	}
 
 	private ImperiumDeviceState state;
@@ -101,20 +103,6 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 	}
 
 	/**
-	 * Set the maximum number of input updates per second the device will send
-	 * 
-	 * @param rate
-	 *            in updates per second
-	 */
-	public void setMaxUpdateRate(int rate) {
-		if (state != ImperiumDeviceState.DISCONNECTED)
-			throw new RobotInitializationException(
-					"Cannot set update rate while not disconnected from device");
-		this.maxUpdateRate = rate;
-		model.fireUpdateEvent();
-	}
-
-	/**
 	 * @return the configuration of the hardware device that this object
 	 *         communicates with
 	 */
@@ -133,10 +121,53 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 		for (int pinId = 0; pinId < object.getPinCount(); ++pinId) {
 			object.validPin(pinId, hardwareConfiguration, hardwareConfiguration.getCapabilities(object.getPin(pinId)));
 		}
+		int objectId =  objects.size();
+		
+
+		synchronized (configureLock) {
+			try {// catch any exception that occurs so that state can be
+					// restored to disconnected
+				ImperiumPacket configurePacket = new ImperiumPacket();
+				configurePacket.setId(PacketIds.CONFIGURE_OBJECT);
+				configurePacket.setDataLength(0);
+
+				configurePacket.appendInteger(objectId, 1);
+				configurePacket.appendInteger(object.getTypeId(), 1);
+				configurePacket.appendInteger(object.getPinCount(), 1);
+				for (int pin = 0; pin < object.getPinCount(); ++pin)
+					configurePacket.appendInteger(object.getPin(pin), 1);
+					
+				sendPacket(configurePacket);
+				
+				if (configureLock.waitOn(1000)) {
+					if (configureLock.isError())
+						throw configureLock.getException();
+
+					ImperiumPacket packet = configureLock.getReturnValue();
+					packet.resetReadPosition();
+					if (packet.getDataLength() != 2)
+						throw new RobotInitializationException("Error configuring Imperium Device Object. Response configure packet was the wrong size");
+
+					int typeId = packet.readInteger(1);
+					int errorCode = packet.readInteger(1);
+					if (typeId != object.getTypeId() || errorCode != 0)
+						throw new RobotInitializationException(
+								"Error configuring Imperium Device. Object "
+										+ object.getObjectId()
+										+ " of type "
+										+ object.getTypeId()
+										+ " failed to configure");
+				} else
+					throw new RobotInitializationException(
+							"Error configuring Imperium Device. The device did not respond within 1 second");
+			} catch (Exception e) {
+				setState(ImperiumDeviceState.DISCONNECTED);
+				throw new RobotException(e);
+			}
+		}
+
 		objects.add(object);
 		model.fireUpdateEvent();
-		int objectId =  objects.size() - 1;
-		
 		return objectId;
 	}
 
@@ -147,7 +178,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 	 * 
 	 * @throws IOException
 	 */
-	public void configure() {
+	private void configure() {
 		RobotUtil.sleep(1500);// TODO: wait for device to initialize
 
 		synchronized (configureLock) {
@@ -193,9 +224,6 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 											+ object.getTypeId()
 											+ " failed to configure");
 					}
-
-					for (ImperiumDeviceObject object : objects)
-						object.initialize();
 
 					setState(ImperiumDeviceState.CONNECTED);
 				} else
