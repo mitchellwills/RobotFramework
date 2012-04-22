@@ -6,11 +6,13 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import robot.Robot;
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
 import robot.imperium.hardware.ImperiumHardwareConfiguration;
 import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
+import robot.io.FactoryObject;
 import robot.io.RobotObject;
 import robot.io.RobotObjectFactory;
 import robot.io.RobotObjectListener;
@@ -25,10 +27,14 @@ import robot.util.RobotUtil;
  *         A serial device that that allows for fast GPIO over a serial port
  * 
  */
-public class ImperiumDevice extends RobotObjectFactory implements RobotObject, UpdatableObject {
+public class ImperiumDevice extends RobotObjectFactory implements RobotObject, FactoryObject, UpdatableObject {
 
 	private final RobotObjectModel model = new RobotObjectModel(this);
-
+	private final ImperiumDeviceObjectFactory factory = new ImperiumDeviceObjectFactory(this);
+	@Override
+	public RobotObjectFactory getFactory(){
+		return factory;
+	}
 	@Override
 	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
@@ -42,6 +48,18 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 	private final InputStream is;
 	private final OutputStream os;
 	private final ImperiumHardwareConfiguration hardwareConfiguration;
+
+	/**
+	 * @param robot 
+	 * @param location 
+	 * @param serialPort
+	 *            the port over which the computer will interact with the device
+	 * @param hardwareConfiguration
+	 * @param maxUpdateRate the maximum number of input updates per second the device will send
+	 */
+	public ImperiumDevice(Robot robot, String location, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
+		this(robot.getFactory().newSerialInterface(location, 115200), hardwareConfiguration, maxUpdateRate);
+	}
 
 	/**
 	 * @param serialPort
@@ -307,7 +325,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 		
 		packet.resetReadPosition();
 		int objectCount = packet.readInteger(1);
-		for(int i = 0; i<objectCount; ++i){
+		for(int i = 0; i<objectCount&&i<objects.size(); ++i){
 			int value = packet.readInteger(4);
 			objects.get(i).setValue(value);
 		}

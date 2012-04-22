@@ -2,6 +2,7 @@ package robot.io.parallax;
 
 import java.io.IOException;
 
+import robot.Robot;
 import robot.error.RobotException;
 import robot.io.Output;
 import robot.io.serial.SerialInterface;
@@ -50,6 +51,10 @@ public class ParallaxSerialLCD implements Output {
 		this.serialPort = serialPort;
 		clear();
 		setDisplayMode(DisplayMode.ON_CURSOR_NBLINK);
+	}
+
+	public ParallaxSerialLCD(Robot robot, String location, int baud){
+		this(robot.getFactory().newSerialInterface(location, baud));
 	}
 
 	private void writeByte(int b){

@@ -13,13 +13,16 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.runner.Computer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import robot.error.RobotInitializationException;
+import robot.io.NameRobotObjectFactory;
 import robot.io.RobotObject;
+import robot.io.RobotObjectFactory;
 import robot.util.XMLUtil;
 
 /**
@@ -33,17 +36,17 @@ public abstract class Robot {
 	
 	
 	private String configName;
+	private RobotObjectFactory factory;
 	/**
 	 * Construct a new robot
 	 * @param configFile the configuration to load for the robot
+	 * @param factory the factory that can be used to create objects
 	 */
 	public Robot(File configFile){
+		factory = new NameRobotObjectFactory(this);
 		load(configFile);
 		System.out.println("Loaded configuration: "+configName);
 	}
-	
-	
-
 	
 	/**
 	 * run the robot
@@ -60,6 +63,13 @@ public abstract class Robot {
 	 * perform the main actions of the robot
 	 */
 	public abstract void run();
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	private void load(File configFile){
@@ -105,6 +115,14 @@ public abstract class Robot {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * @return the factory that can be used to create objects
+	 */
+	public RobotObjectFactory getFactory(){
+		return factory;
 	}
 	
 	

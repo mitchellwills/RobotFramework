@@ -1,6 +1,7 @@
 package robot.io;
 
 import robot.error.RobotInitializationException;
+import robot.io.accelerometer.Accelerometer;
 import robot.io.analog.AnalogVoltageInput;
 import robot.io.binary.BinaryInput;
 import robot.io.binary.BinaryOutput;
@@ -13,6 +14,7 @@ import robot.io.ppm.PPMReader;
 import robot.io.pwm.PWMOutput;
 import robot.io.pwmms.MSPWMOutput;
 import robot.io.serial.SerialInterface;
+import robot.io.speedcontroller.SpeedController;
 
 /**
  * @author Mitchell
@@ -69,7 +71,11 @@ public abstract class RobotObjectFactory {
 		throw new RobotInitializationException("Joystick not supported");
 	}
 
-	public Joystick newAccelerometer(String location){
+	public Accelerometer newAccelerometer(String location){
 		throw new RobotInitializationException("Accelerometer not supported");
+	}
+
+	public SpeedController newSpeedController(String location){
+		throw new RobotInitializationException("Speed Controller not supported");
 	}
 }
