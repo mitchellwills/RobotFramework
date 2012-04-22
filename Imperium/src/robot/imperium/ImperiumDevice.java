@@ -58,7 +58,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 	 * @param maxUpdateRate the maximum number of input updates per second the device will send
 	 */
 	public ImperiumDevice(Robot robot, String location, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
-		this(robot.getFactory().newSerialInterface(location, 115200), hardwareConfiguration, maxUpdateRate);
+		this(robot.getFactory().getSerialInterface(location, 115200), hardwareConfiguration, maxUpdateRate);
 	}
 
 	/**

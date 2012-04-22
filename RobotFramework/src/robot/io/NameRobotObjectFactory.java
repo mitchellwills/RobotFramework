@@ -30,23 +30,27 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public static final char SEPARATION_CHAR = '/';
 	
 	private final Robot robot;
+	
+	/**
+	 * Create a new factory
+	 * @param robot the robot this factory will draw object factories from
+	 */
 	public NameRobotObjectFactory(Robot robot){
 		this.robot = robot;
 	}
 
 	private RobotObjectFactory getFactory(String name){
+		if(name==null)
+			throw new RobotInitializationException("Object Location must have a seperator");
 		RobotObject object = robot.getObject(name);
 		if(object instanceof FactoryObject)
 			return ((FactoryObject)object).getFactory();
 		throw new RobotInitializationException(name+" is not a robot factory");
 	}
-	private RobotObjectFactory getFactoryFromLocation(String location){
-		return getFactory(getFactoryName(location));
-	}
 	private String getFactoryName(String location){
 		int index = location.indexOf(SEPARATION_CHAR);
 		if(index==-1)
-			throw new RobotInitializationException("Object Location must have a seperator");
+			return null;
 		return location.substring(0, index);
 	}
 	private String getSubLocation(String location){
@@ -57,74 +61,174 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	}
 
 	@Override
-	public AnalogVoltageInput newAnalogVoltageInput(String location){
-		return getFactoryFromLocation(location).newAnalogVoltageInput(getSubLocation(location));
+	public AnalogVoltageInput getAnalogVoltageInput(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof AnalogVoltageInput))
+				throw new RobotInitializationException(location+" is not an AnalogVoltageInput");
+			return (AnalogVoltageInput) object;
+		}
+		return getFactory(factoryName).getAnalogVoltageInput(getSubLocation(location));
 	}
 
 	@Override
-	public BinaryInput newBinaryInput(String location){
-		return getFactoryFromLocation(location).newBinaryInput(getSubLocation(location));
+	public BinaryInput getBinaryInput(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof BinaryInput))
+				throw new RobotInitializationException(location+" is not a BinaryInput");
+			return (BinaryInput) object;
+		}
+		return getFactory(factoryName).getBinaryInput(getSubLocation(location));
 	}
 
 	@Override
-	public BinaryOutput newBinaryOutput(String location){
-		return getFactoryFromLocation(location).newBinaryOutput(getSubLocation(location));
+	public BinaryOutput getBinaryOutput(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof BinaryOutput))
+				throw new RobotInitializationException(location+" is not a BinaryOutput");
+			return (BinaryOutput) object;
+		}
+		return getFactory(factoryName).getBinaryOutput(getSubLocation(location));
 	}
 
 	@Override
-	public Counter newCounter(String location){
-		return getFactoryFromLocation(location).newCounter(getSubLocation(location));
+	public Counter getCounter(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof Counter))
+				throw new RobotInitializationException(location+" is not a Counter");
+			return (Counter) object;
+		}
+		return getFactory(factoryName).getCounter(getSubLocation(location));
 	}
 
 	@Override
-	public DutyCycleInput newDutyCycle(String location){
-		return getFactoryFromLocation(location).newDutyCycle(getSubLocation(location));
+	public DutyCycleInput getDutyCycle(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof DutyCycleInput))
+				throw new RobotInitializationException(location+" is not a DutyCycleInput");
+			return (DutyCycleInput) object;
+		}
+		return getFactory(factoryName).getDutyCycle(getSubLocation(location));
 	}
 
 	@Override
-	public Encoder newEncoder(String aLocation, String bLocation){
+	public Encoder getEncoder(String aLocation, String bLocation){
 		if(!getFactoryName(aLocation).equals(getFactoryName(bLocation)))
 			throw new RobotInitializationException("A Location and B Location must share the same factory");
-		return getFactoryFromLocation(aLocation).newEncoder(getSubLocation(aLocation), getSubLocation(bLocation));
+		
+		String factoryName = getFactoryName(aLocation);
+		if(factoryName==null)
+			throw new RobotInitializationException("Cannot get an encoder from the location of two inputs");
+		
+		return getFactory(factoryName).getEncoder(getSubLocation(aLocation), getSubLocation(bLocation));
 	}
 
 	@Override
-	public FrequencyInput newFrequencyInput(String location){
-		return getFactoryFromLocation(location).newFrequencyInput(getSubLocation(location));
+	public FrequencyInput getFrequencyInput(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof FrequencyInput))
+				throw new RobotInitializationException(location+" is not a FrequencyInput");
+			return (FrequencyInput) object;
+		}
+		return getFactory(factoryName).getFrequencyInput(getSubLocation(location));
 	}
 
 	@Override
-	public PPMReader newPPMReader(String location, int numChannels){
-		return getFactoryFromLocation(location).newPPMReader(getSubLocation(location), numChannels);
+	public PPMReader getPPMReader(String location, int numChannels){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof PPMReader))
+				throw new RobotInitializationException(location+" is not a PPMReader");
+			if(((PPMReader)object).getChannelCount()!=numChannels)
+				throw new RobotInitializationException("Channel count of PPMReader '"+location+"' does not match "+numChannels);
+			return (PPMReader) object;
+		}
+		return getFactory(factoryName).getPPMReader(getSubLocation(location), numChannels);
 	}
 
 	@Override
-	public PWMOutput newPWMOutput(String location){
-		return getFactoryFromLocation(location).newPWMOutput(getSubLocation(location));
+	public PWMOutput getPWMOutput(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof PWMOutput))
+				throw new RobotInitializationException(location+" is not a PWMOutput");
+			return (PWMOutput) object;
+		}
+		return getFactory(factoryName).getPWMOutput(getSubLocation(location));
 	}
 
 	@Override
-	public MSPWMOutput newMSPWM(String location){
-		return getFactoryFromLocation(location).newMSPWM(getSubLocation(location));
+	public MSPWMOutput getMSPWM(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof MSPWMOutput))
+				throw new RobotInitializationException(location+" is not a MSPWMOutput");
+			return (MSPWMOutput) object;
+		}
+		return getFactory(factoryName).getMSPWM(getSubLocation(location));
 	}
 
 	@Override
-	public SerialInterface newSerialInterface(String location, int baud){
-		return getFactoryFromLocation(location).newSerialInterface(getSubLocation(location), baud);
+	public SerialInterface getSerialInterface(String location, int baud){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof SerialInterface))
+				throw new RobotInitializationException(location+" is not a SerialInterface");
+			if(((SerialInterface)object).getBaudRate()!=baud)
+				throw new RobotInitializationException("Baud rate of SerialInterface '"+location+"' does not match "+baud);
+			return (SerialInterface) object;
+		}
+		return getFactory(factoryName).getSerialInterface(getSubLocation(location), baud);
 	}
 
 	@Override
-	public Joystick newJoystick(String location){
-		return getFactoryFromLocation(location).newJoystick(getSubLocation(location));
+	public Joystick getJoystick(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof Joystick))
+				throw new RobotInitializationException(location+" is not a Joystick");
+			return (Joystick) object;
+		}
+		return getFactory(factoryName).getJoystick(getSubLocation(location));
 	}
 
 	@Override
-	public Accelerometer newAccelerometer(String location){
-		return getFactoryFromLocation(location).newAccelerometer(getSubLocation(location));
+	public Accelerometer getAccelerometer(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof Accelerometer))
+				throw new RobotInitializationException(location+" is not an Accelerometer");
+			return (Accelerometer) object;
+		}
+		return getFactory(factoryName).getAccelerometer(getSubLocation(location));
 	}
 
 	@Override
-	public SpeedController newSpeedController(String location){
-		return getFactoryFromLocation(location).newSpeedController(getSubLocation(location));
+	public SpeedController getSpeedController(String location){
+		String factoryName = getFactoryName(location);
+		if(factoryName==null){
+			RobotObject object = robot.getObject(location);
+			if(!(object instanceof SpeedController))
+				throw new RobotInitializationException(location+" is not a SpeedController");
+			return (SpeedController) object;
+		}
+		return getFactory(factoryName).getSpeedController(getSubLocation(location));
 	}
 }

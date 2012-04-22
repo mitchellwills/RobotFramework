@@ -11,7 +11,7 @@ import robot.io.speedcontroller.VirtualSpeedController;
  */
 public class VirtualRobotObjectFactory extends RobotObjectFactory{
 	@Override
-	public SpeedController newSpeedController(String location){
+	public SpeedController getSpeedController(String location){
 		return new VirtualSpeedController();
 	}
 }

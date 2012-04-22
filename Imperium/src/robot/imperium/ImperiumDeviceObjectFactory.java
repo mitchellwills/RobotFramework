@@ -39,52 +39,52 @@ public class ImperiumDeviceObjectFactory extends RobotObjectFactory {
 	}
 	
 	@Override
-	public AnalogVoltageInput newAnalogVoltageInput(String location){
+	public AnalogVoltageInput getAnalogVoltageInput(String location){
 		return new ImperiumAnalogVoltageInput(device, location);
 	}
 
 	@Override
-	public BinaryInput newBinaryInput(String location){
+	public BinaryInput getBinaryInput(String location){
 		return new ImperiumDigitalInput(device, location);
 	}
 
 	@Override
-	public BinaryOutput newBinaryOutput(String location){
+	public BinaryOutput getBinaryOutput(String location){
 		return new ImperiumDigitalOutput(device, location);
 	}
 
 	@Override
-	public Counter newCounter(String location){
+	public Counter getCounter(String location){
 		return new ImperiumPulseCounter(device, location);
 	}
 
 	@Override
-	public DutyCycleInput newDutyCycle(String location){
+	public DutyCycleInput getDutyCycle(String location){
 		return new ImperiumDutyCycle(device, location);
 	}
 
 	@Override
-	public Encoder newEncoder(String aLocation, String bLocation){
+	public Encoder getEncoder(String aLocation, String bLocation){
 		return new ImperiumQuadEncoder(device, aLocation, bLocation);
 	}
 
 	@Override
-	public FrequencyInput newFrequencyInput(String location){
+	public FrequencyInput getFrequencyInput(String location){
 		return new ImperiumFrequency(device, location);
 	}
 
 	@Override
-	public PPMReader newPPMReader(String location, int numChannels){
+	public PPMReader getPPMReader(String location, int numChannels){
 		return new ImperiumPPMReader(device, location, numChannels);
 	}
 
 	@Override
-	public MSPWMOutput newMSPWM(String location){
+	public MSPWMOutput getMSPWM(String location){
 		return new ImperiumMSPWMOutput(device, location);
 	}
 
 	@Override
-	public SerialInterface newSerialInterface(String location, int baud){
+	public SerialInterface getSerialInterface(String location, int baud){
 		return new ImperiumSerialPort(device, location, baud);
 	}
 }

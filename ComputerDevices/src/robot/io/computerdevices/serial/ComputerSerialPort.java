@@ -16,8 +16,9 @@ import robot.io.serial.SerialInterface;
  */
 public class ComputerSerialPort implements SerialInterface{
 	
-	
+
 	private final int fd;
+	private final int baud;
 	
 	private final InputStream is;
 	private final OutputStream os;
@@ -29,6 +30,7 @@ public class ComputerSerialPort implements SerialInterface{
 	 * @param baud the baud rate of the port
 	 */
 	public ComputerSerialPort(String name, int baud){
+		this.baud = baud;
 		fd = ComputerPorts.INSTANCE.openSerialPort("\\\\.\\"+name, baud);
 		if(fd<0)
 			throw new RobotInitializationException("Error initalizing serial port on "+name);
@@ -36,6 +38,11 @@ public class ComputerSerialPort implements SerialInterface{
 		is = new ComputerSerialPortInputStream(fd);
 		os = new BufferedOutputStream(new ComputerSerialPortOutputStream(fd));
 		
+	}
+	
+	@Override
+	public int getBaudRate(){
+		return baud;
 	}
 	
 	/**

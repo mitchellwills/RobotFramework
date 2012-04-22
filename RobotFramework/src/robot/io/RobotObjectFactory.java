@@ -23,59 +23,59 @@ import robot.io.speedcontroller.SpeedController;
  *
  */
 public abstract class RobotObjectFactory {
-	public AnalogVoltageInput newAnalogVoltageInput(String location){
+	public AnalogVoltageInput getAnalogVoltageInput(String location){
 		throw new RobotInitializationException("Analog Voltage Input not supported");
 	}
 	
-	public BinaryInput newBinaryInput(String location){
+	public BinaryInput getBinaryInput(String location){
 		throw new RobotInitializationException("Binary Input not supported");
 	}
 	
-	public BinaryOutput newBinaryOutput(String location){
+	public BinaryOutput getBinaryOutput(String location){
 		throw new RobotInitializationException("Binary Output not supported");
 	}
 	
-	public Counter newCounter(String location){
+	public Counter getCounter(String location){
 		throw new RobotInitializationException("Counter not supported");
 	}
 	
-	public DutyCycleInput newDutyCycle(String location){
+	public DutyCycleInput getDutyCycle(String location){
 		throw new RobotInitializationException("Duty Cycle not supported");
 	}
 
-	public Encoder newEncoder(String aLocation, String bLocation){
+	public Encoder getEncoder(String aLocation, String bLocation){
 		throw new RobotInitializationException("Encoder not supported");
 	}
 
-	public FrequencyInput newFrequencyInput(String location){
+	public FrequencyInput getFrequencyInput(String location){
 		throw new RobotInitializationException("Frequency not supported");
 	}
 
-	public PPMReader newPPMReader(String location, int numChannels){
+	public PPMReader getPPMReader(String location, int numChannels){
 		throw new RobotInitializationException("PPMReader not supported");
 	}
 
-	public PWMOutput newPWMOutput(String location){
+	public PWMOutput getPWMOutput(String location){
 		throw new RobotInitializationException("PWM Output not supported");
 	}
 
-	public MSPWMOutput newMSPWM(String location){
+	public MSPWMOutput getMSPWM(String location){
 		throw new RobotInitializationException("MS PWM not supported");
 	}
 
-	public SerialInterface newSerialInterface(String location, int baud){
+	public SerialInterface getSerialInterface(String location, int baud){
 		throw new RobotInitializationException("Serial Interface not supported");
 	}
 
-	public Joystick newJoystick(String location){
+	public Joystick getJoystick(String location){
 		throw new RobotInitializationException("Joystick not supported");
 	}
 
-	public Accelerometer newAccelerometer(String location){
+	public Accelerometer getAccelerometer(String location){
 		throw new RobotInitializationException("Accelerometer not supported");
 	}
 
-	public SpeedController newSpeedController(String location){
+	public SpeedController getSpeedController(String location){
 		throw new RobotInitializationException("Speed Controller not supported");
 	}
 }

@@ -21,4 +21,9 @@ public interface SerialInterface extends Input, Output{
 	 * @return a stream that allows writing to the serial port
 	 */
 	public OutputStream getOutputStream();
+	
+	/**
+	 * @return the baud rate of the serial interface
+	 */
+	public int getBaudRate();
 }

@@ -62,6 +62,11 @@ public final class RxTxComputerSerialPort implements SerialInterface{
 			throw new RobotInitializationException("Could not initialize Serial Port ("+name+"): IO error", e);
 		}
 	}
+	
+	@Override
+	public int getBaudRate(){
+		return port.getBaudRate();
+	}
 
 	@Override
 	public InputStream getInputStream() {

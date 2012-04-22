@@ -27,9 +27,10 @@ import robot.io.serial.SerialInterface;
 public class ImperiumSerialPort extends ImperiumDeviceObject implements
 		SerialInterface {
 
-	private BufferedOutputStream outputStream;
-	private PipedInputStream inputStream;
-	private PipedOutputStream inputOutputStream;
+	private final int baud;
+	private final BufferedOutputStream outputStream;
+	private final PipedInputStream inputStream;
+	private final PipedOutputStream inputOutputStream;
 
 	/**
 	 * Create a new Imperium Serial Port
@@ -41,6 +42,7 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 	 */
 	public ImperiumSerialPort(final ImperiumDevice device, String pin, int baud) {
 		super(SERIAL_PORT_TYPE_ID, device, device.getHardwareConfiguration().getPinId(pin), toDeviceBaud(baud));
+		this.baud = baud;
 		outputStream = new BufferedOutputStream(new OutputStream() {
 			
 			@Override
@@ -89,6 +91,11 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 			return 10;
 		}
 		throw new RobotInitializationException("Unsuported baud rate: "+baud);
+	}
+	
+	@Override
+	public int getBaudRate(){
+		return baud;
 	}
 
 	@Override

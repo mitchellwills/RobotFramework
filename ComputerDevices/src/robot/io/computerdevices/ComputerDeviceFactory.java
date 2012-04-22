@@ -16,12 +16,12 @@ import robot.io.serial.SerialInterface;
 public class ComputerDeviceFactory extends RobotObjectFactory {
 
 	@Override
-	public SerialInterface newSerialInterface(String location, int baud) {
+	public SerialInterface getSerialInterface(String location, int baud) {
 		return new RxTxComputerSerialPort(location, baud);
 	}
 
 	@Override
-	public Joystick newJoystick(String location) {
+	public Joystick getJoystick(String location) {
 		try {
 			int id = Integer.parseInt(location);
 			return ComputerJoystick.getJoystick(id);
