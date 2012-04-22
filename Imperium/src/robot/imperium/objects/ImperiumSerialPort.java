@@ -43,7 +43,7 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 	 * TODO use actual baud rates
 	 */
 	public ImperiumSerialPort(final ImperiumDevice device, String rxPin, String txPin, int baud) {
-		super(SERIAL_PORT_TYPE_ID, device, device.getHardwareConfiguration().getPinId(rxPin), device.getHardwareConfiguration().getPinId(txPin), baud);
+		super(SERIAL_PORT_TYPE_ID, device, device.getHardwareConfiguration().getPinId(rxPin), device.getHardwareConfiguration().getPinId(txPin), toDeviceBaud(baud));
 		outputStream = new BufferedOutputStream(new OutputStream() {
 			
 			@Override
@@ -64,6 +64,34 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 		} catch (IOException e) {
 			throw new RobotInitializationException("Error creating input stream for serial port", e);
 		}
+	}
+	
+	private static int toDeviceBaud(int baud){
+		switch(baud){
+		case 300:
+			return 0;
+		case 1200:
+			return 1;
+		case 2400:
+			return 2;
+		case 4800:
+			return 3;
+		case 9600:
+			return 4;
+		case 14400:
+			return 5;
+		case 19200:
+			return 6;
+		case 28800:
+			return 7;
+		case 38400:
+			return 8;
+		case 57600:
+			return 9;
+		case 115200:
+			return 10;
+		}
+		throw new RobotInitializationException("Unsuported baud rate: "+baud);
 	}
 
 	@Override
