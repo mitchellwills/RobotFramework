@@ -1,7 +1,9 @@
 package robot.imperium;
 
+import java.util.EnumSet;
 import java.util.Set;
 
+import robot.error.RobotInitializationException;
 import robot.imperium.hardware.ImperiumHardwareConfiguration;
 import robot.imperium.hardware.PinCapability;
 import robot.io.RobotObject;
@@ -98,9 +100,28 @@ public abstract class ImperiumDeviceObject implements RobotObject{
 	
 	/**
 	 * @param pinId
-	 * @return the required capabilities for a given pinId
+	 * @param hardwareConfiguration 
+	 * @param capabilities the that the user supplied pin has
+	 * @return true if the pin capabilities are valid for the given pinId
 	 */
-	public abstract Set<PinCapability> getRequiredCapabilities(int pinId);
+	public boolean validPin(int pinId, ImperiumHardwareConfiguration hardwareConfiguration, Set<PinCapability> capabilities){
+		if(!capabilities.containsAll(getRequiredCapabilities(pinId)))
+			throw new RobotInitializationException("The "
+					+ hardwareConfiguration.getName()
+					+ " does not support "
+					+ getRequiredCapabilities(pinId) + " on pin "
+					+ getPin(pinId));
+		return true;
+	}
+
+	/**
+	 * this is used by the defaut inplementation of {@link #validPin(int, Set)}
+	 * @param pinId
+	 * @return the capabilities required for a given pin
+	 */
+	protected Set<PinCapability> getRequiredCapabilities(int pinId) {
+		return EnumSet.noneOf(PinCapability.class);
+	}
 	
 	/**
 	 * initialize the device

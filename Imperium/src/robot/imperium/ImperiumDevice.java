@@ -9,15 +9,6 @@ import java.util.List;
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
 import robot.imperium.hardware.ImperiumHardwareConfiguration;
-import robot.imperium.objects.ImperiumAnalogVoltageInput;
-import robot.imperium.objects.ImperiumDigitalInput;
-import robot.imperium.objects.ImperiumDigitalOutput;
-import robot.imperium.objects.ImperiumDutyCycle;
-import robot.imperium.objects.ImperiumFrequency;
-import robot.imperium.objects.ImperiumPPMReader;
-import robot.imperium.objects.ImperiumPulseCounter;
-import robot.imperium.objects.ImperiumQuadEncoder;
-import robot.imperium.objects.ImperiumSerialPort;
 import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
 import robot.io.RobotObject;
@@ -25,15 +16,6 @@ import robot.io.RobotObjectFactory;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 import robot.io.UpdatableObject;
-import robot.io.analog.AnalogVoltageInput;
-import robot.io.binary.BinaryInput;
-import robot.io.binary.BinaryOutput;
-import robot.io.counter.Counter;
-import robot.io.dutycycle.DutyCycleInput;
-import robot.io.encoder.Encoder;
-import robot.io.frequency.FrequencyInput;
-import robot.io.ppm.PPMReader;
-import robot.io.pwmms.MSPWMOutput;
 import robot.io.serial.SerialInterface;
 import robot.util.RobotUtil;
 
@@ -149,17 +131,13 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, U
 	 */
 	int register(ImperiumDeviceObject object) {
 		for (int pinId = 0; pinId < object.getPinCount(); ++pinId) {
-			if (!hardwareConfiguration.supports(object.getPin(pinId),
-					object.getRequiredCapabilities(pinId)))
-				throw new RobotInitializationException("The "
-						+ hardwareConfiguration.getName()
-						+ " does not support "
-						+ object.getRequiredCapabilities(pinId) + " on pin "
-						+ object.getPin(pinId));
+			object.validPin(pinId, hardwareConfiguration, hardwareConfiguration.getCapabilities(object.getPin(pinId)));
 		}
 		objects.add(object);
 		model.fireUpdateEvent();
-		return objects.size() - 1;
+		int objectId =  objects.size() - 1;
+		
+		return objectId;
 	}
 
 	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException> configureLock = new ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException>();

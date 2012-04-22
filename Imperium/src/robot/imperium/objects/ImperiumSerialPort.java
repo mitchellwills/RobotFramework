@@ -8,14 +8,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Set;
 
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
+import robot.imperium.hardware.ImperiumHardwareConfiguration;
 import robot.imperium.hardware.PinCapability;
 import robot.io.serial.SerialInterface;
 
@@ -37,10 +36,8 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 	 * The pins should both be on the same serial port on the device
 	 * 
 	 * @param device
-	 * @param rxPin the pin used to receive serial data
-	 * @param txPin the pin used to transmit serial data
+	 * @param pin the tx or rx pin of the serial port
 	 * @param baud the baud rate 
-	 * TODO use actual baud rates
 	 */
 	public ImperiumSerialPort(final ImperiumDevice device, String pin, int baud) {
 		super(SERIAL_PORT_TYPE_ID, device, device.getHardwareConfiguration().getPinId(pin), toDeviceBaud(baud));
@@ -95,12 +92,15 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 	}
 
 	@Override
-	public Set<PinCapability> getRequiredCapabilities(int pinId) {
-		if (pinId == 0)
-			return EnumSet.of(PinCapability.SerialRx);
-		if (pinId == 1)
-			return EnumSet.of(PinCapability.SerialTx);
-		return Collections.<PinCapability> emptySet();
+	public boolean validPin(int pinId, ImperiumHardwareConfiguration hardwareConfiguration, Set<PinCapability> capabilities){
+		if(pinId!=0)
+			return true;
+		if(capabilities.contains(PinCapability.SerialRx) || capabilities.contains(PinCapability.SerialTx))
+			return true;
+		throw new RobotInitializationException("The "
+				+ hardwareConfiguration.getName()
+				+ " does not support a serial port on pin "
+				+ getPin(pinId));
 	}
 
 	@Override

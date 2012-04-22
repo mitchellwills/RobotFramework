@@ -40,15 +40,6 @@ public abstract class ImperiumHardwareConfiguration {
 	}
 	
 	/**
-	 * @param pin the pin to check compatibility on
-	 * @param capability capability to check for
-	 * @return true if the pin can support the capability
-	 */
-	public boolean supports(int pin, PinCapability capability){
-		return getCapabilities(pin).contains(capability);
-	}
-	
-	/**
 	 * @param pinId the pin to check compatibility on
 	 * @param capabilities capabilities to check for
 	 * @return true if the pin can support all the capabilities

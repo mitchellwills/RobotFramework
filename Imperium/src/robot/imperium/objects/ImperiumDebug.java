@@ -1,13 +1,8 @@
 package robot.imperium.objects;
 
 import static robot.imperium.objects.ObjectTypeIds.DEBUG_TYPE_ID;
-
-import java.util.EnumSet;
-import java.util.Set;
-
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
-import robot.imperium.hardware.PinCapability;
 
 
 /**
@@ -25,11 +20,6 @@ public class ImperiumDebug extends ImperiumDeviceObject {
 	 */
 	public ImperiumDebug(ImperiumDevice device) {
 		super(DEBUG_TYPE_ID, device);
-	}
-
-	@Override
-	public Set<PinCapability> getRequiredCapabilities(int pinId) {
-		return EnumSet.noneOf(PinCapability.class);
 	}
 	
 	@Override
