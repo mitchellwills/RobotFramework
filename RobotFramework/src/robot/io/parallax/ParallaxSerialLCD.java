@@ -48,6 +48,8 @@ public class ParallaxSerialLCD implements Output {
 	 */
 	public ParallaxSerialLCD(SerialInterface serialPort){
 		this.serialPort = serialPort;
+		clear();
+		setDisplayMode(DisplayMode.ON_CURSOR_NBLINK);
 	}
 
 	private void writeByte(int b){
