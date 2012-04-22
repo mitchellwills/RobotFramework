@@ -20,7 +20,7 @@ ImperiumObject* ImperiumSerialPort::newSerialPort(int objectId, int* pins, int p
 
 ImperiumSerialPort::ImperiumSerialPort(int objectId, int* pins, int pinCount) : ImperiumObject(objectId, pins, pinCount){
 	unsigned long baud = 0;
-	switch(getPin(2)){
+	switch(getPin(1)){
 	case BAUD_300:
 		baud = 300;
 		break;

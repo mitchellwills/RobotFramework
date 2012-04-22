@@ -42,8 +42,8 @@ public class ImperiumSerialPort extends ImperiumDeviceObject implements
 	 * @param baud the baud rate 
 	 * TODO use actual baud rates
 	 */
-	public ImperiumSerialPort(final ImperiumDevice device, String rxPin, String txPin, int baud) {
-		super(SERIAL_PORT_TYPE_ID, device, device.getHardwareConfiguration().getPinId(rxPin), device.getHardwareConfiguration().getPinId(txPin), toDeviceBaud(baud));
+	public ImperiumSerialPort(final ImperiumDevice device, String pin, int baud) {
+		super(SERIAL_PORT_TYPE_ID, device, device.getHardwareConfiguration().getPinId(pin), toDeviceBaud(baud));
 		outputStream = new BufferedOutputStream(new OutputStream() {
 			
 			@Override
