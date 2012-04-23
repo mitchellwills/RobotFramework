@@ -3,8 +3,8 @@ package robot.io.computerdevices;
 import robot.error.RobotInitializationException;
 import robot.io.RobotObjectFactory;
 import robot.io.computerdevices.joystick.ComputerJoystick;
+import robot.io.computerdevices.rxtx.RxTxComputerSerialPort;
 import robot.io.joystick.Joystick;
-import robot.io.serial.RxTxComputerSerialPort;
 import robot.io.serial.SerialInterface;
 
 /**

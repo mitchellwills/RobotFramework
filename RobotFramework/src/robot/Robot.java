@@ -13,7 +13,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.runner.Computer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -40,12 +39,18 @@ public abstract class Robot {
 	/**
 	 * Construct a new robot
 	 * @param configFile the configuration to load for the robot
-	 * @param factory the factory that can be used to create objects
 	 */
 	public Robot(File configFile){
-		factory = new NameRobotObjectFactory(this);
+		this(configFile, null);
+	}
+	/**
+	 * Construct a new robot
+	 * @param configFile the configuration to load for the robot
+	 * @param factory the factory that can be used to create objects
+	 */
+	public Robot(File configFile, RobotObjectFactory factory){
+		setFactory(factory);
 		load(configFile);
-		System.out.println("Loaded configuration: "+configName);
 	}
 	
 	/**
@@ -73,6 +78,8 @@ public abstract class Robot {
 	
 	
 	private void load(File configFile){
+		if(configFile==null)
+			return;
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document dom = db.parse(configFile);
@@ -107,6 +114,7 @@ public abstract class Robot {
 				else
 					System.err.println("Unknown tag: "+node.getNodeName());
 			}
+			System.out.println("Loaded configuration: "+configName);
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -117,12 +125,19 @@ public abstract class Robot {
 		}
 	}
 	
-	
+
 	/**
 	 * @return the factory that can be used to create objects
 	 */
 	public RobotObjectFactory getFactory(){
 		return factory;
+	}
+	
+	public void setFactory(RobotObjectFactory factory){
+		if(factory==null)
+			this.factory = new NameRobotObjectFactory(this);
+		else
+			this.factory = factory;
 	}
 	
 	

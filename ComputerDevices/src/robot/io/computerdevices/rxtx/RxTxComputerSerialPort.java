@@ -1,4 +1,4 @@
-package robot.io.serial;
+package robot.io.computerdevices.rxtx;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import robot.error.RobotInitializationException;
+import robot.io.serial.SerialInterface;
 
 /**
  * @author Mitchell
