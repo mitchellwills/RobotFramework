@@ -13,8 +13,18 @@ import javax.swing.JLabel;
 
 import robot.io.computerdevices.Computer;
 
+/**
+ * @author Mitchell
+ * 
+ * A dialog that can be used to select a serial port on a computer
+ *
+ */
 public class SerialPortDialog extends JDialog {
 	private String result = null;
+	/**
+	 * Create a new Dialog
+	 * Show the dialog using {@link #setVisible(boolean)}
+	 */
 	public SerialPortDialog(){
 		setModal(true);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -71,6 +81,9 @@ public class SerialPortDialog extends JDialog {
 		pack();
 	}
 	
+	/**
+	 * @return the selected port or null if no port was selected
+	 */
 	public String getSelectedPortName(){
 		return result;
 	}

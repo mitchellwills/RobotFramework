@@ -4,9 +4,20 @@ import robot.Robot;
 import robot.io.RobotObjectListener;
 import robot.io.binary.BinaryOutput;
 
+/**
+ * @author Mitchell
+ * 
+ * A Digital Output on the device
+ *
+ */
 public class DigitalOutput implements BinaryOutput {
 	private final BinaryOutput output;
-	public DigitalOutput(Robot robot, String location) {
+	/**
+	 * Create a new Digital output
+	 * @param robot
+	 * @param location
+	 */
+	public DigitalOutput(final Robot robot, final String location) {
 		output = robot.getFactory().getBinaryOutput(location);
 	}
 

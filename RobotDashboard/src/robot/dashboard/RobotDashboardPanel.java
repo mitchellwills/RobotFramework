@@ -4,7 +4,9 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -22,21 +24,44 @@ import robot.RobotListener;
 import robot.io.RobotObject;
 import robot.util.XMLUtil;
 
+/**
+ * @author Mitchell
+ * 
+ * A dashboard panel that loads the widget layout from a xml config file
+ *
+ */
 public class RobotDashboardPanel extends JPanel implements RobotListener {
 	private static final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
 	private final Robot robot;
 	private final Map<String, Widget<?>> widgets = new HashMap<String, Widget<?>>();
 
-	public RobotDashboardPanel(Robot robot, File config) {
+	/**
+	 * Create a new Dashboard Panel
+	 * 
+	 * @param robot
+	 * @param config the initial configuration file to load
+	 */
+	public RobotDashboardPanel(final Robot robot, final File config) {
 		setLayout(null);
 		this.robot = robot;
 		robot.addListener(this);
 		load(config);
 	}
 
-	public void load(File configFile) {
-
+	/**
+	 * Load a new Configuration file
+	 * @param configFile
+	 */
+	public synchronized void load(final File configFile) {
+		removeAll();
+		Iterator<Entry<String, Widget<?>>> widgetIterator = widgets.entrySet().iterator();
+		while(widgetIterator.hasNext()){
+			Entry<String, Widget<?>> entry = widgetIterator.next();
+			entry.getValue().setObject(null);
+			widgetIterator.remove();
+		}
+		
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document dom = db.parse(configFile);
@@ -99,13 +124,10 @@ public class RobotDashboardPanel extends JPanel implements RobotListener {
 					else
 						System.err.println("Unknown tag: "+node.getNodeName());
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -113,13 +135,10 @@ public class RobotDashboardPanel extends JPanel implements RobotListener {
 			setPreferredSize(new Dimension(panelWidth, panelHeight));
 
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
