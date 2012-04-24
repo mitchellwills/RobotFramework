@@ -40,15 +40,15 @@ public class JXInputJoystick implements Joystick{
 		
 		buttons = new JoystickButton[nativeDevice.getNumberOfButtons()];
 		for(int i = 0; i<buttons.length; ++i)
-			buttons[i] = new JXInputJoystickButton(nativeDevice.getButton(i));
+			buttons[i] = new JXInputJoystickButton(this, nativeDevice.getButton(i));
 		
 		axes = new JoystickAxis[nativeDevice.getNumberOfAxes()];
 		for(int i = 0; i<axes.length; ++i)
-			axes[i] = new JXInputJoystickAxis(nativeDevice.getAxis(i));
+			axes[i] = new JXInputJoystickAxis(this, nativeDevice.getAxis(i));
 		
 		directionals = new JoystickDirectional[nativeDevice.getNumberOfDirectionals()];
 		for(int i = 0; i<directionals.length; ++i)
-			directionals[i] = new JXInputJoystickDirectional(nativeDevice.getDirectional(i));
+			directionals[i] = new JXInputJoystickDirectional(this, nativeDevice.getDirectional(i));
 	}
 	
 	
@@ -85,6 +85,13 @@ public class JXInputJoystick implements Joystick{
 	@Override
 	public int getDirectionalCount() {
 		return directionals.length;
+	}
+	
+	/**
+	 * This does not actually poll the device but instead just fires the update listeners
+	 */
+	public void poll(){
+		model.fireUpdateEvent();
 	}
 	
 	

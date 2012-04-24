@@ -1,5 +1,8 @@
 package robot.io.joystick;
 
+import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObjectListener;
+
 /**
  * @author Mitchell
  * 
@@ -7,9 +10,20 @@ package robot.io.joystick;
  *
  */
 public class JoystickAxisDirectional implements JoystickDirectional {
+
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
+	
+	
 	private final JoystickAxis xAxis;
 	private final JoystickAxis yAxis;
-	
 
 	/**
 	 * Create a joystick from two axes
@@ -18,7 +32,9 @@ public class JoystickAxisDirectional implements JoystickDirectional {
 	 */
 	public JoystickAxisDirectional(JoystickAxis xAxis, JoystickAxis yAxis) {
 		this.xAxis = xAxis;
+		xAxis.addUpdateListener(model);
 		this.yAxis = yAxis;
+		yAxis.addUpdateListener(model);
 	}
 
 	@Override
@@ -32,13 +48,13 @@ public class JoystickAxisDirectional implements JoystickDirectional {
 	}
 
 	@Override
-	public double getMagnatude() {
+	public double getMagnitude() {
 		return Math.sqrt(xAxis.getValue() * xAxis.getValue() + yAxis.getValue() * yAxis.getValue());
 	}
 
 	@Override
 	public boolean isCentered() {
-		return getMagnatude()==0;
+		return getMagnitude()==0;
 	}
 
 }

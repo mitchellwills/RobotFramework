@@ -1,5 +1,6 @@
 package robot.io.joystick;
 
+import robot.io.UpdatableObject;
 import robot.io.binary.BinaryInput;
 
 /**
@@ -8,7 +9,7 @@ import robot.io.binary.BinaryInput;
  * represents a button on the joystick
  *
  */
-public interface JoystickButton extends BinaryInput{
+public interface JoystickButton extends BinaryInput, UpdatableObject{
 	/**
 	 * @return the name of the button
 	 */

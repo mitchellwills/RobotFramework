@@ -1,6 +1,7 @@
 package robot.io.joystick;
 
 import robot.io.InputValue;
+import robot.io.UpdatableObject;
 
 /**
  * @author Mitchell
@@ -8,7 +9,7 @@ import robot.io.InputValue;
  * An axis on a joystick
  *
  */
-public interface JoystickAxis extends InputValue{
+public interface JoystickAxis extends InputValue, UpdatableObject{
 	/**
 	 * @return the name of the axis
 	 */

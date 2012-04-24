@@ -219,10 +219,10 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 					SIZE / 2,
 					SIZE / 2,
 					(int) (SIZE / 2 + (SIZE / 2 - PADDING)
-							* directional.getMagnatude()
+							* directional.getMagnitude()
 							* Math.cos(Math.toRadians(directional.getAngle() - 90))),
 					(int) (SIZE / 2 + (SIZE / 2 - PADDING)
-							* directional.getMagnatude()
+							* directional.getMagnitude()
 							* Math.sin(Math.toRadians(directional.getAngle() - 90))));
 		}
 	}

@@ -1,5 +1,7 @@
 package robot.io.ppm;
 
+import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObjectListener;
 import robot.io.joystick.JoystickAxis;
 
 /**
@@ -9,6 +11,16 @@ import robot.io.joystick.JoystickAxis;
  *
  */
 public class PPMChannelJoystickAxis implements JoystickAxis{
+
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
 
 	private final PPMReader reader;
 	private final int channel;
@@ -26,6 +38,7 @@ public class PPMChannelJoystickAxis implements JoystickAxis{
 		this.channel = channel;
 		this.center = (min+max)/2;
 		this.range = (max-min)/2;
+		reader.addUpdateListener(model);
 	}
 	
 	@Override

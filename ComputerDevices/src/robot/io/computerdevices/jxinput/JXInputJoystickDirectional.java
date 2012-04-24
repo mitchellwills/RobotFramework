@@ -1,5 +1,7 @@
 package robot.io.computerdevices.jxinput;
 
+import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObjectListener;
 import robot.io.joystick.JoystickDirectional;
 import de.hardcode.jxinput.Directional;
 
@@ -12,8 +14,19 @@ import de.hardcode.jxinput.Directional;
 public class JXInputJoystickDirectional implements JoystickDirectional {
 
 	private final Directional nativeDirectional;
-	JXInputJoystickDirectional(Directional nativeDirectional) {
+	JXInputJoystickDirectional(JXInputJoystick joystick, Directional nativeDirectional) {
 		this.nativeDirectional = nativeDirectional;
+		joystick.addUpdateListener(model);
+	}
+
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
 	}
 
 	@Override
@@ -27,7 +40,7 @@ public class JXInputJoystickDirectional implements JoystickDirectional {
 	}
 
 	@Override
-	public double getMagnatude() {
+	public double getMagnitude() {
 		return nativeDirectional.getValue();
 	}
 	

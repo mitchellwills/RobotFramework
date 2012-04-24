@@ -17,6 +17,7 @@ public class ComputerJoystickButton implements JoystickButton{
 	private final int id;
 	ComputerJoystickButton(ComputerJoystick joystick, int id){
 		this.joystick = joystick;
+		joystick.addUpdateListener(model);
 		this.id = id;
 	}
 	

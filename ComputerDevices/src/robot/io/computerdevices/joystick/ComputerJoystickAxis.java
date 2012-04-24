@@ -1,5 +1,7 @@
 package robot.io.computerdevices.joystick;
 
+import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObjectListener;
 import robot.io.computerdevices.DIJoystick;
 import robot.io.joystick.JoystickAxis;
 
@@ -10,11 +12,22 @@ import robot.io.joystick.JoystickAxis;
  *
  */
 public class ComputerJoystickAxis implements JoystickAxis{
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(
+			RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
 	
 	private final ComputerJoystick joystick;
 	private final int id;
 	ComputerJoystickAxis(ComputerJoystick joystick, int id){
 		this.joystick = joystick;
+		joystick.addUpdateListener(model);
 		this.id = id;
 	}
 

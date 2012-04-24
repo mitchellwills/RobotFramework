@@ -14,7 +14,8 @@ import de.hardcode.jxinput.Button;
 public class JXInputJoystickButton implements JoystickButton {
 	
 	private final Button nativeButton;
-	JXInputJoystickButton(Button nativeButton){
+	JXInputJoystickButton(JXInputJoystick joystick, Button nativeButton){
+		joystick.addUpdateListener(model);
 		this.nativeButton = nativeButton;
 	}
 

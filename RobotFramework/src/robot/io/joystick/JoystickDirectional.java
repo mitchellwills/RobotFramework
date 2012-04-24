@@ -1,6 +1,7 @@
 package robot.io.joystick;
 
 import robot.io.Input;
+import robot.io.UpdatableObject;
 
 /**
  * @author Mitchell
@@ -8,7 +9,7 @@ import robot.io.Input;
  * A directional on a joystick
  *
  */
-public interface JoystickDirectional extends Input{
+public interface JoystickDirectional extends Input, UpdatableObject{
 	/**
 	 * @return the name of the directional
 	 */
@@ -18,9 +19,9 @@ public interface JoystickDirectional extends Input{
 	 */
 	public double getAngle();
 	/**
-	 * @return the magnatude of the directional
+	 * @return the magnitude of the directional
 	 */
-	public double getMagnatude();
+	public double getMagnitude();
 	/**
 	 * @return true if the directional is centered
 	 */
