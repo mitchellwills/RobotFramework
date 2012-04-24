@@ -32,7 +32,7 @@ public class SerialPortDialog extends JDialog {
 		gbc_lblSelectASerial.gridy = 1;
 		getContentPane().add(lblSelectASerial, gbc_lblSelectASerial);
 		
-		final JComboBox comboBox = new JComboBox(Computer.get().getSerialPorts());
+		final JComboBox<String> comboBox = new JComboBox<String>(Computer.get().getSerialPorts());
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(5, 5, 5, 5);
@@ -43,6 +43,7 @@ public class SerialPortDialog extends JDialog {
 		
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				result = (String) comboBox.getSelectedItem();
 				setVisible(false);
@@ -56,6 +57,7 @@ public class SerialPortDialog extends JDialog {
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
