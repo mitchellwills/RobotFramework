@@ -7,6 +7,7 @@ import java.util.Enumeration;
 
 import robot.io.FactoryObject;
 import robot.io.RobotObjectFactory;
+import robot.io.host.Host;
 
 /**
  * @author Mitchell
@@ -14,7 +15,7 @@ import robot.io.RobotObjectFactory;
  * Object that represents a computer
  *
  */
-public class Computer implements FactoryObject{
+public class Computer implements FactoryObject, Host{
 	private static final Computer INSTANCE = new Computer();
 	/**
 	 * @return the singleton computer instance
@@ -25,10 +26,20 @@ public class Computer implements FactoryObject{
 	private Computer(){
 	}
 	
+	
 	private ComputerDeviceFactory factory = new ComputerDeviceFactory();
 	@Override
 	public RobotObjectFactory getFactory() {
 		return factory;
+	}
+	
+	private final ComputerBattery battery = new ComputerBattery();//TODO handle if there is not battery
+	/**
+	 * @return the battery installed on the computer
+	 */
+	@Override
+	public ComputerBattery getBattery(){
+		return battery;
 	}
 	
 	/**
