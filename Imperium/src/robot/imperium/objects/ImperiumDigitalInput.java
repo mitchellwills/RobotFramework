@@ -58,6 +58,11 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements Binary
 	}
 
 	@Override
+	public double getValue() {
+		return get()?1:0;
+	}
+
+	@Override
 	public void setValue(int value) {
 		currentState = value!=0;
 	}

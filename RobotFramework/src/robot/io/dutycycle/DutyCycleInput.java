@@ -1,6 +1,6 @@
 package robot.io.dutycycle;
 
-import robot.io.Input;
+import robot.io.InputValue;
 import robot.io.UpdatableObject;
 
 /**
@@ -9,7 +9,7 @@ import robot.io.UpdatableObject;
  * An input that gives the duty cycle of pulses
  *
  */
-public interface DutyCycleInput extends Input, UpdatableObject{
+public interface DutyCycleInput extends InputValue, UpdatableObject{
 	/**
 	 * @return a value between 0.0 and 1.0 representing the duty cycle of the pulses on a pin
 	 */

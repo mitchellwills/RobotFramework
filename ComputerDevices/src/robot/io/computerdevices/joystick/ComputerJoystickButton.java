@@ -40,6 +40,10 @@ public class ComputerJoystickButton implements JoystickButton{
 	public boolean get() {
 		return DIJoystick.INSTANCE.getButton(joystick.getNativePointer(), id);
 	}
+	@Override
+	public double getValue() {
+		return get()?1:0;
+	}
 	
 
 }

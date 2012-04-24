@@ -37,5 +37,9 @@ public class JXInputJoystickButton implements JoystickButton {
 	public boolean get() {
 		return nativeButton.getState();
 	}
+	@Override
+	public double getValue() {
+		return get()?1:0;
+	}
 
 }

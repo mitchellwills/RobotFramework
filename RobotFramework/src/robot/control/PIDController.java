@@ -1,5 +1,7 @@
 package robot.control;
 
+import robot.io.InputValue;
+import robot.io.OutputValue;
 import robot.util.RobotUtil;
 
 /**
@@ -17,8 +19,8 @@ public class PIDController implements ControlLoop{
 
 	private double threshold;
 	
-	private final ControlLoopInput input;
-	private final ControlLoopOutput output;
+	private final InputValue input;
+	private final OutputValue output;
 	private final double minOutput;
 	private final double maxOutput;
 	
@@ -39,8 +41,8 @@ public class PIDController implements ControlLoop{
 	 * @param minOutput 
 	 * @param maxOutput 
 	 */
-	public PIDController(double Kp, double Ki, double Kd, ControlLoopInput input,
-			ControlLoopOutput output, double minOutput, double maxOutput) {
+	public PIDController(double Kp, double Ki, double Kd, InputValue input,
+			OutputValue output, double minOutput, double maxOutput) {
 		this(Kp, Ki, Kd, input, output, minOutput, maxOutput, 20);
 	}
 	/**
@@ -53,8 +55,8 @@ public class PIDController implements ControlLoop{
 	 * @param maxOutput 
 	 * @param updateDelay the delay between updates of the PID loop
 	 */
-	public PIDController(double Kp, double Ki, double Kd, ControlLoopInput input,
-			ControlLoopOutput output, double minOutput, double maxOutput, long updateDelay) {
+	public PIDController(double Kp, double Ki, double Kd, InputValue input,
+			OutputValue output, double minOutput, double maxOutput, long updateDelay) {
 		this(Kp, Ki, Kd, input, output, minOutput, maxOutput, 0, updateDelay);
 	}
 	/**
@@ -68,8 +70,8 @@ public class PIDController implements ControlLoop{
 	 * @param threshold 
 	 * @param updateDelay the delay between updates of the PID loop
 	 */
-	public PIDController(double Kp, double Ki, double Kd, ControlLoopInput input,
-			ControlLoopOutput output, double minOutput, double maxOutput, double threshold, long updateDelay) {
+	public PIDController(double Kp, double Ki, double Kd, InputValue input,
+			OutputValue output, double minOutput, double maxOutput, double threshold, long updateDelay) {
 		this.Kp = Kp;
 		this.Ki = Ki;
 		this.Kd = Kd;
@@ -105,7 +107,7 @@ public class PIDController implements ControlLoop{
 		value = RobotUtil.limit(value, minOutput, maxOutput);
 		if(Math.abs(value)<threshold)
 			value = 0;
-		output.set(value);
+		output.setValue(value);
 		
 		previousError = error;
 		lastUpdate = time;
@@ -123,7 +125,7 @@ public class PIDController implements ControlLoop{
 
 	@Override
 	public double getPosition() {
-		return input.get();
+		return input.getValue();
 	}
 	
 

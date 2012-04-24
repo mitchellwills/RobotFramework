@@ -25,4 +25,9 @@ public class DigitalInput implements BinaryInput {
 		return input.get();
 	}
 
+	@Override
+	public double getValue() {
+		return get()?1:0;
+	}
+
 }

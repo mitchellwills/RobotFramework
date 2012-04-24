@@ -1,6 +1,6 @@
 package robot.io.frequency;
 
-import robot.io.Input;
+import robot.io.InputValue;
 import robot.io.UpdatableObject;
 
 /**
@@ -9,7 +9,7 @@ import robot.io.UpdatableObject;
  * An input that gives the frequency of a pulse input
  *
  */
-public interface FrequencyInput extends Input, UpdatableObject{
+public interface FrequencyInput extends InputValue, UpdatableObject{
 	/**
 	 * @return the frequency of pulses
 	 */

@@ -69,4 +69,14 @@ public class ServoMS implements Servo {
 	public double getMaxAngle() {
 		return output.getMaximumValue();
 	}
+
+	@Override
+	public void setValue(double value) {
+		setAngle(value);
+	}
+
+	@Override
+	public double getValue() {
+		return getAngle();
+	}
 }

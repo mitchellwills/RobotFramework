@@ -57,6 +57,10 @@ public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Encoder
 	public int getPosition() {
 		return position;
 	}
+	@Override
+	public double getValue(){
+		return getPosition();
+	}
 
 	@Override
 	public void setValue(int value) {

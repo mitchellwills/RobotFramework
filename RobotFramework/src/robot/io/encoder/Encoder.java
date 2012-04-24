@@ -1,6 +1,6 @@
 package robot.io.encoder;
 
-import robot.io.Input;
+import robot.io.InputValue;
 import robot.io.UpdatableObject;
 
 
@@ -10,7 +10,7 @@ import robot.io.UpdatableObject;
  * @author Mitchell
  *
  */
-public interface Encoder extends Input, UpdatableObject {
+public interface Encoder extends InputValue, UpdatableObject {
 	/**
 	 * @return the position
 	 */

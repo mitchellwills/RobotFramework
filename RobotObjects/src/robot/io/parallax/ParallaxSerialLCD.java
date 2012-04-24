@@ -53,6 +53,12 @@ public class ParallaxSerialLCD implements Output {
 		setDisplayMode(DisplayMode.ON_CURSOR_NBLINK);
 	}
 
+	/**
+	 * Create a new ParallaxSerialLCD and get the Serial Interface from the robot by name
+	 * @param robot
+	 * @param location
+	 * @param baud
+	 */
 	public ParallaxSerialLCD(Robot robot, String location, int baud){
 		this(robot.getFactory().getSerialInterface(location, baud));
 	}

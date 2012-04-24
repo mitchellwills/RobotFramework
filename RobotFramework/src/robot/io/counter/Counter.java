@@ -1,6 +1,6 @@
 package robot.io.counter;
 
-import robot.io.Input;
+import robot.io.InputValue;
 import robot.io.UpdatableObject;
 
 /**
@@ -9,7 +9,7 @@ import robot.io.UpdatableObject;
  * An object that counts something
  *
  */
-public interface Counter  extends Input, UpdatableObject {
+public interface Counter  extends InputValue, UpdatableObject {
 
 	/**
 	 * @return the value of the counter

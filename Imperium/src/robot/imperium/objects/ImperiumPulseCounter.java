@@ -57,6 +57,11 @@ public class ImperiumPulseCounter extends ImperiumDeviceObject implements Counte
 	public int getCount() {
 		return count;
 	}
+	
+	@Override
+	public double getValue(){
+		return getCount();
+	}
 
 	@Override
 	public void setValue(int value) {

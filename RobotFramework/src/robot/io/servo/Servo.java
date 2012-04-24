@@ -1,6 +1,6 @@
 package robot.io.servo;
 
-import robot.io.Output;
+import robot.io.OutputValue;
 
 /**
  * @author Mitchell
@@ -8,7 +8,7 @@ import robot.io.Output;
  * Represents a servo that can hold an angle that 
  *
  */
-public interface Servo extends Output {
+public interface Servo extends OutputValue {
 	
 	/**
 	 * Set the angle the servo is at

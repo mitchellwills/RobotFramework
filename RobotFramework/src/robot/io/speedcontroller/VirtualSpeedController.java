@@ -34,4 +34,14 @@ public class VirtualSpeedController implements SpeedController{
 			RobotObjectListener listener) {
 		model.removeUpdateListener(listener);
 	}
+
+	@Override
+	public void setValue(double value) {
+		set(value);
+	}
+
+	@Override
+	public double getValue() {
+		return get();
+	}
 }

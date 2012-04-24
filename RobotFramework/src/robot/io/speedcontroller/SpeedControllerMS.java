@@ -85,5 +85,13 @@ public class SpeedControllerMS implements SpeedController {
 	public double get() {
 		return output.getValue();
 	}
+	@Override
+	public void setValue(double value) {
+		set(value);
+	}
+	@Override
+	public double getValue() {
+		return get();
+	}
 
 }

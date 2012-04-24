@@ -26,5 +26,9 @@ public class AnalogInput implements AnalogVoltageInput{
 	public double getVoltage() {
 		return input.getVoltage();
 	}
+	@Override
+	public double getValue() {
+		return getVoltage();
+	}
 
 }

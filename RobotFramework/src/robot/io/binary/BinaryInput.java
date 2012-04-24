@@ -1,6 +1,6 @@
 package robot.io.binary;
 
-import robot.io.Input;
+import robot.io.InputValue;
 import robot.io.UpdatableObject;
 
 
@@ -10,7 +10,7 @@ import robot.io.UpdatableObject;
  * an input that can be active of not active (such as a digital input pin)
  *
  */
-public interface BinaryInput extends Input, UpdatableObject{
+public interface BinaryInput extends InputValue, UpdatableObject{
 	/**
 	 * @return true if the input is active
 	 */

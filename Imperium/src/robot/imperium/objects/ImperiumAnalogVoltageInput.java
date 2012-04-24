@@ -54,6 +54,11 @@ public class ImperiumAnalogVoltageInput extends ImperiumDeviceObject implements 
 	public double getVoltage() {
 		return currentVoltage;
 	}
+	
+	@Override
+	public double getValue(){
+		return getVoltage();
+	}
 
 	@Override
 	public void setValue(int value) {

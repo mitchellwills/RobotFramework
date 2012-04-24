@@ -64,6 +64,19 @@ public class ImperiumMSPWMOutput extends ImperiumDeviceObject implements MSPWMOu
 		return currentState;
 	}
 
+
+	@Override
+	public void setValue(double value) {
+		set((int) value);
+	}
+
+	@Override
+	public double getValue() {
+		return get();
+	}
+	
+	
+
 	@Override
 	public void setValue(int value) {
 		//don't do anything or could get out of sync

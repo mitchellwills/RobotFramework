@@ -37,6 +37,12 @@ public abstract class Robot {
 	private String configName;
 	private RobotObjectFactory factory;
 	/**
+	 * Construct a new robot with no configuration file
+	 */
+	public Robot(){
+		this(null);
+	}
+	/**
 	 * Construct a new robot
 	 * @param configFile the configuration to load for the robot
 	 */
@@ -133,6 +139,10 @@ public abstract class Robot {
 		return factory;
 	}
 	
+	/**
+	 * Set the factory used to construct robot objects by default
+	 * @param factory
+	 */
 	public void setFactory(RobotObjectFactory factory){
 		if(factory==null)
 			this.factory = new NameRobotObjectFactory(this);

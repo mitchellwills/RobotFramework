@@ -64,6 +64,11 @@ public class VexTransmitter implements Joystick{
 		reader.addUpdateListener(model);
 	}
 	
+	/**
+	 * Create a new VexTransmitter and get the ppmreader from the robot by name
+	 * @param robot
+	 * @param location
+	 */
 	public VexTransmitter(Robot robot, String location) {
 		this(robot.getFactory().getPPMReader(location, 6));
 	}
@@ -118,6 +123,10 @@ public class VexTransmitter implements Joystick{
 			if(up)
 				return value<BUTTON_CENTER-BUTTON_THRESHOLD;
 			return value>BUTTON_CENTER+BUTTON_THRESHOLD;
+		}
+		@Override
+		public double getValue() {
+			return get()?1:0;
 		}
 		
 	}

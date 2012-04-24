@@ -57,6 +57,10 @@ public class ImperiumFrequency extends ImperiumDeviceObject implements Frequency
 	public long getFrequency() {
 		return frequency;
 	}
+	@Override
+	public double getValue(){
+		return getFrequency();
+	}
 
 	@Override
 	public void setValue(int value) {

@@ -61,6 +61,18 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements Binar
 	}
 
 	@Override
+	public void setValue(double value) {
+		set(value!=0);
+	}
+	@Override
+	public double getValue() {
+		return get()?1:0;
+	}
+	
+	
+	
+
+	@Override
 	public void setValue(int value) {
 		//don't do anything or could get out of sync
 	}

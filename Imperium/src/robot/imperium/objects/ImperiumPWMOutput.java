@@ -66,6 +66,17 @@ public class ImperiumPWMOutput extends ImperiumDeviceObject implements PWMOutput
 	}
 
 	@Override
+	public void setValue(double value) {
+		set(value);
+	}
+
+	@Override
+	public double getValue() {
+		return get();
+	}
+	
+
+	@Override
 	public void setValue(int value) {
 		//don't do anything or could get out of sync
 	}

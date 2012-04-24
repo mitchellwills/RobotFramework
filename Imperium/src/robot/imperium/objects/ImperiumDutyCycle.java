@@ -56,6 +56,11 @@ public class ImperiumDutyCycle extends ImperiumDeviceObject implements DutyCycle
 	public double getDutyCycle() {
 		return duty;
 	}
+	
+	@Override
+	public double getValue(){
+		return getDutyCycle();
+	}
 
 	@Override
 	public void setValue(int value) {

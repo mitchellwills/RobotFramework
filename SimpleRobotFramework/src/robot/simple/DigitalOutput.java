@@ -30,4 +30,14 @@ public class DigitalOutput implements BinaryOutput {
 		return output.get();
 	}
 
+	@Override
+	public void setValue(double value) {
+		set(value!=0);
+	}
+
+	@Override
+	public double getValue() {
+		return get()?1:0;
+	}
+
 }
