@@ -16,7 +16,7 @@ public interface PPMReader extends Input, UpdatableObject{
 	public static final int INVALID_VALUE = -1;
 	
 	/**
-	 * @param channel a ppm channel
+	 * @param channel a ppm channel (0 indexed)
 	 * @return the value of the given channel in us
 	 */
 	public long getChannel(int channel);

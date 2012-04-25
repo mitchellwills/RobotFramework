@@ -1,5 +1,7 @@
 package robot.io.servo;
 
+import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObjectListener;
 import robot.io.pwmms.LinearMSPWMOutput;
 import robot.io.pwmms.MSPWMOutput;
 
@@ -15,10 +17,18 @@ public class ServoMS implements Servo {
 	 * the output value that will disable the output
 	 */
 	public static final double DISABLE_OUTPUT = LinearMSPWMOutput.DISABLE_OUTPUT;
+
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
 	
 	private final LinearMSPWMOutput output;
-	
-
 	/**
 	 * Creates a servo that rotates between 0 and 180 degrees and outputs 1000 and 2000 ms respectively
 	 * @param output the ms pwm output
@@ -48,6 +58,7 @@ public class ServoMS implements Servo {
 	public ServoMS(MSPWMOutput output, double minAngle,
 			double maxAngle, int minMS, int maxMS) {
 		this.output = new LinearMSPWMOutput(output, minAngle, maxAngle, minMS, maxMS);
+		output.addUpdateListener(model);
 	}
 
 	@Override

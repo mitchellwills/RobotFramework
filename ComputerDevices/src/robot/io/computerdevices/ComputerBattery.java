@@ -22,11 +22,6 @@ public class ComputerBattery implements HostBattery{
 		return batteryStatus.getBatteryLifeTime();
 	}
 	@Override
-	public int getTimeTillCharged(){
-		MyKernel32.INSTANCE.GetSystemPowerStatus(batteryStatus);
-		return batteryStatus.getBatteryFullLifeTime();
-	}
-	@Override
 	public boolean isPluggedIn() {
 		// TODO Auto-generated method stub
 		return false;

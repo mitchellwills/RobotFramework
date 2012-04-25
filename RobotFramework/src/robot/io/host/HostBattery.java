@@ -18,11 +18,6 @@ public interface HostBattery {
 	 */
 	public int getTimeRemaining();
 	/**
-	 * @return the time in seconds remaining until the battery is charged
-	 * -1 if unknown
-	 */
-	public int getTimeTillCharged();
-	/**
 	 * @return true if the device is plugged into a power source
 	 */
 	public boolean isPluggedIn();
