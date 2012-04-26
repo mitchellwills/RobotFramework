@@ -2,6 +2,8 @@ package robot;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -22,6 +25,7 @@ import robot.error.RobotInitializationException;
 import robot.io.NameRobotObjectFactory;
 import robot.io.RobotObject;
 import robot.io.RobotObjectFactory;
+import robot.io.host.Host;
 import robot.util.XMLUtil;
 
 /**
@@ -43,18 +47,26 @@ public abstract class Robot {
 		this(null);
 	}
 	/**
+	 * Construct a new robot with no configuration file
+	 */
+	public Robot(Host host){
+		this(null, host);
+	}
+	/**
 	 * Construct a new robot
 	 * @param configFile the configuration to load for the robot
 	 */
-	public Robot(File configFile){
-		this(configFile, null);
+	public Robot(File configFile, Host host){
+		this(configFile, null, host);
 	}
 	/**
 	 * Construct a new robot
 	 * @param configFile the configuration to load for the robot
 	 * @param factory the factory that can be used to create objects
 	 */
-	public Robot(File configFile, RobotObjectFactory factory){
+	public Robot(File configFile, RobotObjectFactory factory, Host host){
+		if(host!=null)
+			putObject("host", host);
 		setFactory(factory);
 		load(configFile);
 	}
@@ -112,6 +124,127 @@ public abstract class Robot {
 						}
 						else
 							System.err.println("Unknown tag: "+definitionNode.getNodeName());
+					}
+				}
+				else if(node.getNodeName().equals("objects")){
+					System.out.println("ObjectNode");
+					NodeList objectNodes = node.getChildNodes();
+					for (int j = 0; j < objectNodes.getLength(); ++j) {
+						Node objectNode = objectNodes.item(j);
+						if (objectNode.getNodeName().equals("AnalogVoltageInput")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getAnalogVoltageInput(location));
+						}
+						else if (objectNode.getNodeName().equals("BinaryInput")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getBinaryInput(location));
+						}
+						else if (objectNode.getNodeName().equals("BinaryOutput")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getBinaryOutput(location));
+						}
+						else if (objectNode.getNodeName().equals("Counter")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getCounter(location));
+						}
+						else if (objectNode.getNodeName().equals("DutyCycle")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getDutyCycle(location));
+						}
+						else if (objectNode.getNodeName().equals("Encoder")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String locationA = XMLUtil.getAttribute(objectNode, "locationA");
+							String locationB = XMLUtil.getAttribute(objectNode, "locationB");
+							putObject(name, getFactory().getEncoder(locationA, locationB));
+						}
+						else if (objectNode.getNodeName().equals("FrequencyInput")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getFrequencyInput(location));
+						}
+						else if (objectNode.getNodeName().equals("PPMReader")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							int numChannels = XMLUtil.getIntAttribute(objectNode, "numChannels");
+							putObject(name, getFactory().getPPMReader(location, numChannels));
+						}
+						else if (objectNode.getNodeName().equals("PWMOutput")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getPWMOutput(location));
+						}
+						else if (objectNode.getNodeName().equals("MSPWMOutput")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getMSPWM(location));
+						}
+						else if (objectNode.getNodeName().equals("SerialInterface")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							int baud = XMLUtil.getIntAttribute(objectNode, "baud");
+							putObject(name, getFactory().getSerialInterface(location, baud));
+						}
+						else if (objectNode.getNodeName().equals("Joystick")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getJoystick(location));
+						}
+						else if (objectNode.getNodeName().equals("Accelerometer")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getAccelerometer(location));
+						}
+						else if (objectNode.getNodeName().equals("Joystick")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getSpeedController(location));
+						}
+						
+						
+						
+						
+						
+						else if (objectNode.getNodeName().equals("object")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String type = XMLUtil.getAttribute(objectNode, "type");
+							
+							Map<String, String> params = new HashMap<String, String>();
+							NamedNodeMap attributes = objectNode.getAttributes();
+							for(int k = 0; k<attributes.getLength(); ++k){
+								Node attribute = attributes.item(k);
+								params.put(attribute.getNodeName(), attribute.getNodeValue());
+							}
+							
+							try{
+								Class<?> typeClass = Class.forName(type);
+								Constructor<?> constructor = typeClass.getConstructor(Robot.class, Map.class);
+								
+								RobotObject object = (RobotObject) constructor.newInstance(this, params);
+								putObject(name, object);
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+							} catch (NoSuchMethodException e) {
+								e.printStackTrace();
+							} catch (InstantiationException e) {
+								e.printStackTrace();
+							} catch (IllegalAccessException e) {
+								e.printStackTrace();
+							} catch (InvocationTargetException e) {
+								e.printStackTrace();
+							}
+						}
+						
+						
+						else if(objectNode.getNodeName().equals("#text")){
+							//
+						}
+						else
+							System.err.println("Unknown tag: "+objectNode.getNodeName());
 					}
 				}
 				else if(node.getNodeName().equals("#text")){

@@ -3,8 +3,11 @@ package robot.imperium;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import robot.Robot;
 import robot.error.RobotException;
@@ -45,9 +48,34 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 		model.removeUpdateListener(listener);
 	}
 
-	private final InputStream is;
-	private final OutputStream os;
-	private final ImperiumHardwareConfiguration hardwareConfiguration;
+	private InputStream is;
+	private OutputStream os;
+	private ImperiumHardwareConfiguration hardwareConfiguration;
+	
+
+	/**
+	 * @param robot 
+	 * @param params 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws ClassNotFoundException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 */
+	public ImperiumDevice(Robot robot, Map<String, String> params) throws NoSuchMethodException, SecurityException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		SerialInterface serial;
+		if(params.containsKey("serialPortName"))
+			serial = (SerialInterface) robot.getObject(params.get("serialPortName"));
+		else
+			serial = robot.getFactory().getSerialInterface(params.get("serialPort"), 115200);
+		int maxUpdateRate = Integer.parseInt(params.get("maxUpdateRate"));
+
+		Class<?> hardwareConfigurationClass = Class.forName(params.get("hardwareConfiguration"));
+		Method method = hardwareConfigurationClass.getMethod("get");
+		ImperiumHardwareConfiguration hardwareConfiguration = (ImperiumHardwareConfiguration) method.invoke(null);
+		init(serial, hardwareConfiguration, maxUpdateRate);
+	}
 
 	/**
 	 * @param robot 
@@ -58,7 +86,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 	 * @param maxUpdateRate the maximum number of input updates per second the device will send
 	 */
 	public ImperiumDevice(Robot robot, String location, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
-		this(robot.getFactory().getSerialInterface(location, 115200), hardwareConfiguration, maxUpdateRate);
+		init(robot.getFactory().getSerialInterface(location, 115200), hardwareConfiguration, maxUpdateRate);
 	}
 
 	/**
@@ -68,16 +96,24 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 	 * @param maxUpdateRate the maximum number of input updates per second the device will send
 	 */
 	public ImperiumDevice(SerialInterface serialPort, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
-		this(serialPort.getInputStream(), serialPort.getOutputStream(), hardwareConfiguration, maxUpdateRate);
+		init(serialPort, hardwareConfiguration, maxUpdateRate);
 	}
 
+
+	public ImperiumDevice(InputStream is, OutputStream os, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
+		init(is, os, hardwareConfiguration, maxUpdateRate);
+	}
+
+	private void init(SerialInterface serialPort, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
+		init(serialPort.getInputStream(), serialPort.getOutputStream(), hardwareConfiguration, maxUpdateRate);
+	}
 	/**
 	 * @param is
 	 * @param os
 	 * @param hardwareConfiguration
 	 * @param maxUpdateRate the maximum number of input updates per second the device will send
 	 */
-	public ImperiumDevice(InputStream is, OutputStream os, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
+	private void init(InputStream is, OutputStream os, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
 		if (is == null)
 			throw new RobotInitializationException(
 					"Imperium Input Stream was null");

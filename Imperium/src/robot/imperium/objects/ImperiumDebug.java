@@ -49,7 +49,8 @@ public class ImperiumDebug extends ImperiumDeviceObject implements InputValue, U
 	@Override
 	public void setValue(int value) {
 		this.value = value;
-		model.fireUpdateEvent();
+		if(model!=null)
+			model.fireUpdateEvent();
 	}
 
 	@Override
