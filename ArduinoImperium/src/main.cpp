@@ -13,6 +13,7 @@
 #include "ImperiumSerialPort.h"
 #include "ImperiumDutyCycle.h"
 #include "ImperiumFrequency.h"
+#include "ImperiumLEDDisplay.h"
 
 
 void setup(){
@@ -34,6 +35,7 @@ void setup(){
 	setObjectTypeInitializer(10, ImperiumSerialPort::newSerialPort);
 	setObjectTypeInitializer(11, ImperiumDutyCycle::newDutyCycle);
 	setObjectTypeInitializer(12, ImperiumFrequency::newFrequency);
+	setObjectTypeInitializer(13, ImperiumLEDDisplay::newLEDDisplay);
 }
 
 void loop(){

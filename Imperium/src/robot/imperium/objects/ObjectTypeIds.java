@@ -20,4 +20,5 @@ public interface ObjectTypeIds {
 	int SERIAL_PORT_TYPE_ID = 10;
 	int DUTY_CYCLE_TYPE_ID = 11;
 	int FREQUENCY_TYPE_ID = 12;
+	int LED_DISPLAY_TYPE_ID = 13;
 }
