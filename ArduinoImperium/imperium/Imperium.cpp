@@ -207,10 +207,10 @@ void periodicImperium(){
 
 		if(numObjects>0)
 			sendBulkInput();
+	}
 
-		for(int i = 0; i<numObjects; ++i){
-			objects[i]->update();
-			readOnePacket();
-		}
+	for(int i = 0; i<numObjects; ++i){
+		objects[i]->update();
+		readOnePacket();
 	}
 }

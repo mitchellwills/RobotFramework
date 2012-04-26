@@ -10,7 +10,7 @@
 
 #include "ImperiumObject.h"
 
-#define UPDATE_DELAY 4
+#define UPDATE_DELAY 3
 
 class ImperiumLEDDisplay: public ImperiumObject {
 	private:

@@ -21,8 +21,6 @@ import robot.io.UpdatableObject;
  */
 public class ImperiumLEDDisplay extends ImperiumDeviceObject implements UpdatableObject{
 
-	private long currentState;
-
 	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
@@ -63,13 +61,12 @@ public class ImperiumLEDDisplay extends ImperiumDeviceObject implements Updatabl
 		return EnumSet.of(PinCapability.DigitalOutput);
 	}
 
+	/**
+	 * Set the raw output values
+	 * @param value
+	 */
 	public void set(long value) {
-		currentState = value;
 		getDevice().sendMessagePacket(this, new byte[]{(byte) ((value>>24)&0xFF), (byte) ((value>>16)&0xFF), (byte) ((value>>8)&0xFF), (byte) ((value)&0xFF)}, 0, 4);
-	}
-
-	public long get() {
-		return currentState;
 	}
 
 	@Override

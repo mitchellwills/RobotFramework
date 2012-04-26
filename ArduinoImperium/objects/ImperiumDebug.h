@@ -12,6 +12,9 @@
 
 class ImperiumDebug: public ImperiumObject {
 	private:
+		long lastUpdate;
+		long count;
+		long value;
 	public:
 		static ImperiumObject* newDebug(int objectId, int* pins, int pinCount);
 
