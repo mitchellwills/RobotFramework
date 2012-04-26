@@ -2,8 +2,6 @@ package robot;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,6 +23,7 @@ import robot.error.RobotInitializationException;
 import robot.io.NameRobotObjectFactory;
 import robot.io.RobotObject;
 import robot.io.RobotObjectFactory;
+import robot.io.VirtualRobotObjectFactory;
 import robot.io.host.Host;
 import robot.util.XMLUtil;
 
@@ -67,6 +66,7 @@ public abstract class Robot {
 	public Robot(File configFile, RobotObjectFactory factory, Host host){
 		if(host!=null)
 			putObject("host", host);
+		putObject("virtual", new VirtualRobotObjectFactory());
 		setFactory(factory);
 		load(configFile);
 	}
@@ -127,7 +127,6 @@ public abstract class Robot {
 					}
 				}
 				else if(node.getNodeName().equals("objects")){
-					System.out.println("ObjectNode");
 					NodeList objectNodes = node.getChildNodes();
 					for (int j = 0; j < objectNodes.getLength(); ++j) {
 						Node objectNode = objectNodes.item(j);
@@ -202,6 +201,11 @@ public abstract class Robot {
 						else if (objectNode.getNodeName().equals("Joystick")) {
 							String name = XMLUtil.getAttribute(objectNode, "name");
 							String location = XMLUtil.getAttribute(objectNode, "location");
+							putObject(name, getFactory().getJoystick(location));
+						}
+						else if (objectNode.getNodeName().equals("SpeedController")) {
+							String name = XMLUtil.getAttribute(objectNode, "name");
+							String location = XMLUtil.getAttribute(objectNode, "location");
 							putObject(name, getFactory().getSpeedController(location));
 						}
 						
@@ -219,24 +223,7 @@ public abstract class Robot {
 								Node attribute = attributes.item(k);
 								params.put(attribute.getNodeName(), attribute.getNodeValue());
 							}
-							
-							try{
-								Class<?> typeClass = Class.forName(type);
-								Constructor<?> constructor = typeClass.getConstructor(Robot.class, Map.class);
-								
-								RobotObject object = (RobotObject) constructor.newInstance(this, params);
-								putObject(name, object);
-							} catch (ClassNotFoundException e) {
-								e.printStackTrace();
-							} catch (NoSuchMethodException e) {
-								e.printStackTrace();
-							} catch (InstantiationException e) {
-								e.printStackTrace();
-							} catch (IllegalAccessException e) {
-								e.printStackTrace();
-							} catch (InvocationTargetException e) {
-								e.printStackTrace();
-							}
+							putObject(name, getFactory().getObject(type, params));
 						}
 						
 						

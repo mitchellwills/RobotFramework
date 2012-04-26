@@ -1,5 +1,10 @@
 package robot.io;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
+import robot.Robot;
 import robot.error.RobotInitializationException;
 import robot.io.accelerometer.Accelerometer;
 import robot.io.analog.AnalogVoltageInput;
@@ -136,5 +141,43 @@ public abstract class RobotObjectFactory {
 	 */
 	public SpeedController getSpeedController(String location){
 		throw new RobotInitializationException("Speed Controller not supported");
+	}
+	
+
+
+	/**
+	 * @param type the full type name of the object to be loaded
+	 * @param params parameters to pass to the class
+	 * @return a new RobotObject
+	 */
+	public RobotObject getObject(String type, Map<String, String> params){
+		try {
+			return getObject((Class<? extends RobotObject>)Class.forName(type), params);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @param type the type of the object to be loaded
+	 * @param params parameters to pass to the class
+	 * @return a new RobotObject
+	 */
+	public RobotObject getObject(Class<? extends RobotObject> type, Map<String, String> params){
+
+		try{
+			Constructor<? extends RobotObject> constructor = type.getConstructor(Robot.class, Map.class);
+			return constructor.newInstance(this, params);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

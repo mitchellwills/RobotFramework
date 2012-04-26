@@ -9,9 +9,14 @@ import robot.io.speedcontroller.VirtualSpeedController;
  * A Robot Object Factory that returns virtual objects
  *
  */
-public class VirtualRobotObjectFactory extends RobotObjectFactory{
+public class VirtualRobotObjectFactory extends RobotObjectFactory implements FactoryObject{
 	@Override
 	public SpeedController getSpeedController(String location){
 		return new VirtualSpeedController();
+	}
+
+	@Override
+	public RobotObjectFactory getFactory() {
+		return this;
 	}
 }
