@@ -115,7 +115,7 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 	}
 
 	private static class ButtonsView extends JComponent {
-		private static final int ROW_SIZE = 5;
+		private static final int ROW_SIZE = 4;
 
 		private JRadioButton[] buttons;
 
@@ -204,6 +204,7 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 			setBorder(new TitledBorder("(" + index + ") "
 					+ directional.getName()));
 			setPreferredSize(new Dimension(SIZE, SIZE));
+			setMinimumSize(new Dimension(SIZE, SIZE));
 			update();
 		}
 
