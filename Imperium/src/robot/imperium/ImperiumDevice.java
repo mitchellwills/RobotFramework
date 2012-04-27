@@ -100,6 +100,12 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 	}
 
 
+	/**
+	 * @param is
+	 * @param os
+	 * @param hardwareConfiguration
+	 * @param maxUpdateRate the maximum number of input updates per second the device will send
+	 */
 	public ImperiumDevice(InputStream is, OutputStream os, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
 		init(is, os, hardwareConfiguration, maxUpdateRate);
 	}

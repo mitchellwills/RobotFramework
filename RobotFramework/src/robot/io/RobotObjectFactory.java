@@ -146,13 +146,14 @@ public abstract class RobotObjectFactory {
 
 
 	/**
+	 * @param robot the robot the object belongs to
 	 * @param type the full type name of the object to be loaded
 	 * @param params parameters to pass to the class
 	 * @return a new RobotObject
 	 */
-	public RobotObject getObject(String type, Map<String, String> params){
+	public RobotObject getObject(Robot robot, String type, Map<String, String> params){
 		try {
-			return getObject((Class<? extends RobotObject>)Class.forName(type), params);
+			return getObject(robot, (Class<? extends RobotObject>)Class.forName(type), params);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -160,15 +161,16 @@ public abstract class RobotObjectFactory {
 	}
 
 	/**
+	 * @param robot the robot the object belongs to
 	 * @param type the type of the object to be loaded
 	 * @param params parameters to pass to the class
 	 * @return a new RobotObject
 	 */
-	public RobotObject getObject(Class<? extends RobotObject> type, Map<String, String> params){
+	public RobotObject getObject(Robot robot, Class<? extends RobotObject> type, Map<String, String> params){
 
 		try{
 			Constructor<? extends RobotObject> constructor = type.getConstructor(Robot.class, Map.class);
-			return constructor.newInstance(this, params);
+			return constructor.newInstance(robot, params);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {

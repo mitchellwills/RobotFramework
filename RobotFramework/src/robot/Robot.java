@@ -47,6 +47,7 @@ public abstract class Robot {
 	}
 	/**
 	 * Construct a new robot with no configuration file
+	 * @param host the host object for this system
 	 */
 	public Robot(Host host){
 		this(null, host);
@@ -54,6 +55,7 @@ public abstract class Robot {
 	/**
 	 * Construct a new robot
 	 * @param configFile the configuration to load for the robot
+	 * @param host the host object for this system
 	 */
 	public Robot(File configFile, Host host){
 		this(configFile, null, host);
@@ -62,6 +64,7 @@ public abstract class Robot {
 	 * Construct a new robot
 	 * @param configFile the configuration to load for the robot
 	 * @param factory the factory that can be used to create objects
+	 * @param host the host object for this system
 	 */
 	public Robot(File configFile, RobotObjectFactory factory, Host host){
 		if(host!=null)
@@ -223,7 +226,7 @@ public abstract class Robot {
 								Node attribute = attributes.item(k);
 								params.put(attribute.getNodeName(), attribute.getNodeValue());
 							}
-							putObject(name, getFactory().getObject(type, params));
+							putObject(name, getFactory().getObject(this, type, params));
 						}
 						
 						
