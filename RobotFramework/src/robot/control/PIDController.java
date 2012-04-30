@@ -1,5 +1,6 @@
 package robot.control;
 
+import robot.Robot;
 import robot.io.InputValue;
 import robot.io.OutputValue;
 import robot.util.RobotUtil;
@@ -58,6 +59,24 @@ public class PIDController implements ControlLoop{
 	public PIDController(double Kp, double Ki, double Kd, InputValue input,
 			OutputValue output, double minOutput, double maxOutput, long updateDelay) {
 		this(Kp, Ki, Kd, input, output, minOutput, maxOutput, 0, updateDelay);
+	}
+	
+
+	/**
+	 * @param Kp
+	 * @param Ki
+	 * @param Kd
+	 * @param robot
+	 * @param inputLocation
+	 * @param outputLocation
+	 * @param minOutput
+	 * @param maxOutput
+	 * @param threshold
+	 * @param updateDelay
+	 */
+	public PIDController(double Kp, double Ki, double Kd, Robot robot, String inputLocation,
+			String outputLocation, double minOutput, double maxOutput, double threshold, long updateDelay) {
+		this(Kp, Ki, Kd, (InputValue)robot.getObject(inputLocation), (OutputValue)robot.getObject(outputLocation), minOutput, maxOutput, threshold, updateDelay);
 	}
 	/**
 	 * @param Kp

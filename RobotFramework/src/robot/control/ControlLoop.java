@@ -1,12 +1,14 @@
 package robot.control;
 
+import robot.io.RobotObject;
+
 /**
  * @author Mitchell
  * 
  * A control loop that will bring a system to a given setpoint
  *
  */
-public interface ControlLoop {
+public interface ControlLoop extends RobotObject{
 	/**
 	 * Set the setpoint of of the loop
 	 * @param setpoint

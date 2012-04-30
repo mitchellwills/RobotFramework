@@ -3,6 +3,7 @@ package robot.io.parallax;
 import java.util.EnumSet;
 import java.util.Set;
 
+import robot.Robot;
 import robot.error.RobotException;
 import robot.io.ForwardingRobotObjectModel;
 import robot.io.RobotObjectListener;
@@ -48,6 +49,19 @@ public class Memsic2125 implements Accelerometer{
 		xAxis.addUpdateListener(model);
 		yAxis.addUpdateListener(model);
 		temp.addUpdateListener(model);
+	}
+
+	/**
+	 * 
+	 * Create a new Accelerometer
+	 * 
+	 * @param robot 
+	 * @param xAxis
+	 * @param yAxis
+	 * @param temp
+	 */
+	public Memsic2125(Robot robot, String xAxis, String yAxis, String temp){
+		this(robot.getFactory().getDutyCycle(xAxis), robot.getFactory().getDutyCycle(yAxis), robot.getFactory().getAnalogVoltageInput(temp));
 	}
 	
 	private double getAxisValue(DutyCycleInput input){

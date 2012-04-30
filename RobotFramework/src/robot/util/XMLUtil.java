@@ -1,5 +1,9 @@
 package robot.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 /**
@@ -44,5 +48,19 @@ public class XMLUtil {
 	 */
 	public static boolean getBooleanAttribute(Node node, String name){
 		return Boolean.parseBoolean(getAttribute(node, name));
+	}
+	
+	/**
+	 * @param node
+	 * @return a map containing all attributes of a node
+	 */
+	public static Map<String, String> getAttributes(Node node){
+		Map<String, String> r = new HashMap<String, String>();
+		NamedNodeMap attributes = node.getAttributes();
+		for(int k = 0; k<attributes.getLength(); ++k){
+			Node attribute = attributes.item(k);
+			r.put(attribute.getNodeName(), attribute.getNodeValue());
+		}
+		return r;
 	}
 }

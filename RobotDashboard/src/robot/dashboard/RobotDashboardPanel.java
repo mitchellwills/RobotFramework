@@ -3,6 +3,8 @@ package robot.dashboard;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -86,7 +88,15 @@ public class RobotDashboardPanel extends JPanel implements RobotListener {
 						int height = XMLUtil.getIntAttribute(node, "height");
 						Class<?> type = Class.forName(typeName);
 						
-						Widget<RobotObject> widget = (Widget<RobotObject>)type.newInstance();
+						Widget<RobotObject> widget;
+						try{
+							Constructor<?> constructor = type.getConstructor(Map.class);
+							Map<String, String> params = XMLUtil.getAttributes(node);
+							widget = (Widget<RobotObject>)constructor.newInstance(params);
+						} catch(NoSuchMethodException e){
+							widget = (Widget<RobotObject>)type.newInstance();
+						}
+						
 						widgets.put(name, widget);
 						widget.setObject(robot.getObject(name));
 						JComponent o = new WidgetContainer(label, widget);
@@ -128,6 +138,12 @@ public class RobotDashboardPanel extends JPanel implements RobotListener {
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					e.printStackTrace();
 				}
 			}
