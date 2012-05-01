@@ -3,6 +3,7 @@ package robot.control;
 import robot.Robot;
 import robot.io.InputValue;
 import robot.io.OutputValue;
+import robot.util.AsyncTimer;
 import robot.util.RobotUtil;
 
 /**
@@ -150,11 +151,14 @@ public class PIDController implements ControlLoop{
 
 	
 	private class PIDControllerThread extends Thread {
+		private final AsyncTimer timer = new AsyncTimer();
 		@Override
 		public void run(){
 			while(true){
-				update();
-				RobotUtil.sleep(updateDelay);//TODO do calculation for loop to actually run every updateDelay
+				if(timer.waitComplete()){
+					timer.startWaitFromPrevious(updateDelay);
+					update();
+				}
 			}
 		}
 	}
