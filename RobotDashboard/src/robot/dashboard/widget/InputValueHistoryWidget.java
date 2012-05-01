@@ -52,7 +52,10 @@ public class InputValueHistoryWidget extends Widget<InputValue> implements Robot
 		min = Double.parseDouble(params.get("min"));
 		max = Double.parseDouble(params.get("max"));
 		valueGridlineSpacing = Double.parseDouble(params.get("gridlineSpacing"));
-		valueLabelFormat = "%.2f";
+		if(params.containsKey("valueLabel"))
+			valueLabelFormat = params.get("valueLabel");
+		else
+			valueLabelFormat = "%.2f";
 
 		totalTime = Integer.parseInt(params.get("time"));
 		timeInterval = Integer.parseInt(params.get("timeInterval"));
@@ -86,8 +89,8 @@ public class InputValueHistoryWidget extends Widget<InputValue> implements Robot
 		public void run(){
 			while(run){
 				if(timer.waitComplete()){
+					timer.startWaitFromPrevious(timeInterval);
 					if(input!=null){
-						timer.startWaitFromPrevious(timeInterval);
 						buffer.append(input.getValue());
 						repaint();
 					}

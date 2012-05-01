@@ -1,5 +1,6 @@
 package robot.io.computerdevices;
 
+import robot.io.InputValue;
 import robot.io.host.HostBattery;
 
 /**
@@ -23,7 +24,17 @@ public class ComputerBattery implements HostBattery{
 	}
 	@Override
 	public boolean isPluggedIn() {
-		// TODO Auto-generated method stub
+		// TODO figure out if is plugged in
 		return false;
+	}
+	
+	private final InputValue batteryInputValue = new InputValue(){
+		@Override
+		public double getValue() {
+			return getBatteryLeftPercent();
+		}
+	};
+	public InputValue getPercentInputValue(){
+		return batteryInputValue;
 	}
 }

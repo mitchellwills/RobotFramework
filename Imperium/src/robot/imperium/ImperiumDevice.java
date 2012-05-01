@@ -239,7 +239,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 	 * @throws IOException
 	 */
 	private void configure() {
-		RobotUtil.sleep(1500);// TODO: wait for device to initialize
+		RobotUtil.sleep(1500);//TODO: ping device until initialized
 
 		synchronized (configureLock) {
 			setState(ImperiumDeviceState.CONFIGURING);

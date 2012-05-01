@@ -44,9 +44,10 @@ public class AsyncTimer {
 	public boolean waitComplete(){
 		if(nextTime==-1)
 			return true;
-		if(isComplete())
+		long timeToWait = nextTime-System.currentTimeMillis();
+		if(timeToWait<=0)
 			return true;
-		RobotUtil.sleep(nextTime-System.currentTimeMillis());
+		RobotUtil.sleep(timeToWait);
 		return isComplete();
 	}
 }

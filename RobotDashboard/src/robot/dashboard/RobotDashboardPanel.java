@@ -75,13 +75,10 @@ public class RobotDashboardPanel extends JPanel implements RobotListener {
 			setPreferredSize(new Dimension(panelWidth, panelHeight));
 			
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

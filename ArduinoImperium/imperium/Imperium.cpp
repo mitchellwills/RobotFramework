@@ -71,11 +71,10 @@ void sendImperiumMessagePacket(int objectId, char* data, int dataLength){
 
 
 static void processGlobalConfigure(ImperiumPacket& packet){
-	//TODO: Reset interrupts
 	sendPacket.setId(PACKETID_CONFIGURE_CONFIRM);
 	sendPacket.setDataLength(0);
 
-
+	//TODO: Reset interrupts
 	//TODO free ImperiumObjects
 
 	packet.resetReadPosition();

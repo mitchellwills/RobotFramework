@@ -73,8 +73,8 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 
 	private static class AxesView extends JComponent {
 
-		private JLabel[] nameLabels;
-		private JProgressBar[] valueBars;
+		private JLabel[] nameLabels = new JLabel[0];
+		private JProgressBar[] valueBars = new JProgressBar[0];
 
 		public AxesView() {
 			setBorder(new TitledBorder("Axes"));

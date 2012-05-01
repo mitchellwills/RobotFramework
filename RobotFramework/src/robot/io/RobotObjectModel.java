@@ -1,5 +1,6 @@
 package robot.io;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import java.util.Set;
  *
  */
 public class RobotObjectModel {
-	private final Set<RobotObjectListener> listeners = new HashSet<RobotObjectListener>();
+	private final Set<RobotObjectListener> listeners = Collections.synchronizedSet(new HashSet<RobotObjectListener>());
 
 	private final RobotObject object;
 	/**

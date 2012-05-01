@@ -36,7 +36,7 @@ int ImperiumPacket::read(Stream & stream) {
 	if(dataLength>IMPERIUM_PACKET_MAX_DATA_SIZE)
 		return 3;
 
-	//TODO ensure that all bytes are read
+	//TODO ensure that all bytes are read, handle this better
 	while(stream.available()<=min(128, (int)dataLength));//buffer will store maximum of 128 bytes
 
 

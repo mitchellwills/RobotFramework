@@ -42,10 +42,9 @@ public class RobotUtil {
 	 * @param value
 	 * @param min
 	 * @param max
-	 * @return if the value is contained withing the specified bounds exclusive
+	 * @return if the value is contained within the specified bounds exclusive
 	 */
 	public static boolean within(double value, double min, double max) {
 		return min<value && value<max;
-		
 	}
 }
