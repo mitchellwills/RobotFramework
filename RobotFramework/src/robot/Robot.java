@@ -121,7 +121,7 @@ public abstract class Robot {
 							String value = XMLUtil.getAttribute(definitionNode, "value");
 							putDefinition(name, value);
 						}
-						else if(definitionNode.getNodeName().equals("#text")){
+						else if(definitionNode.getNodeType()==Node.TEXT_NODE || definitionNode.getNodeType()==Node.COMMENT_NODE){
 							//
 						}
 						else
@@ -224,14 +224,14 @@ public abstract class Robot {
 						}
 						
 						
-						else if(objectNode.getNodeName().equals("#text")){
+						else if(objectNode.getNodeType()==Node.TEXT_NODE || objectNode.getNodeType()==Node.COMMENT_NODE){
 							//
 						}
 						else
 							System.err.println("Unknown tag: "+objectNode.getNodeName());
 					}
 				}
-				else if(node.getNodeName().equals("#text")){
+				else if(node.getNodeType()==Node.TEXT_NODE || node.getNodeType()==Node.COMMENT_NODE){
 					//
 				}
 				else

@@ -4,6 +4,8 @@ import java.io.File;
 
 import javax.swing.JTabbedPane;
 
+import org.w3c.dom.NodeList;
+
 import robot.Robot;
 
 /**
@@ -28,6 +30,17 @@ public class WidgetTabContainer extends JTabbedPane{
 	 */
 	public void addTab(final String label, final File config){
 		RobotDashboardPanel panel = new RobotDashboardPanel(robot, config);
+		addTab(label, panel);
+	}
+	/**
+	 * Add a tab containing a list of widgets
+	 * @param label the tab label
+	 * @param widgetNodes the nodes containing the widgets to be displayed on the panel
+	 * @param rootFile the root file that all file access will be relative to
+	 */
+	public void addTab(String label, NodeList widgetNodes, File rootFile) {
+		RobotDashboardPanel panel = new RobotDashboardPanel(robot, null);
+		panel.load(widgetNodes, rootFile);
 		addTab(label, panel);
 	}
 }

@@ -23,13 +23,13 @@ import robot.util.RingBuffer;
  *
  */
 public class InputValueHistoryWidget extends Widget<InputValue> implements RobotObjectListener {
-	private static final int LEFT_PADDING = 60;
-	private static final int RIGHT_PADDING = 100;
-	private static final int TOP_PADDING = 5;
-	private static final int BOTTOM_PADDING = 40;
-	
 	private static final int TIME_TICK_SIZE = 5;
 	private static final int VALUE_TICK_SIZE = 5;
+	
+	private static final int LEFT_PADDING = 40;
+	private static final int RIGHT_PADDING = 5;
+	private static final int TOP_PADDING = 5;
+	private static final int BOTTOM_PADDING = TIME_TICK_SIZE+5;
 
 	private InputValue input;
 	private double min;
@@ -51,7 +51,7 @@ public class InputValueHistoryWidget extends Widget<InputValue> implements Robot
 
 		min = Double.parseDouble(params.get("min"));
 		max = Double.parseDouble(params.get("max"));
-		valueGridlineSpacing = 1.0;
+		valueGridlineSpacing = Double.parseDouble(params.get("gridlineSpacing"));
 		valueLabelFormat = "%.2f";
 
 		totalTime = Integer.parseInt(params.get("time"));
@@ -132,8 +132,8 @@ public class InputValueHistoryWidget extends Widget<InputValue> implements Robot
 			
 			//draw gridlines
 			g.setColor(Color.LIGHT_GRAY);
-			for(int i = 1; toY(valueGridlineSpacing*i)>=TOP_PADDING; ++i){
-				g.drawLine(LEFT_PADDING, toY(valueGridlineSpacing*i), width-RIGHT_PADDING, toY(valueGridlineSpacing*i));
+			for(int i = 1; toY(min+valueGridlineSpacing*i*Math.signum(max-min))>=TOP_PADDING; ++i){
+				g.drawLine(LEFT_PADDING, toY(min+valueGridlineSpacing*i*Math.signum(max-min)), width-RIGHT_PADDING, toY(min+valueGridlineSpacing*i*Math.signum(max-min)));
 			}
 			
 			//draw values
