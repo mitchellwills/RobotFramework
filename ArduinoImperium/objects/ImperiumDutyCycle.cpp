@@ -6,6 +6,7 @@
  */
 
 
+#ifndef LOW_MEMORY
 
 
 #include "ImperiumDutyCycle.h"
@@ -64,4 +65,4 @@ long ImperiumDutyCycle::getValue(){
 	return duty;
 }
 
-
+#endif

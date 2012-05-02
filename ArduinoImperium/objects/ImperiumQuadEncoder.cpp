@@ -6,6 +6,7 @@
  */
 
 
+#ifndef LOW_MEMORY
 
 
 #include "ImperiumQuadEncoder.h"
@@ -71,4 +72,4 @@ long ImperiumQuadEncoder::getValue(){
 	return count;
 }
 
-
+#endif

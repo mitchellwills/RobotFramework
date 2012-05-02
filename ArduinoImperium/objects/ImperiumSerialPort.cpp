@@ -6,6 +6,7 @@
  */
 
 
+#ifndef LOW_MEMORY
 
 
 #include "ImperiumSerialPort.h"
@@ -92,3 +93,4 @@ long ImperiumSerialPort::getValue(){
 	return 99999;
 }
 
+#endif

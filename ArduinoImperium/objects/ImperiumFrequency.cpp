@@ -6,6 +6,7 @@
  */
 
 
+#ifndef LOW_MEMORY
 
 
 #include "ImperiumFrequency.h"
@@ -59,4 +60,4 @@ long ImperiumFrequency::getValue(){
 	return frequency;
 }
 
-
+#endif

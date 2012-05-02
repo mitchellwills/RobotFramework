@@ -5,6 +5,8 @@
  *      Author: Mitchell
  */
 
+#ifndef LOW_MEMORY
+
 #include "ImperiumLEDDisplay.h"
 #include "Arduino.h"
 
@@ -63,3 +65,5 @@ void ImperiumLEDDisplay::setValue(long _value){
 long ImperiumLEDDisplay::getValue(){
 	return value;
 }
+
+#endif
