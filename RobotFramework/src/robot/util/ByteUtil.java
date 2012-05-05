@@ -20,7 +20,7 @@ public class ByteUtil {
 	public static long getUnsignedL(byte[] b, int offset, int size){
 		if(offset<0)
 			throw new IndexOutOfBoundsException("the offset cannot be negative");
-		if(b.length+size<offset)
+		if(b.length<offset+size)
 			throw new IndexOutOfBoundsException("the cannot exceed the size of the array minus the size of the value");
 		if(size<1)
 			throw new IndexOutOfBoundsException("the size cannot be <=0");
@@ -111,21 +111,21 @@ public class ByteUtil {
 	public static byte getByteFromBits(boolean b7, boolean b6, boolean b5, boolean b4, boolean b3, boolean b2, boolean b1, boolean b0){
 		byte _0 = 0;
 		byte _1 = 1;
-		byte b = b0?_1:_0;
-		b<<=1;
-		b |= b1?_1:_0;
-		b<<=1;
-		b |= b2?_1:_0;
-		b<<=1;
-		b |= b3?_1:_0;
-		b<<=1;
-		b |= b4?_1:_0;
-		b<<=1;
-		b |= b5?_1:_0;
+		byte b = b7?_1:_0;
 		b<<=1;
 		b |= b6?_1:_0;
 		b<<=1;
-		b |= b7?_1:_0;
+		b |= b5?_1:_0;
+		b<<=1;
+		b |= b4?_1:_0;
+		b<<=1;
+		b |= b3?_1:_0;
+		b<<=1;
+		b |= b2?_1:_0;
+		b<<=1;
+		b |= b1?_1:_0;
+		b<<=1;
+		b |= b0?_1:_0;
 		return b;
 	}
 	

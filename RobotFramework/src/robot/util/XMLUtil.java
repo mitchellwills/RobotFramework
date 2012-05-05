@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Mitchell
@@ -13,6 +14,22 @@ import org.w3c.dom.Node;
  *
  */
 public class XMLUtil {
+	
+	/**
+	 * @param root the node whose children will be searched
+	 * @param childName the name of the child node
+	 * @return the first child node of the root with the given name
+	 */
+	public static Node getFirstChild(Node root, String childName){
+		NodeList children = root.getChildNodes();
+		for(int i = 0; i<children.getLength(); ++i){
+			Node child = children.item(i);
+			if(child.getNodeName().equals(childName))
+				return child;
+		}
+		return null;
+	}
+	
 	/**
 	 * @param node the node to get the attribute from
 	 * @param name the name of the attribute
@@ -29,7 +46,10 @@ public class XMLUtil {
 	 * @return the value of the attribute
 	 */
 	public static String getAttribute(Node node, String name){
-		return node.getAttributes().getNamedItem(name).getNodeValue();
+		Node attrNode = node.getAttributes().getNamedItem(name);
+		if(attrNode==null)
+			return null;
+		return attrNode.getNodeValue();
 	}
 
 	/**
