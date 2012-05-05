@@ -58,7 +58,8 @@ public abstract class Robot {
 		threadManager = new RobotThreadManager();
 		putObject("virtual", new VirtualRobotObjectFactory());
 		setFactory(factory);
-		RobotConfigFile.load(this, configFile);
+		if(configFile!=null)
+			RobotConfigFile.load(this, configFile);
 	}
 	
 	/**
@@ -66,7 +67,7 @@ public abstract class Robot {
 	 */
 	public void go() {
 		initializeIO();
-		run();
+		run();//TODO run in thread
 	}
 	/**
 	 * Initialization of all robot communication with other devices should occur here

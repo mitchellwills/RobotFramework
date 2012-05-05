@@ -21,4 +21,5 @@ public interface ObjectTypeIds {
 	int DUTY_CYCLE_TYPE_ID = 11;
 	int FREQUENCY_TYPE_ID = 12;
 	int LED_DISPLAY_TYPE_ID = 13;
+	int HM55B_TYPE_ID = 14;
 }

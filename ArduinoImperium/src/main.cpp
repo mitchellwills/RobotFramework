@@ -15,6 +15,7 @@
 #include "ImperiumDutyCycle.h"
 #include "ImperiumFrequency.h"
 #include "ImperiumLEDDisplay.h"
+#include "ImperiumHM55B.h"
 #endif
 
 
@@ -39,6 +40,7 @@ void setup(){
 	setObjectTypeInitializer(11, ImperiumDutyCycle::newDutyCycle);
 	setObjectTypeInitializer(12, ImperiumFrequency::newFrequency);
 	setObjectTypeInitializer(13, ImperiumLEDDisplay::newLEDDisplay);
+	setObjectTypeInitializer(14, ImperiumHM55B::newHM55B);
 #endif
 }
 
