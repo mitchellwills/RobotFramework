@@ -6,10 +6,10 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 
 import robot.dashboard.Widget;
-import robot.io.InputValue;
 import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.UpdatableObject;
+import robot.io.value.InputValue;
 
 /**
  * @author Mitchell

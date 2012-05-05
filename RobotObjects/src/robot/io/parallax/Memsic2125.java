@@ -1,8 +1,5 @@
 package robot.io.parallax;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 import robot.Robot;
 import robot.error.RobotException;
 import robot.io.ForwardingRobotObjectModel;
@@ -92,16 +89,16 @@ public class Memsic2125 implements Accelerometer{
 	}
 
 	@Override
-	public double getAcceleration(AccelerometerAxis axis) {
-		if(axis==AccelerometerAxis.XAxis)
+	public double getAcceleration(int axis) {
+		if(axis==0)
 			return getXAxis();
-		else if(axis==AccelerometerAxis.YAxis)
+		else if(axis==1)
 			return getYAxis();
 		throw new RobotException("The Memsic 2125 Accelerometer only has X and Y axes");
 	}
 
 	@Override
-	public Set<AccelerometerAxis> getAxes() {
-		return EnumSet.of(AccelerometerAxis.XAxis, AccelerometerAxis.YAxis);
+	public int getNumAxes() {
+		return 2;
 	}
 }

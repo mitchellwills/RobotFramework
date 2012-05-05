@@ -1,8 +1,8 @@
 package robot.control;
 
 import robot.Robot;
-import robot.io.InputValue;
-import robot.io.OutputValue;
+import robot.io.value.InputValue;
+import robot.io.value.OutputValue;
 import robot.thread.PeriodicRobotThread;
 import robot.util.RobotUtil;
 

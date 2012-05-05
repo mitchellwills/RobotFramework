@@ -54,4 +54,34 @@ public class RingBuffer {
 		for(int i = 0; i<buffer.length; ++i)
 			buffer[i] = Double.NaN;
 	}
+	
+	/**
+	 * @return the sum of all values in the buffer ignoring values which are {@link Double#NaN}
+	 */
+	public double sum(){
+		double sum = 0;
+		for(int i = 0; i<buffer.length; ++i){
+			if(buffer[i]!=Double.NaN)
+				sum += buffer[i];
+		}
+		return sum;
+	}
+	
+	/**
+	 * @return the average value stored in the buffer ignoring values which are {@link Double#NaN}
+	 * Will return {@link Double#NaN} if no values in the buffer are valid
+	 */
+	public double average(){
+		double sum = 0;
+		int count = 0;
+		for(int i = 0; i<buffer.length; ++i){
+			if(buffer[i]!=Double.NaN){
+				sum += buffer[i];
+				++count;
+			}
+		}
+		if(count!=0)
+			return sum/count;
+		return Double.NaN;
+	}
 }

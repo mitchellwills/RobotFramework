@@ -9,10 +9,10 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import robot.dashboard.Widget;
-import robot.io.InputValue;
 import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.UpdatableObject;
+import robot.io.value.InputValue;
 import robot.util.AsyncTimer;
 import robot.util.RingBuffer;
 

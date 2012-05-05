@@ -1,7 +1,7 @@
 package robot.io.encoder;
 
-import robot.io.InputValue;
 import robot.io.UpdatableObject;
+import robot.io.value.InputValue;
 
 
 /**

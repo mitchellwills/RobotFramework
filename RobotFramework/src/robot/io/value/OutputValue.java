@@ -1,4 +1,5 @@
-package robot.io;
+package robot.io.value;
+
 
 /**
  * @author Mitchell

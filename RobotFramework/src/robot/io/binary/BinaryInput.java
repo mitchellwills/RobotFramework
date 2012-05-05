@@ -1,7 +1,7 @@
 package robot.io.binary;
 
-import robot.io.InputValue;
 import robot.io.UpdatableObject;
+import robot.io.value.InputValue;
 
 
 /**

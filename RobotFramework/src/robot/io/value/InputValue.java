@@ -1,4 +1,6 @@
-package robot.io;
+package robot.io.value;
+
+import robot.io.Input;
 
 /**
  * @author Mitchell

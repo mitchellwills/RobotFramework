@@ -9,10 +9,10 @@ import javax.swing.SwingConstants;
 
 import robot.dashboard.Widget;
 import robot.error.RobotInitializationException;
-import robot.io.InputValue;
 import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.UpdatableObject;
+import robot.io.value.InputValue;
 
 /**
  * @author Mitchell

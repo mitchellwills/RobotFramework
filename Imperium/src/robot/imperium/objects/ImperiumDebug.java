@@ -3,10 +3,10 @@ package robot.imperium.objects;
 import static robot.imperium.objects.ObjectTypeIds.DEBUG_TYPE_ID;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
-import robot.io.InputValue;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 import robot.io.UpdatableObject;
+import robot.io.value.InputValue;
 
 
 /**

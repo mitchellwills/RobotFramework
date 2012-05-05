@@ -1,7 +1,7 @@
 package robot.io.computerdevices;
 
-import robot.io.InputValue;
 import robot.io.host.HostBattery;
+import robot.io.value.InputValue;
 
 /**
  * @author Mitchell
@@ -34,6 +34,9 @@ public class ComputerBattery implements HostBattery{
 			return getBatteryLeftPercent();
 		}
 	};
+	/**
+	 * @return an input value that represents the percent battery remaining (0.0-1.0)
+	 */
 	public InputValue getPercentInputValue(){
 		return batteryInputValue;
 	}

@@ -1,7 +1,7 @@
 package robot.io.servo;
 
-import robot.io.OutputValue;
 import robot.io.UpdatableObject;
+import robot.io.value.OutputValue;
 
 /**
  * @author Mitchell

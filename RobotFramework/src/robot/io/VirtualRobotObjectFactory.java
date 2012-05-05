@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import robot.error.RobotInitializationException;
 import robot.io.accelerometer.Accelerometer;
-import robot.io.accelerometer.Accelerometer.AccelerometerAxis;
 import robot.io.accelerometer.VirtualAccelerometer;
 import robot.io.analog.AnalogVoltageInput;
 import robot.io.analog.VirtualAnalogVoltageInput;
@@ -123,10 +122,7 @@ public class VirtualRobotObjectFactory extends RobotObjectFactory implements Fac
 	@Override
 	public Accelerometer getAccelerometer(String location){
 		int numAxes = Integer.parseInt(location);
-		AccelerometerAxis[] axes = new AccelerometerAxis[numAxes];
-		for(int i = 0; i<numAxes; ++i)
-			axes[i] = AccelerometerAxis.values()[i];
-		return new VirtualAccelerometer(axes);
+		return new VirtualAccelerometer(numAxes);
 	}
 
 	@Override

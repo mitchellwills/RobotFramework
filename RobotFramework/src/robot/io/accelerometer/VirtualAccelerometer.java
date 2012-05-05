@@ -1,9 +1,5 @@
 package robot.io.accelerometer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import robot.error.RobotInitializationException;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
@@ -25,27 +21,27 @@ public class VirtualAccelerometer implements Accelerometer{
 		model.removeUpdateListener(listener);
 	}
 	
-	private Map<AccelerometerAxis, Double> values = new HashMap<AccelerometerAxis, Double>();
+	private double[] values;
 	/**
 	 * Create a virtual accelerometer that supports the specified axes all with initial values of 0
-	 * @param axes
+	 * @param axisCount the number of axes the virtual accelerometer has
 	 */
-	public VirtualAccelerometer(AccelerometerAxis... axes){
-		for(AccelerometerAxis axis:axes)
-			values.put(axis, 0d);
+	public VirtualAccelerometer(int axisCount){
+		values = new double[axisCount];
+		for(int i = 0; i<values.length; ++i)
+			values[i] = 0;
 	}
 
 	@Override
-	public double getAcceleration(AccelerometerAxis axis) {
-		Double value = values.get(axis);
-		if(value!=null)
-			return value;
-		throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+	public double getAcceleration(int axis) {
+		if(axis>=getNumAxes())
+			throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+		return values[axis];
 	}
 
 	@Override
-	public Set<AccelerometerAxis> getAxes() {
-		return values.keySet();
+	public int getNumAxes() {
+		return values.length;
 	}
 	
 	/**
@@ -53,12 +49,11 @@ public class VirtualAccelerometer implements Accelerometer{
 	 * @param axis the axis whose value will be set
 	 * @param value the new value for the axis
 	 */
-	public void setAcceleration(AccelerometerAxis axis, double value){
-		if(values.containsKey(axis)){
-			values.put(axis, value);
-			model.fireUpdateEvent();
-		}
-		throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+	public void setAcceleration(int axis, double value){
+		if(axis>=getNumAxes())
+			throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+		values[axis] = value;
+		model.fireUpdateEvent();
 	}
 
 }

@@ -1,7 +1,7 @@
 package robot.io.counter;
 
-import robot.io.InputValue;
 import robot.io.UpdatableObject;
+import robot.io.value.InputValue;
 
 /**
  * @author Mitchell
