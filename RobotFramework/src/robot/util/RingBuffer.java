@@ -60,11 +60,16 @@ public class RingBuffer {
 	 */
 	public double sum(){
 		double sum = 0;
+		int count = 0;
 		for(int i = 0; i<buffer.length; ++i){
-			if(buffer[i]!=Double.NaN)
+			if(!Double.isNaN(buffer[i])){
 				sum += buffer[i];
+				++count;
+			}
 		}
-		return sum;
+		if(count>0)
+			return sum;
+		return Double.NaN;
 	}
 	
 	/**
@@ -75,12 +80,12 @@ public class RingBuffer {
 		double sum = 0;
 		int count = 0;
 		for(int i = 0; i<buffer.length; ++i){
-			if(buffer[i]!=Double.NaN){
+			if(!Double.isNaN(buffer[i])){
 				sum += buffer[i];
 				++count;
 			}
 		}
-		if(count!=0)
+		if(count>0)
 			return sum/count;
 		return Double.NaN;
 	}

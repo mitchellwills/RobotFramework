@@ -200,5 +200,13 @@ public class ByteUtilTest {
 		assertEquals(4294967294L, ByteUtil.toUnsigned(-2));
 		assertEquals(4294967292L, ByteUtil.toUnsigned(-4));
 	}
+	
+	@Test
+	public void testSleep(){
+		long start = System.currentTimeMillis();
+		RobotUtil.sleep(100);
+		long diff = System.currentTimeMillis()-start;
+		assertEquals(100, diff, 3);
+	}
 
 }
