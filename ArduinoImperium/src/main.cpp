@@ -9,6 +9,7 @@
 #include "ImperiumAnalogInput.h"
 #include "ImperiumPulseCounter.h"
 #include "ImperiumPPMReader.h"
+#include "ImperiumPullupDigitalInput.h"
 #ifndef LOW_MEMORY
 #include "ImperiumQuadEncoder.h"
 #include "ImperiumSerialPort.h"
@@ -16,6 +17,7 @@
 #include "ImperiumFrequency.h"
 #include "ImperiumLEDDisplay.h"
 #include "ImperiumHM55B.h"
+#include "ImperiumPing.h"
 #endif
 
 
@@ -34,6 +36,8 @@ void setup(){
 	setObjectTypeInitializer(6, ImperiumAnalogInput::newAnalogInput);
 	setObjectTypeInitializer(7, ImperiumPulseCounter::newPulseCounter);
 	setObjectTypeInitializer(8, ImperiumPPMReader::newPPMReader);
+	setObjectTypeInitializer(15, ImperiumPullupDigitalInput::newPullupDigitalInput);
+
 #ifndef LOW_MEMORY
 	setObjectTypeInitializer(9, ImperiumQuadEncoder::newQuadEncoder);
 	setObjectTypeInitializer(10, ImperiumSerialPort::newSerialPort);
@@ -41,6 +45,7 @@ void setup(){
 	setObjectTypeInitializer(12, ImperiumFrequency::newFrequency);
 	setObjectTypeInitializer(13, ImperiumLEDDisplay::newLEDDisplay);
 	setObjectTypeInitializer(14, ImperiumHM55B::newHM55B);
+	setObjectTypeInitializer(16, ImperiumPing::newPing);
 #endif
 }
 

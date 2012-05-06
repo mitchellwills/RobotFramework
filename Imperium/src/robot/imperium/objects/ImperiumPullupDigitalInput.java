@@ -1,6 +1,6 @@
 package robot.imperium.objects;
 
-import static robot.imperium.objects.ObjectTypeIds.DIGITAL_INPUT_TYPE_ID;
+import static robot.imperium.objects.ObjectTypeIds.PULLUP_DIGITAL_INPUT_TYPE_ID;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -19,7 +19,7 @@ import robot.io.binary.BinaryInput;
  * A digital input
  *
  */
-public class ImperiumDigitalInput extends ImperiumDeviceObject implements BinaryInput{
+public class ImperiumPullupDigitalInput extends ImperiumDeviceObject implements BinaryInput{
 
 	private boolean currentState;
 	
@@ -42,8 +42,8 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements Binary
 	 * @param device
 	 * @param pin
 	 */
-	public ImperiumDigitalInput(ImperiumDevice device, String pin) {
-		super(DIGITAL_INPUT_TYPE_ID, device, pin);
+	public ImperiumPullupDigitalInput(ImperiumDevice device, String pin) {
+		super(PULLUP_DIGITAL_INPUT_TYPE_ID, device, pin);
 		currentState = false;
 	}
 

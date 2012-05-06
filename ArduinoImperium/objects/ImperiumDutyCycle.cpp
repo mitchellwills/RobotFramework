@@ -1,5 +1,5 @@
 /*
- * ImperiumPulseCounter.cpp
+ * ImperiumDutyCycle.cpp
  *
  *  Created on: Apr 12, 2012
  *      Author: Mitchell

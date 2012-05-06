@@ -149,11 +149,12 @@ public abstract class Robot {
 	
 	private final Map<String, RobotObject> objects = new HashMap<String, RobotObject>();
 	
-	protected void putObject(String name, RobotObject object){
+	protected <T extends RobotObject> T putObject(String name, T object){
 		if(objects.containsKey(name))
 			throw new RobotInitializationException("An object already exists with the name: "+name);
 		objects.put(name, object);
 		fireNewObjectEvent(name, object);
+		return object;
 	}
 	
 	/**

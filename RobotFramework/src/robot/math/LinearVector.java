@@ -205,4 +205,36 @@ public class LinearVector implements Cloneable {
 				+ yComponent + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(xComponent);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(yComponent);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LinearVector other = (LinearVector) obj;
+		if (Double.doubleToLongBits(xComponent) != Double
+				.doubleToLongBits(other.xComponent))
+			return false;
+		if (Double.doubleToLongBits(yComponent) != Double
+				.doubleToLongBits(other.yComponent))
+			return false;
+		return true;
+	}
+	
+	
+
 }

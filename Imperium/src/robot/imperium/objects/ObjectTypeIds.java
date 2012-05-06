@@ -22,4 +22,6 @@ public interface ObjectTypeIds {
 	int FREQUENCY_TYPE_ID = 12;
 	int LED_DISPLAY_TYPE_ID = 13;
 	int HM55B_TYPE_ID = 14;
+	int PULLUP_DIGITAL_INPUT_TYPE_ID = 15;
+	int PING_TYPE_ID = 16;
 }

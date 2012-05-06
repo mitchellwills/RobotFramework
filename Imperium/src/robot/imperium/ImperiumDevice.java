@@ -213,7 +213,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 					if (typeId != object.getTypeId() || errorCode != 0)
 						throw new RobotInitializationException(
 								"Error configuring Imperium Device. Object "
-										+ object.getObjectId()
+										+ objectId
 										+ " of type "
 										+ object.getTypeId()
 										+ " failed to configure");
