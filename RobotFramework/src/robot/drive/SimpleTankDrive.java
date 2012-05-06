@@ -3,9 +3,11 @@ package robot.drive;
 import robot.io.speedcontroller.SpeedController;
 
 /**
+ * A simple tank drive system that has 2 or 4 wheels
+ * 
+ * 
  * @author Mitchell
  * 
- *         A simple tank drive system that has 2 or 4 wheels
  * 
  */
 public class SimpleTankDrive implements TankDrive {
@@ -21,8 +23,10 @@ public class SimpleTankDrive implements TankDrive {
 	 *            the left drive motor
 	 * @param rightDrive
 	 *            the right drive motor
-	 * @param invertLeft If the left motor should be inverted
-	 * @param invertRight If the right morot should be inverted
+	 * @param invertLeft
+	 *            If the left motor should be inverted
+	 * @param invertRight
+	 *            If the right morot should be inverted
 	 */
 	public SimpleTankDrive(SpeedController leftDrive,
 			SpeedController rightDrive, boolean invertLeft, boolean invertRight) {
@@ -34,12 +38,13 @@ public class SimpleTankDrive implements TankDrive {
 	 * @param backLeftDrive
 	 * @param frontRightDrive
 	 * @param backRightDrive
-	 * @param invertLeft 
-	 * @param invertRight 
+	 * @param invertLeft
+	 * @param invertRight
 	 */
 	public SimpleTankDrive(SpeedController frontLeftDrive,
 			SpeedController backLeftDrive, SpeedController frontRightDrive,
-			SpeedController backRightDrive, boolean invertLeft, boolean invertRight) {
+			SpeedController backRightDrive, boolean invertLeft,
+			boolean invertRight) {
 		this.frontLeftDrive = frontLeftDrive;
 		this.backLeftDrive = backLeftDrive;
 		this.frontRightDrive = frontRightDrive;
@@ -52,16 +57,15 @@ public class SimpleTankDrive implements TankDrive {
 	public void tankDrive(double left, double right) {
 		double invertedLeft;
 		double invertedRight;
-		if(invertLeft)
+		if (invertLeft)
 			invertedLeft = -left;
 		else
 			invertedLeft = left;
-		if(invertRight)
+		if (invertRight)
 			invertedRight = -right;
 		else
 			invertedRight = right;
-		
-		
+
 		if (frontLeftDrive != null)
 			frontLeftDrive.set(invertedLeft);
 		if (backLeftDrive != null)
