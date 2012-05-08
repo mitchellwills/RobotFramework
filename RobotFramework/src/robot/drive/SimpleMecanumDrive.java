@@ -12,7 +12,7 @@ import robot.math.LinearVector;
  * 
  * 
  */
-public class SimpleMecanumDrive implements TankDrive, MecanumDrive {
+public class SimpleMecanumDrive implements TankDrive, ArcadeDrive, MecanumDrive {
 	private static final LinearVector[] wheelVectors = new LinearVector[4];// the unit vector of what each wheel is capable of doing
 	static{
 		wheelVectors[0] = new LinearVector(1, 1).getUnitVector(); // left front
@@ -90,6 +90,11 @@ public class SimpleMecanumDrive implements TankDrive, MecanumDrive {
 	@Override
 	public void tankDrive(double left, double right) {
 		drive(left, left, right, right);
+	}
+
+	@Override
+	public void arcadeDrive(double speed, double spin) {
+		DriveUtil.arcadeDrive(this, speed, spin);
 	}
 
 	@Override

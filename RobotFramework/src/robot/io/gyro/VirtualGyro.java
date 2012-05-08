@@ -1,16 +1,16 @@
-package robot.io.accelerometer;
+package robot.io.gyro;
 
 import robot.error.RobotInitializationException;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 
 /**
- * A virtual accelerometer that can be given fake values
- *
  * @author Mitchell
  * 
+ * A virtual gyroscope that can be given fake values
+ *
  */
-public class VirtualAccelerometer implements Accelerometer{
+public class VirtualGyro implements Gyroscope{
 	private final RobotObjectModel model = new RobotObjectModel(this);
 	@Override
 	public void addUpdateListener(RobotObjectListener listener) {
@@ -23,35 +23,35 @@ public class VirtualAccelerometer implements Accelerometer{
 	
 	private double[] values;
 	/**
-	 * Create a virtual accelerometer that supports the specified axes all with initial values of 0
-	 * @param axisCount the number of axes the virtual accelerometer has
+	 * Create a virtual gyroscope that supports the specified axes all with initial values of 0
+	 * @param axisCount the number of axes the virtual gyroscope has
 	 */
-	public VirtualAccelerometer(int axisCount){
+	public VirtualGyro(int axisCount){
 		values = new double[axisCount];
 		for(int i = 0; i<values.length; ++i)
 			values[i] = 0;
 	}
 
 	@Override
-	public double getLinearAcceleration(int axis) {
-		if(axis>=getNumAccelerometerAxes())
-			throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+	public double getAngularAcceleration(int axis) {
+		if(axis>=getNumGyroAxes())
+			throw new RobotInitializationException("The virtual gyroscope does not support the "+axis+" axis");
 		return values[axis];
 	}
 
 	@Override
-	public int getNumAccelerometerAxes() {
+	public int getNumGyroAxes() {
 		return values.length;
 	}
 	
 	/**
-	 * Set the faked acceleration value
+	 * Set the faked angular acceleration value
 	 * @param axis the axis whose value will be set
 	 * @param value the new value for the axis
 	 */
 	public void setAcceleration(int axis, double value){
-		if(axis>=getNumAccelerometerAxes())
-			throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+		if(axis>=getNumGyroAxes())
+			throw new RobotInitializationException("The virtual gyroscope does not support the "+axis+" axis");
 		values[axis] = value;
 		model.fireUpdateEvent();
 	}

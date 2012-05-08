@@ -8,11 +8,9 @@ import java.util.Set;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.hardware.PinCapability;
-import robot.io.Input;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
-import robot.io.UpdatableObject;
-import robot.io.value.InputValue;
+import robot.io.distance.DistanceInput;
 
 /**
  * A Parallax PING Ultrasonic Distance Sensor
@@ -20,7 +18,7 @@ import robot.io.value.InputValue;
  * @author Mitchell
  *
  */
-public class ImperiumPing extends ImperiumDeviceObject implements Input, UpdatableObject, InputValue {
+public class ImperiumPing extends ImperiumDeviceObject implements DistanceInput {
 	private final RobotObjectModel model = new RobotObjectModel(this);
 	@Override
 	public void addUpdateListener(RobotObjectListener listener) {
@@ -33,7 +31,7 @@ public class ImperiumPing extends ImperiumDeviceObject implements Input, Updatab
 	
 	
 
-	private int lastPing;
+	private double lastMeasure;
 	/**
 	 * Create a new object that represents a PING Ultrasonic Sensor
 	 * @param device the Imperium device the sensor exists on
@@ -41,6 +39,7 @@ public class ImperiumPing extends ImperiumDeviceObject implements Input, Updatab
 	 */
 	public ImperiumPing(ImperiumDevice device, String pin) {
 		super(PING_TYPE_ID, device, pin);
+		lastMeasure = Double.NaN;
 	}
 
 	@Override
@@ -52,13 +51,17 @@ public class ImperiumPing extends ImperiumDeviceObject implements Input, Updatab
 
 	@Override
 	public void setValue(int value) {
-		lastPing = value;
+		lastMeasure = value/2d/29/100;
 		model.fireUpdateEvent();
 	}
-	
+
+	@Override
+	public double getDistance() {
+		return lastMeasure;
+	}
 	@Override
 	public double getValue() {
-		return lastPing;
+		return getDistance();
 	}
 	
 

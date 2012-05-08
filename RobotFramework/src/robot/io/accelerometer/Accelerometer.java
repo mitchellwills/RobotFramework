@@ -4,20 +4,20 @@ import robot.io.Input;
 import robot.io.UpdatableObject;
 
 /**
- * @author Mitchell
- * 
  * Represents a multi-axis accelerometer
  *
+ * @author Mitchell
+ * 
  */
 public interface Accelerometer extends Input, UpdatableObject{
 	/**
-	 * @param axis the axis whose value to get
-	 * @return the value of that axis
+	 * @param axis
+	 * @return the linear acceleration of that axis
 	 */
-	public double getAcceleration(int axis); 
+	public double getLinearAcceleration(int axis); 
 	
 	/**
 	 * @return the number of axes that this accelerometer supports
 	 */
-	public int getNumAxes();
+	public int getNumAccelerometerAxes();
 }

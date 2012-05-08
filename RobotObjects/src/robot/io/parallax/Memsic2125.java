@@ -89,7 +89,7 @@ public class Memsic2125 implements Accelerometer{
 	}
 
 	@Override
-	public double getAcceleration(int axis) {
+	public double getLinearAcceleration(int axis) {
 		if(axis==0)
 			return getXAxis();
 		else if(axis==1)
@@ -98,7 +98,7 @@ public class Memsic2125 implements Accelerometer{
 	}
 
 	@Override
-	public int getNumAxes() {
+	public int getNumAccelerometerAxes() {
 		return 2;
 	}
 }

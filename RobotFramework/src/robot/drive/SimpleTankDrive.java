@@ -10,7 +10,7 @@ import robot.io.speedcontroller.SpeedController;
  * 
  * 
  */
-public class SimpleTankDrive implements TankDrive {
+public class SimpleTankDrive implements TankDrive, ArcadeDrive {
 	private SpeedController frontLeftDrive;
 	private SpeedController backLeftDrive;
 	private SpeedController frontRightDrive;
@@ -75,6 +75,11 @@ public class SimpleTankDrive implements TankDrive {
 			frontRightDrive.set(invertedRight);
 		if (backRightDrive != null)
 			backRightDrive.set(invertedRight);
+	}
+	
+	@Override
+	public void arcadeDrive(double speed, double spin) {
+		DriveUtil.arcadeDrive(this, speed, spin);
 	}
 
 }
