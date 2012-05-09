@@ -1,6 +1,7 @@
 package robot.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.StringReader;
 import java.util.Map;
@@ -43,9 +44,6 @@ public class XMLUtilTest {
 	private static final String testXML2 = "<hi><thisisatest attr1='val1' attr2='val2'/><anotherNode myattr='myVal'></anotherNode></hi>";
 	private static final String testXML3 = "<hi mybool='true' mybool2='false' myint1='5' myint2='-10'/>";
 
-
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
 	
 	
 	
@@ -108,8 +106,12 @@ public class XMLUtilTest {
 		Node root = toDOM(testXML3);
 		assertEquals(5, XMLUtil.getIntAttribute(root, "myint1"));
 		assertEquals(-10, XMLUtil.getIntAttribute(root, "myint2"));
-		exception.expect(NumberFormatException.class);
-		XMLUtil.getIntAttribute(root, "mybool");
+		try{
+			XMLUtil.getIntAttribute(root, "mybool");
+			fail();
+		} catch(NumberFormatException e){
+			//success
+		}
 	}
 	
 	@Test

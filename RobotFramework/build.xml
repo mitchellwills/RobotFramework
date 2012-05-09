@@ -2,6 +2,7 @@
 <project name="RobotFramework" basedir="." default="main">
 	<property name="src.dir" value="src" />
 	<property name="test.dir" value="test" />
+	<property name="lib.dir" value="lib" />
 
 	<property name="build.dir" value="build" />
 	<property name="classes.dir" value="${build.dir}/classes" />
@@ -10,7 +11,10 @@
 
 
 
-
+<path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        <path location="[LocalPath]/junit-4.8.2.jar"/>
+    </path>
 
 	<target name="main" depends="clean,junit" />
 
@@ -21,8 +25,8 @@
 
 	<target name="compile">
 		<mkdir dir="${classes.dir}" />
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" />
-		<javac srcdir="${test.dir}" destdir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
+		<javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath" />
 		<copy todir="${classes.dir}">
 			<fileset dir="${src.dir}" excludes="**/*.java" />
 			<fileset dir="${test.dir}" excludes="**/*.java" />
@@ -34,6 +38,7 @@
 		<junit printsummary="withOutAndErr" haltonfailure="yes"
 			showoutput="yes">
 			<classpath>
+				<path refid="classpath"/>
 				<path location="${classes.dir}" />
 			</classpath>
 
