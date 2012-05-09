@@ -35,8 +35,12 @@
 
 	<target name="compile_junit">
 		<mkdir dir="${classes.dir}" />
-		<javac target="1.6" source="1.6" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
-		<javac target="1.6" source="1.6" srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath" />
+		<javac target="1.6" source="1.6" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" >
+			<compilerarg value="-Xlint"/>
+		</javac>
+		<javac target="1.6" source="1.6" srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath" >
+			<compilerarg value="-Xlint"/>
+		</javac>
 		<emma>
 			<instr instrpath="${classes.dir}" metadatafile="${emma_report.dir}/coverage.em" mode="overwrite" merge="true" />
 		</emma>
