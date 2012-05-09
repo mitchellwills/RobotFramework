@@ -11,7 +11,7 @@
 
 
 
-	<target name="main" depends="clean,run" />
+	<target name="main" depends="clean,junit" />
 
 	<target name="clean">
 		<delete dir="${build.dir}" />
@@ -25,7 +25,7 @@
 		</copy>
 	</target>
 
-	<target name="junit" depends="jar">
+	<target name="junit">
 		<mkdir dir="${report.dir}" />
 		<junit printsummary="withOutAndErr" haltonfailure="yes"
 			showoutput="yes">
