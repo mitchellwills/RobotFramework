@@ -15,6 +15,7 @@
 
 	<target name="clean">
 		<delete dir="${build.dir}" />
+		<delete dir="${report.dir}" />
 	</target>
 
 	<target name="compile">
@@ -25,17 +26,17 @@
 		</copy>
 	</target>
 
-	<target name="junit">
+	<target name="junit" depends="compile">
 		<mkdir dir="${report.dir}" />
 		<junit printsummary="withOutAndErr" haltonfailure="yes"
 			showoutput="yes">
 			<classpath>
-				<pathelement location="src" />
+				<pathelement location="${classes.dir}" />
 			</classpath>
 
 			<formatter type="xml" />
 
-			<batchtest fork="yes" todir="reports">
+			<batchtest fork="yes" todir="${report.dir}">
 				<fileset dir="test">
 					<include name="**/*.java" />
 				</fileset>
