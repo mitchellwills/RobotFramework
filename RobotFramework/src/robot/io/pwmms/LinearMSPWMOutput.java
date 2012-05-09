@@ -29,8 +29,6 @@ public final class LinearMSPWMOutput implements Output {
 	/**
 	 * @param output
 	 *            the output this output writes to
-	 * @param initialValue
-	 *            the initial value that should be outputed
 	 * @param minValue
 	 *            the minimum input value
 	 * @param maxValue

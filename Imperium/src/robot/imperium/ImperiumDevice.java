@@ -134,7 +134,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 		this.hardwareConfiguration = hardwareConfiguration;
 		this.maxUpdateRate = maxUpdateRate;
 		state = ImperiumDeviceState.DISCONNECTED;
-		new Thread(new ImperiumEventThread()).start();
+		new Thread(new ImperiumEventThread()).start();//TODO run this in a robot thread
 		configure();
 	}
 

@@ -44,7 +44,7 @@ public class JoystickAxisDirectional implements JoystickDirectional {
 
 	@Override
 	public double getAngle() {
-		return Math.toDegrees(Math.atan2(yAxis.getValue(), xAxis.getValue()) + Math.PI/2);//TODO ensure value is between 0 and 360
+		return (Math.toDegrees(Math.atan2(yAxis.getValue(), xAxis.getValue()) + Math.PI/2)+360)%360;
 	}
 
 	@Override
