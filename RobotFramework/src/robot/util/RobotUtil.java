@@ -6,7 +6,7 @@ package robot.util;
  * Utility methods for robots
  *
  */
-public class RobotUtil {
+public final class RobotUtil {
 	/**
 	 * sleep a given number of milliseconds
 	 * @param timeMS

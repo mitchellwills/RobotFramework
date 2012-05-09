@@ -1,6 +1,8 @@
 package robot.util;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,6 +13,12 @@ import org.junit.runners.JUnit4;
 @SuppressWarnings("javadoc")
 @RunWith(JUnit4.class)
 public class ByteUtilTest {
+	@SuppressWarnings("unused")
+	@Test
+	public void testConstructor() {
+		new ByteUtil();
+	}
+	
 	byte[] b1 = { (byte) 0xFF, (byte) 0xE5, (byte) 0x10, (byte) 0xFB };
 	byte[] b2 = { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
 	byte[] b3 = { (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF };
@@ -201,12 +209,46 @@ public class ByteUtilTest {
 		assertEquals(4294967292L, ByteUtil.toUnsigned(-4));
 	}
 	
+
+	private static final byte[] result1 = {3, 0, 0, 0, 0, 0};
+	private static final byte[] result2 = {4, 3, 0, 0, 0, 0};
+	private static final byte[] result3 = {2, 13, 65, -53, 0, 0};
+	private static final byte[] result4 = {0, 2, 13, 65, -53, 0};
+	private static final byte[] result5 = {0, 0, 2, 13, 65, -53};
+	private static final byte[] result6 = {0, 0, 4, 3};
 	@Test
-	public void testSleep(){
-		long start = System.currentTimeMillis();
-		RobotUtil.sleep(100);
-		long diff = System.currentTimeMillis()-start;
-		assertEquals(100, diff, 3);
+	public void testPutByte() {
+		byte[] dst = new byte[6];
+		ByteUtil.put(dst, 0, 1027, 1);
+		assertArrayEquals(result1, dst);
+		
+		dst = new byte[6];
+		ByteUtil.put(dst, 0, 1027, 2);
+		assertArrayEquals(result2, dst);
+		
+		dst = new byte[6];
+		ByteUtil.put(dst, 0, 34423243, 4);
+		assertArrayEquals(result3, dst);
+		
+		dst = new byte[6];
+		ByteUtil.put(dst, 1, 34423243, 4);
+		assertArrayEquals(result4, dst);
+		
+		dst = new byte[6];
+		ByteUtil.put(dst, 2, 34423243, 4);
+		assertArrayEquals(result5, dst);
+		
+		dst = new byte[4];
+		ByteUtil.put(dst, 2, 1027, 2);
+		assertArrayEquals(result6, dst);
+		
+		dst = new byte[4];
+		try{
+			ByteUtil.put(dst, 3, 1027, 2);
+			fail();
+		} catch(ArrayIndexOutOfBoundsException e){
+			//success
+		}
 	}
 
 }

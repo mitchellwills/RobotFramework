@@ -8,6 +8,11 @@ import static org.junit.Assert.assertEquals;
 @SuppressWarnings("javadoc")
 @RunWith(JUnit4.class)
 public class RobotUtilTest {
+	@SuppressWarnings("unused")
+	@Test
+	public void testConstructor() {
+		new RobotUtil();
+	}
 
 	@Test
 	public void testLimit() {
@@ -51,5 +56,13 @@ public class RobotUtilTest {
 
 		assertEquals(10, RobotUtil.threshold(10, 5), 0);
 		assertEquals(-20, RobotUtil.threshold(-20, 5), 0);
+	}
+	
+	@Test
+	public void testSleep(){
+		long start = System.currentTimeMillis();
+		RobotUtil.sleep(100);
+		long diff = System.currentTimeMillis()-start;
+		assertEquals(100, diff, 3);
 	}
 }

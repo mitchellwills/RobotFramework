@@ -20,6 +20,12 @@ import org.xml.sax.InputSource;
 @SuppressWarnings("javadoc")
 @RunWith(JUnit4.class)
 public class XMLUtilTest {
+	@SuppressWarnings("unused")
+	@Test
+	public void testConstructor() {
+		new XMLUtil();
+	}
+	
 	private static final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	private static Node toDOM(String xml){
 		try{
