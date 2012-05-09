@@ -39,11 +39,10 @@
 
 			<formatter type="xml" />
 
-			<batchtest fork="yes" todir="${report.dir}">
-				<fileset dir="${test.dir}">
-					<include name="**/*Test.java" />
-				</fileset>
-			</batchtest>
+			<test name="robot.util.ByteUtilTest"/>
+			<test name="robot.util.RingBufferTest"/>
+			<test name="robot.util.RobotUtilTest"/>
+			<test name="robot.util.XMLUtilTest"/>
 		</junit>
 	</target>
 
