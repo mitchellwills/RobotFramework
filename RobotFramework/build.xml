@@ -34,7 +34,6 @@
 		<junit printsummary="withOutAndErr" haltonfailure="yes"
 			showoutput="yes">
 			<classpath>
-				<path refid="classpath" />
 				<path location="${classes.dir}" />
 			</classpath>
 
