@@ -5,10 +5,10 @@
 	<target name="main" depends="junit" description="Main target" />
 
 	<target name="junit" description="Run the junit tests">
-		<junit printsummary="yes" haltonfailure="yes">
+		<junit printsummary="withOutAndErr" haltonfailure="yes">
 			<batchtest fork="yes" todir="reports">
-				<fileset dir="src">
-					<include name="**/test/*.java" />
+				<fileset dir="test">
+					<include name="**/*.java" />
 				</fileset>
 			</batchtest>
 		</junit>
