@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="RobotFramework" basedir="." default="main">
 	<property name="src.dir" value="src" />
-	<property name="test.dir" value="src" />
+	<property name="test.dir" value="test" />
 
 	<property name="build.dir" value="build" />
 	<property name="classes.dir" value="${build.dir}/classes" />
