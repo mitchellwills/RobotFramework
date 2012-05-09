@@ -8,7 +8,7 @@
 		<junit printsummary="yes" haltonfailure="yes">
 			<batchtest fork="yes" todir="reports">
 				<fileset dir="src">
-					<include name="**/*.java" />
+					<include name="**/test/*.java" />
 				</fileset>
 			</batchtest>
 		</junit>
