@@ -6,6 +6,9 @@
 
 	<target name="junit" description="Run the junit tests">
 		<junit printsummary="withOutAndErr" haltonfailure="yes">
+			<classpath>
+				<pathelement location="src" />
+			</classpath>
 			<batchtest fork="yes" todir="reports">
 				<fileset dir="test">
 					<include name="**/*.java" />
