@@ -45,8 +45,8 @@ public abstract class Robot {
 	 * @return the singleton robot instance
 	 */
 	public static Robot getInstance(){
-		if(INSTANCE!=null || !initialized)
-			throw new IllegalArgumentException("You must call Robot.init");
+		if(INSTANCE==null || !initialized)
+			throw new IllegalStateException("You must call Robot.go");
 		return INSTANCE;
 	}
 	
