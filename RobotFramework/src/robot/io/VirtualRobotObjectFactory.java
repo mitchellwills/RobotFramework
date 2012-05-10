@@ -45,7 +45,7 @@ public class VirtualRobotObjectFactory extends RobotObjectFactory implements Fac
 	public AnalogVoltageInput getAnalogVoltageInput(String location){
 		try{
 			double maxVoltage = Double.parseDouble(location);
-			return new VirtualAnalogVoltageInput(0, maxVoltage);
+			return new VirtualAnalogVoltageInput(maxVoltage);
 		} catch(NumberFormatException e){
 			throw new RobotInitializationException("The location of a vitual analog voltage input must be a number representing its maximum voltage");
 		}

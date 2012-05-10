@@ -1,6 +1,6 @@
 package robot.io.accelerometer;
 
-import robot.error.RobotInitializationException;
+import robot.error.RobotException;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 
@@ -35,7 +35,7 @@ public class VirtualAccelerometer implements Accelerometer{
 	@Override
 	public double getLinearAcceleration(int axis) {
 		if(axis>=getNumAccelerometerAxes())
-			throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+			throw new RobotException("The virtual accelerometer does not support the "+axis+" axis");
 		return values[axis];
 	}
 
@@ -51,7 +51,7 @@ public class VirtualAccelerometer implements Accelerometer{
 	 */
 	public void setAcceleration(int axis, double value){
 		if(axis>=getNumAccelerometerAxes())
-			throw new RobotInitializationException("The virtual accelerometer does not support the "+axis+" axis");
+			throw new RobotException("The virtual accelerometer does not support the "+axis+" axis");
 		values[axis] = value;
 		model.fireUpdateEvent();
 	}

@@ -1,5 +1,6 @@
 package robot.io.analog;
 
+import robot.error.RobotInitializationException;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 
@@ -28,9 +29,11 @@ public class VirtualAnalogVoltageInput implements AnalogVoltageInput {
 	 * @param initialVoltage the initial voltage the input will read
 	 * @param maxVoltage the maximum voltage that the input provides
 	 */
-	public VirtualAnalogVoltageInput(final double initialVoltage, final double maxVoltage){
+	public VirtualAnalogVoltageInput(final double maxVoltage){
+		if(maxVoltage<=0)
+			throw new RobotInitializationException("The maximum voltage cannot be 0 or negative");
 		this.maxVoltage = maxVoltage;
-		this.voltage = initialVoltage;
+		voltage = 0;
 	}
 
 	@Override
