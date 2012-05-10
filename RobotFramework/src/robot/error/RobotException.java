@@ -9,6 +9,11 @@ package robot.error;
 public class RobotException extends RuntimeException {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7938108954188667668L;
+
+	/**
 	 * create a new robot exception
 	 */
 	public RobotException() {
