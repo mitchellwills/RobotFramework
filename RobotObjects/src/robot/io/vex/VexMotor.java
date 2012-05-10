@@ -24,8 +24,8 @@ public class VexMotor extends SpeedControllerMS{
 	 * @param robot
 	 * @param location
 	 */
-	public VexMotor(final Robot robot, final String location) {
-		this(robot.getFactory().getMSPWM(location));
+	public VexMotor(final String location) {
+		this(Robot.getInstance().getFactory().getMSPWM(location));
 	}
 
 }

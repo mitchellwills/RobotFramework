@@ -25,6 +25,33 @@ import robot.thread.RobotThreadManager;
 public abstract class Robot {
 	private RobotObjectFactory factory;
 	private RobotThreadManager threadManager;
+	private static Robot INSTANCE = null;
+	private static boolean initialized = false;
+	
+	
+	/**
+	 * Start the robot
+	 * @param robot
+	 */
+	public static void go(Robot robot){
+		if(robot!=INSTANCE)
+			throw new IllegalArgumentException("Only one robot is allowed per VM");
+		initialized = true;
+
+		INSTANCE.initializeIO();
+		INSTANCE.run();//TODO run in thread
+	}
+	/**
+	 * @return the singleton robot instance
+	 */
+	public static Robot getInstance(){
+		if(INSTANCE!=null || !initialized)
+			throw new IllegalArgumentException("You must call Robot.init");
+		return INSTANCE;
+	}
+	
+	
+	
 	/**
 	 * Construct a new robot with no configuration file
 	 */
@@ -53,6 +80,7 @@ public abstract class Robot {
 	 * @param host the host object for this system
 	 */
 	public Robot(File configFile, RobotObjectFactory factory, Host host){
+		INSTANCE = this;
 		if(host!=null)
 			putObject("host", host);
 		threadManager = new RobotThreadManager();
@@ -61,22 +89,14 @@ public abstract class Robot {
 		if(configFile!=null)
 			RobotConfigFile.load(this, configFile);
 	}
-	
-	/**
-	 * run the robot
-	 */
-	public void go() {
-		initializeIO();
-		run();//TODO run in thread
-	}
 	/**
 	 * Initialization of all robot communication with other devices should occur here
 	 */
-	public abstract void initializeIO();
+	protected abstract void initializeIO();
 	/**
 	 * perform the main actions of the robot
 	 */
-	public abstract void run();
+	protected abstract void run();
 	
 
 	/**
@@ -99,7 +119,7 @@ public abstract class Robot {
 	 */
 	public void setFactory(RobotObjectFactory factory){
 		if(factory==null)
-			this.factory = new NameRobotObjectFactory(this);
+			this.factory = new NameRobotObjectFactory();
 		else
 			this.factory = factory;
 	}

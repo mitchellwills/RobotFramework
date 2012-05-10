@@ -57,8 +57,8 @@ public class Memsic2125 implements Accelerometer{
 	 * @param yAxis
 	 * @param temp
 	 */
-	public Memsic2125(Robot robot, String xAxis, String yAxis, String temp){
-		this(robot.getFactory().getDutyCycle(xAxis), robot.getFactory().getDutyCycle(yAxis), robot.getFactory().getAnalogVoltageInput(temp));
+	public Memsic2125(String xAxis, String yAxis, String temp){
+		this(Robot.getInstance().getFactory().getDutyCycle(xAxis), Robot.getInstance().getFactory().getDutyCycle(yAxis), Robot.getInstance().getFactory().getAnalogVoltageInput(temp));
 	}
 	
 	private double getAxisValue(DutyCycleInput input){

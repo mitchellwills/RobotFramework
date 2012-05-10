@@ -18,8 +18,8 @@ public class AnalogInput implements AnalogVoltageInput{
 	 * @param robot
 	 * @param location
 	 */
-	public AnalogInput(Robot robot, String location) {
-		input = robot.getFactory().getAnalogVoltageInput(location);
+	public AnalogInput(String location) {
+		input = Robot.getInstance().getFactory().getAnalogVoltageInput(location);
 	}
 	@Override
 	public void addUpdateListener(RobotObjectListener listener) {

@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import robot.Robot;
 import robot.error.RobotInitializationException;
 import robot.io.accelerometer.Accelerometer;
 import robot.io.analog.AnalogVoltageInput;
@@ -151,9 +150,9 @@ public abstract class RobotObjectFactory {
 	 * @param params parameters to pass to the class
 	 * @return a new RobotObject
 	 */
-	public RobotObject getObject(Robot robot, String type, Map<String, String> params){
+	public RobotObject getObject(String type, Map<String, String> params){
 		try {
-			return getObject(robot, (Class<? extends RobotObject>)Class.forName(type), params);
+			return getObject((Class<? extends RobotObject>)Class.forName(type), params);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -166,11 +165,11 @@ public abstract class RobotObjectFactory {
 	 * @param params parameters to pass to the class
 	 * @return a new RobotObject
 	 */
-	public RobotObject getObject(Robot robot, Class<? extends RobotObject> type, Map<String, String> params){
+	public RobotObject getObject(Class<? extends RobotObject> type, Map<String, String> params){
 
 		try{
-			Constructor<? extends RobotObject> constructor = type.getConstructor(Robot.class, Map.class);
-			return constructor.newInstance(robot, params);
+			Constructor<? extends RobotObject> constructor = type.getConstructor(Map.class);
+			return constructor.newInstance(params);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {

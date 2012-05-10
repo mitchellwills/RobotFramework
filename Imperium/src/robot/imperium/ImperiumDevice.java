@@ -63,12 +63,12 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 	 * @throws IllegalArgumentException 
 	 * @throws IllegalAccessException 
 	 */
-	public ImperiumDevice(Robot robot, Map<String, String> params) throws NoSuchMethodException, SecurityException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public ImperiumDevice(Map<String, String> params) throws NoSuchMethodException, SecurityException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		SerialInterface serial;
 		if(params.containsKey("serialPortName"))
-			serial = (SerialInterface) robot.getObject(params.get("serialPortName"));
+			serial = (SerialInterface) Robot.getInstance().getObject(params.get("serialPortName"));
 		else
-			serial = robot.getFactory().getSerialInterface(params.get("serialPort"), 115200);
+			serial = Robot.getInstance().getFactory().getSerialInterface(params.get("serialPort"), 115200);
 		int maxUpdateRate = Integer.parseInt(params.get("maxUpdateRate"));
 
 		Class<?> hardwareConfigurationClass = Class.forName(params.get("hardwareConfiguration"));
@@ -85,8 +85,8 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject, F
 	 * @param hardwareConfiguration
 	 * @param maxUpdateRate the maximum number of input updates per second the device will send
 	 */
-	public ImperiumDevice(Robot robot, String location, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
-		init(robot.getFactory().getSerialInterface(location, 115200), hardwareConfiguration, maxUpdateRate);
+	public ImperiumDevice(String location, ImperiumHardwareConfiguration hardwareConfiguration, int maxUpdateRate) {
+		init(Robot.getInstance().getFactory().getSerialInterface(location, 115200), hardwareConfiguration, maxUpdateRate);
 	}
 
 	/**

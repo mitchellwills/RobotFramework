@@ -1,6 +1,5 @@
 package robot.io.compass;
 
-import robot.Robot;
 import robot.io.value.AverageInputValue;
 
 /**
@@ -18,8 +17,8 @@ public class AveragedCompass extends AverageInputValue implements Compass {
 	 * @param bufferSize the size of the buffer to store values in
 	 * @param updateDelay the delay between adding values to the buffer
 	 */
-	public AveragedCompass(final Robot robot, final Compass compass, final int bufferSize, final long updateDelay){
-		super(robot, compass, bufferSize, updateDelay);
+	public AveragedCompass(final Compass compass, final int bufferSize, final long updateDelay){
+		super(compass, bufferSize, updateDelay);
 	}
 
 	@Override

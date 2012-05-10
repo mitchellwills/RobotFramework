@@ -59,8 +59,8 @@ public class ParallaxSerialLCD implements Output {
 	 * @param location
 	 * @param baud
 	 */
-	public ParallaxSerialLCD(Robot robot, String location, int baud){
-		this(robot.getFactory().getSerialInterface(location, baud));
+	public ParallaxSerialLCD(String location, int baud){
+		this(Robot.getInstance().getFactory().getSerialInterface(location, baud));
 	}
 
 	private void writeByte(int b){

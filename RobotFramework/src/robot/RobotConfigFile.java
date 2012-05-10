@@ -142,7 +142,7 @@ class RobotConfigFile {
 							String type = XMLUtil.getAttribute(objectNode, "type");
 							
 							Map<String, String> params = XMLUtil.getAttributes(objectNode);
-							robot.putObject(name, robot.getFactory().getObject(robot, type, params));
+							robot.putObject(name, robot.getFactory().getObject(type, params));
 						}
 						
 						

@@ -17,8 +17,8 @@ public class DigitalOutput implements BinaryOutput {
 	 * @param robot
 	 * @param location
 	 */
-	public DigitalOutput(final Robot robot, final String location) {
-		output = robot.getFactory().getBinaryOutput(location);
+	public DigitalOutput(final String location) {
+		output = Robot.getInstance().getFactory().getBinaryOutput(location);
 	}
 
 	@Override

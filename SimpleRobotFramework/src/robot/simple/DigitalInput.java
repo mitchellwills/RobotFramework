@@ -17,8 +17,8 @@ public class DigitalInput implements BinaryInput {
 	 * @param robot
 	 * @param location
 	 */
-	public DigitalInput(final Robot robot, final String location) {
-		input = robot.getFactory().getBinaryInput(location);
+	public DigitalInput(final String location) {
+		input = Robot.getInstance().getFactory().getBinaryInput(location);
 	}
 
 	@Override

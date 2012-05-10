@@ -1,6 +1,5 @@
 package robot.io.value;
 
-import robot.Robot;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 import robot.io.UpdatableObject;
@@ -35,10 +34,10 @@ public class AverageInputValue implements InputValue, UpdatableObject {
 	 * @param bufferSize the size of the buffer to store values in
 	 * @param updateDelay the delay between adding values to the buffer
 	 */
-	public AverageInputValue(Robot robot, final InputValue inputValue, final int bufferSize, final long updateDelay){
+	public AverageInputValue(final InputValue inputValue, final int bufferSize, final long updateDelay){
 		this.inputValue = inputValue;
 		buffer = new RingBuffer(bufferSize);
-		averageThread = new AverageThread(robot, updateDelay);
+		averageThread = new AverageThread(updateDelay);
 		averageThread.start();
 	}
 	
@@ -50,8 +49,8 @@ public class AverageInputValue implements InputValue, UpdatableObject {
 	
 
 	private class AverageThread extends PeriodicRobotThread {
-		public AverageThread(Robot robot, long updateDelay) {
-			super(robot, "Input Average Thread ("+AverageInputValue.this.toString()+")", updateDelay);
+		public AverageThread(long updateDelay) {
+			super("Input Average Thread ("+AverageInputValue.this.toString()+")", updateDelay);
 		}
 
 		@Override

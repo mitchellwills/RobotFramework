@@ -1,6 +1,5 @@
 package robot.thread;
 
-import robot.Robot;
 import robot.util.AsyncTimer;
 
 /**
@@ -19,8 +18,8 @@ public abstract class PeriodicRobotThread extends RobotThread {
 	 * @param name the name of the thread
 	 * @param updateDelay the delay (in ms) between calls to the {@link #periodic()} method
 	 */
-	public PeriodicRobotThread(Robot robot, String name, long updateDelay) {
-		super(robot, name);
+	public PeriodicRobotThread(String name, long updateDelay) {
+		super(name);
 		this.updateDelay = updateDelay;
 	}
 

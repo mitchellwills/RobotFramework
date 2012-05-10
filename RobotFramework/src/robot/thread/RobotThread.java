@@ -16,8 +16,8 @@ public abstract class RobotThread implements Runnable{
 	 * @param robot
 	 * @param name the name of the thread
 	 */
-	public RobotThread(Robot robot, String name){
-		thread = robot.getThreadManager().newThread(this, name);
+	public RobotThread(String name){
+		thread = Robot.getInstance().getThreadManager().newThread(this, name);
 	}
 	/**
 	 * start the thread

@@ -69,8 +69,8 @@ public class VexTransmitter implements Joystick{
 	 * @param robot
 	 * @param location
 	 */
-	public VexTransmitter(Robot robot, String location) {
-		this(robot.getFactory().getPPMReader(location, 6));
+	public VexTransmitter(String location) {
+		this(Robot.getInstance().getFactory().getPPMReader(location, 6));
 	}
 	
 	@Override

@@ -25,8 +25,8 @@ public class VexServo extends ServoMS{
 	 * @param robot
 	 * @param location
 	 */
-	public VexServo(final Robot robot, final String location) {
-		this(robot.getFactory().getMSPWM(location));
+	public VexServo(final String location) {
+		this(Robot.getInstance().getFactory().getMSPWM(location));
 	}
 
 }

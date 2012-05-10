@@ -21,7 +21,7 @@ public abstract class SimpleRobot extends Robot {
 	public SimpleRobot(String serialPort) {
 		super(null);
 		putObject("host", Computer.get());
-		putObject("device", device = new ImperiumDevice(this, "host/"+serialPort, Teensy2PP.get(), 500));
+		putObject("device", device = new ImperiumDevice("host/"+serialPort, Teensy2PP.get(), 500));
 		setFactory(device.getFactory());
 	}
 

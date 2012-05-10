@@ -29,20 +29,10 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	 */
 	public static final char SEPARATION_CHAR = '/';
 	
-	private final Robot robot;
-	
-	/**
-	 * Create a new factory
-	 * @param robot the robot this factory will draw object factories from
-	 */
-	public NameRobotObjectFactory(Robot robot){
-		this.robot = robot;
-	}
-
 	private RobotObjectFactory getFactory(String name){
 		if(name==null)
 			throw new RobotInitializationException("Object Location must have a seperator");
-		RobotObject object = robot.getObject(name);
+		RobotObject object = Robot.getInstance().getObject(name);
 		if(object instanceof FactoryObject)
 			return ((FactoryObject)object).getFactory();
 		throw new RobotInitializationException(name+" is not a robot factory");
@@ -64,7 +54,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public AnalogVoltageInput getAnalogVoltageInput(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof AnalogVoltageInput))
 				throw new RobotInitializationException(location+" is not an AnalogVoltageInput");
 			return (AnalogVoltageInput) object;
@@ -76,7 +66,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public BinaryInput getBinaryInput(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof BinaryInput))
 				throw new RobotInitializationException(location+" is not a BinaryInput");
 			return (BinaryInput) object;
@@ -88,7 +78,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public BinaryOutput getBinaryOutput(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof BinaryOutput))
 				throw new RobotInitializationException(location+" is not a BinaryOutput");
 			return (BinaryOutput) object;
@@ -100,7 +90,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public Counter getCounter(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof Counter))
 				throw new RobotInitializationException(location+" is not a Counter");
 			return (Counter) object;
@@ -112,7 +102,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public DutyCycleInput getDutyCycle(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof DutyCycleInput))
 				throw new RobotInitializationException(location+" is not a DutyCycleInput");
 			return (DutyCycleInput) object;
@@ -136,7 +126,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public FrequencyInput getFrequencyInput(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof FrequencyInput))
 				throw new RobotInitializationException(location+" is not a FrequencyInput");
 			return (FrequencyInput) object;
@@ -148,7 +138,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public PPMReader getPPMReader(String location, int numChannels){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof PPMReader))
 				throw new RobotInitializationException(location+" is not a PPMReader");
 			if(((PPMReader)object).getChannelCount()!=numChannels)
@@ -162,7 +152,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public PWMOutput getPWMOutput(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof PWMOutput))
 				throw new RobotInitializationException(location+" is not a PWMOutput");
 			return (PWMOutput) object;
@@ -174,7 +164,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public MSPWMOutput getMSPWM(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof MSPWMOutput))
 				throw new RobotInitializationException(location+" is not a MSPWMOutput");
 			return (MSPWMOutput) object;
@@ -186,7 +176,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public SerialInterface getSerialInterface(String location, int baud){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof SerialInterface))
 				throw new RobotInitializationException(location+" is not a SerialInterface");
 			if(((SerialInterface)object).getBaudRate()!=baud)
@@ -200,7 +190,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public Joystick getJoystick(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof Joystick))
 				throw new RobotInitializationException(location+" is not a Joystick");
 			return (Joystick) object;
@@ -212,7 +202,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public Accelerometer getAccelerometer(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof Accelerometer))
 				throw new RobotInitializationException(location+" is not an Accelerometer");
 			return (Accelerometer) object;
@@ -224,7 +214,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 	public SpeedController getSpeedController(String location){
 		String factoryName = getFactoryName(location);
 		if(factoryName==null){
-			RobotObject object = robot.getObject(location);
+			RobotObject object = Robot.getInstance().getObject(location);
 			if(!(object instanceof SpeedController))
 				throw new RobotInitializationException(location+" is not a SpeedController");
 			return (SpeedController) object;
