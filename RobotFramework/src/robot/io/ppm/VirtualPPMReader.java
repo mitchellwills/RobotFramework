@@ -29,10 +29,14 @@ public class VirtualPPMReader implements PPMReader{
 	 */
 	public VirtualPPMReader(int numChannels){
 		values = new long[numChannels];
+		for(int i = 0; i<values.length; ++i)
+			values[i] = PPMReader.INVALID_VALUE;
 	}
 	
 	@Override
 	public long getChannel(int channel) {
+		if(channel<0||channel>=getChannelCount())
+			throw new RobotException("The Virtual PPM reader does not have channel "+channel);
 		return values[channel];
 	}
 
@@ -48,6 +52,8 @@ public class VirtualPPMReader implements PPMReader{
 	 * @param channelValue
 	 */
 	public void setChannelValue(final int channel, final long channelValue){
+		if(channel<0||channel>=getChannelCount())
+			throw new RobotException("The Virtual PPM reader does not have channel "+channel);
 		values[channel] = channelValue;
 		model.fireUpdateEvent();
 	}
