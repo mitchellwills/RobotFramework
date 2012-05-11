@@ -76,9 +76,27 @@ public class BinaryTest {
 		assertEquals(4, listener.getUpdateCount());
 		assertEquals(output, listener.getLastObject());
 		
+		output.setValue(0);
+		assertEquals(false, output.get());
+		assertEquals(0, output.getValue(), 0);
+		assertEquals(5, listener.getUpdateCount());
+		assertEquals(output, listener.getLastObject());
+		
+		output.setValue(1);
+		assertEquals(true, output.get());
+		assertEquals(1.0, output.getValue(), 0);
+		assertEquals(6, listener.getUpdateCount());
+		assertEquals(output, listener.getLastObject());
+		
+		output.setValue(-22);
+		assertEquals(true, output.get());
+		assertEquals(1.0, output.getValue(), 0);
+		assertEquals(7, listener.getUpdateCount());
+		assertEquals(output, listener.getLastObject());
+		
 		output.removeUpdateListener(listener);
 		output.set(false);
-		assertEquals(4, listener.getUpdateCount());
+		assertEquals(7, listener.getUpdateCount());
 		assertEquals(output, listener.getLastObject());
 	}
 }

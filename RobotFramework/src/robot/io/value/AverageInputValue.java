@@ -56,6 +56,7 @@ public class AverageInputValue implements InputValue, UpdatableObject {
 		@Override
 		public void periodic(){
 			buffer.append(inputValue.getValue());
+			model.fireUpdateEvent();
 		}
 	}
 }

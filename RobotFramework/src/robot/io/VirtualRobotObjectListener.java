@@ -22,6 +22,13 @@ public class VirtualRobotObjectListener implements RobotObjectListener{
 	}
 	
 	/**
+	 * reset the update count to 0
+	 */
+	public void resetUpdateCount(){
+		updateCount = 0;
+	}
+	
+	/**
 	 * @return the last object that the update method was called with
 	 */
 	public RobotObject getLastObject(){

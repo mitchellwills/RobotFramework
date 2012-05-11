@@ -63,6 +63,6 @@ public class RobotUtilTest {
 		long start = System.currentTimeMillis();
 		RobotUtil.sleep(100);
 		long diff = System.currentTimeMillis()-start;
-		assertEquals(100, diff, 3);
+		assertEquals(100, diff, 5);
 	}
 }

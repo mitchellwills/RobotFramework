@@ -64,12 +64,16 @@ public class CompassTest {
 		RobotUtil.sleep(20);
 		assertEquals(101, average.getHeading(), 0);
 		assertEquals(101, average.getValue(), 0);
+
+		assertEquals(average, listener.getLastObject());
+		assertEquals(4, listener.getUpdateCount());
 		
-		input.removeUpdateListener(listener);
+		average.removeUpdateListener(listener);
 		input.setHeading(102);
 		RobotUtil.sleep(20);
 		assertEquals(102, average.getHeading(), 0);
 		assertEquals(102, average.getValue(), 0);
+		assertEquals(4, listener.getUpdateCount());
 
 		RobotTestUtils.cleanupFakeRobot();
 	}

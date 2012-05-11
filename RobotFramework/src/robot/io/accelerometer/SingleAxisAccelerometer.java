@@ -2,6 +2,7 @@ package robot.io.accelerometer;
 
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
+import robot.io.ForwardingRobotObjectModel;
 import robot.io.RobotObjectListener;
 import robot.io.value.InputValue;
 
@@ -13,6 +14,15 @@ import robot.io.value.InputValue;
  *
  */
 public class SingleAxisAccelerometer implements Accelerometer, InputValue {
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
 	
 	private final Accelerometer source;
 	private final int sourceAxis;
@@ -23,20 +33,11 @@ public class SingleAxisAccelerometer implements Accelerometer, InputValue {
 	 * @param sourceAxis the axis to read from the source accelerometer
 	 */
 	public SingleAxisAccelerometer(Accelerometer source, int sourceAxis){
-		if(sourceAxis>=source.getNumAccelerometerAxes())
+		if(sourceAxis>=source.getNumAccelerometerAxes() || sourceAxis<0)
 			throw new RobotInitializationException("The accelerometer "+source+" does not support the "+sourceAxis+" axis");
 		this.source = source;
 		this.sourceAxis = sourceAxis;
-	}
-
-	@Override
-	public void addUpdateListener(RobotObjectListener listener) {
-		source.addUpdateListener(listener);
-	}
-
-	@Override
-	public void removeUpdateListener(RobotObjectListener listener) {
-		source.removeUpdateListener(listener);
+		source.addUpdateListener(model);
 	}
 
 	@Override
