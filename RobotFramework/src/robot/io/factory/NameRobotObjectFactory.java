@@ -41,7 +41,7 @@ public class NameRobotObjectFactory extends RobotObjectFactory{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T extends RobotObject> T getObject(Class<T> type, Map<String, String> params){
+	protected <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params){
 		String location = getParam(params, RobotObject.PARAM_LOCATION);
 		if(location==null)
 			return null;

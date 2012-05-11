@@ -10,7 +10,7 @@ import robot.io.VirtualRobotObjectListener;
 
 @SuppressWarnings("javadoc")
 @RunWith(JUnit4.class)
-public class CompassTest {
+public class CounterTest {
 	@Test
 	public void testVirtaul(){
 		VirtualCounter input = new VirtualCounter();

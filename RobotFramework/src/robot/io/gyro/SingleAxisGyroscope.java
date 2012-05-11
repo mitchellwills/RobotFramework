@@ -2,6 +2,7 @@ package robot.io.gyro;
 
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
+import robot.io.ForwardingRobotObjectModel;
 import robot.io.RobotObjectListener;
 import robot.io.value.InputValue;
 
@@ -13,6 +14,15 @@ import robot.io.value.InputValue;
  *
  */
 public class SingleAxisGyroscope implements Gyroscope, InputValue {
+	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
+	@Override
+	public void addUpdateListener(RobotObjectListener listener) {
+		model.addUpdateListener(listener);
+	}
+	@Override
+	public void removeUpdateListener(RobotObjectListener listener) {
+		model.removeUpdateListener(listener);
+	}
 	
 	private final Gyroscope source;
 	private final int sourceAxis;
@@ -23,20 +33,11 @@ public class SingleAxisGyroscope implements Gyroscope, InputValue {
 	 * @param sourceAxis the axis to read from the source gyroscope
 	 */
 	public SingleAxisGyroscope(Gyroscope source, int sourceAxis){
-		if(sourceAxis>=source.getNumGyroAxes())
+		if(sourceAxis>=source.getNumGyroAxes() || sourceAxis<0)
 			throw new RobotInitializationException("The gyroscope "+source+" does not support the "+sourceAxis+" axis");
 		this.source = source;
 		this.sourceAxis = sourceAxis;
-	}
-
-	@Override
-	public void addUpdateListener(RobotObjectListener listener) {
-		source.addUpdateListener(listener);
-	}
-
-	@Override
-	public void removeUpdateListener(RobotObjectListener listener) {
-		source.removeUpdateListener(listener);
+		source.addUpdateListener(model);
 	}
 
 	@Override

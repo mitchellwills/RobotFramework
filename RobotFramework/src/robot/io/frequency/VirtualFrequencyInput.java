@@ -39,6 +39,7 @@ public class VirtualFrequencyInput implements FrequencyInput {
 	 */
 	public void setFrequency(final long frequency){
 		this.frequency = frequency;
+		model.fireUpdateEvent();
 	}
 
 }

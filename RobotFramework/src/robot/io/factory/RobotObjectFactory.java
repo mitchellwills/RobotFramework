@@ -114,14 +114,24 @@ public abstract class RobotObjectFactory {
 		params.put(RobotObject.PARAM_LOCATION, location);
 		return getObject(type, params);
 	}
+	
+
+	protected <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params){
+		return null;
+	}
+	
 	/**
 	 * @param robot the robot the object belongs to
 	 * @param type the type of the object to be loaded
 	 * @param params parameters to pass to the class
 	 * @return a new RobotObject
 	 */
-	public <T extends RobotObject> T getObject(Class<T> type, Map<String, String> params){
+	public final <T extends RobotObject> T getObject(Class<T> type, Map<String, String> params){
+		T object = _getObject(type, params);
+		if(object!=null)
+			return object;
 		try{
+			//TODO expand this beyond Map constructor, Respect FactoryConstrucable and FactoryParameter annotations
 			Constructor<T> constructor = type.getConstructor(Map.class);
 			return constructor.newInstance(params);
 		} catch (NoSuchMethodException e) {

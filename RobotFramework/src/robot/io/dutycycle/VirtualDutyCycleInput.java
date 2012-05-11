@@ -39,6 +39,7 @@ public class VirtualDutyCycleInput implements DutyCycleInput {
 	 */
 	public void setDutyCycle(final double value){
 		this.value = value;
+		model.fireUpdateEvent();
 	}
 
 }

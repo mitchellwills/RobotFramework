@@ -20,7 +20,7 @@ public class ComputerDeviceFactory extends RobotObjectFactory {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends RobotObject> T getObject(Class<T> type, Map<String, String> params){
+	protected <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params){
 		if(type==null)
 			throw new RobotInitializationException("Cannot create an object of type null");
 		if(type.isAssignableFrom(SerialInterface.class)){
