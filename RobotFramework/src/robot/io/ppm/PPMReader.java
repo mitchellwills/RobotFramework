@@ -13,7 +13,12 @@ public interface PPMReader extends Input, UpdatableObject{
 	/**
 	 * the value returned by getChannel if there is no valid data to be returned
 	 */
-	public static final int INVALID_VALUE = -1;
+	int INVALID_VALUE = -1;
+
+	/**
+	 * name of the parameter in factories param map corresponding to the PPMReaders number of channels
+	 */
+	String PARAM_NUM_CHANNELS = "numChannels";
 	
 	/**
 	 * @param channel a ppm channel (0 indexed)

@@ -11,6 +11,11 @@ import robot.io.UpdatableObject;
  */
 public interface Accelerometer extends Input, UpdatableObject{
 	/**
+	 * name of the parameter in factories param map corresponding to the number of axes on the accelerometer
+	 */
+	String PARAM_NUM_AXES = "numAxes";
+
+	/**
 	 * @param axis
 	 * @return the linear acceleration of that axis
 	 */

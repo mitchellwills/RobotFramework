@@ -1,4 +1,6 @@
-package robot.io;
+package robot.io.factory;
+
+import robot.io.RobotObject;
 
 /**
  * @author Mitchell

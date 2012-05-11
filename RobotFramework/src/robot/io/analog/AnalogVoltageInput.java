@@ -11,6 +11,11 @@ import robot.io.value.InputValue;
  */
 public interface AnalogVoltageInput extends InputValue, UpdatableObject{
 	/**
+	 * name of the parameter in factories param map corresponding to the voltage inputs maximum voltage
+	 */
+	String PARAM_MAX_VOLTAGE = "maxVoltage";
+	
+	/**
 	 * 
 	 * @return The maximum voltage that can be read
 	 */

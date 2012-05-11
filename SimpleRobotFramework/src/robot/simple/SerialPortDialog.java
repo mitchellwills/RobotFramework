@@ -85,6 +85,6 @@ public class SerialPortDialog extends JDialog {
 	 * @return the selected port or null if no port was selected
 	 */
 	public String getSelectedPortName(){
-		return result;
+		return result;//TODO update to construct an actual serial interface
 	}
 }

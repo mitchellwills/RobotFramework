@@ -7,6 +7,7 @@ import robot.io.RobotObjectListener;
 import robot.io.accelerometer.Accelerometer;
 import robot.io.analog.AnalogVoltageInput;
 import robot.io.dutycycle.DutyCycleInput;
+import robot.io.factory.FactoryConstructable;
 
 /**
  * @author Mitchell
@@ -39,6 +40,7 @@ public class Memsic2125 implements Accelerometer{
 	 * @param yAxis
 	 * @param temp
 	 */
+	@FactoryConstructable
 	public Memsic2125(DutyCycleInput xAxis, DutyCycleInput yAxis, AnalogVoltageInput temp){
 		this.xAxis = xAxis;
 		this.yAxis = yAxis;
@@ -52,14 +54,16 @@ public class Memsic2125 implements Accelerometer{
 	 * 
 	 * Create a new Accelerometer
 	 * 
-	 * @param robot 
 	 * @param xAxis
 	 * @param yAxis
 	 * @param temp
 	 */
-	public Memsic2125(String xAxis, String yAxis, String temp){
-		this(Robot.getInstance().getFactory().getDutyCycle(xAxis), Robot.getInstance().getFactory().getDutyCycle(yAxis), Robot.getInstance().getFactory().getAnalogVoltageInput(temp));
+	public Memsic2125(String xAxis, String yAxis, String temp) {
+		this(Robot.getInstance().getFactory().getObject(DutyCycleInput.class, xAxis),
+				Robot.getInstance().getFactory().getObject(DutyCycleInput.class, yAxis),
+				Robot.getInstance().getFactory().getObject(AnalogVoltageInput.class, temp));
 	}
+	
 	
 	private double getAxisValue(DutyCycleInput input){
 		return (input.getDutyCycle()-.5)/0.125;

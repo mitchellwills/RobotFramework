@@ -4,6 +4,7 @@ import robot.Robot;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.hardware.Teensy2PP;
 import robot.io.computerdevices.Computer;
+import robot.io.serial.SerialInterface;
 
 
 /**
@@ -16,12 +17,12 @@ public abstract class SimpleRobot extends Robot {
 
 	private final ImperiumDevice device;
 	/**
-	 * @param serialPort the name of the serial port to connect using
+	 * @param serialPort the serial port to connect using
 	 */
-	public SimpleRobot(String serialPort) {
+	public SimpleRobot(SerialInterface serialPort) {
 		super(null);
 		putObject("host", Computer.get());
-		putObject("device", device = new ImperiumDevice("host/"+serialPort, Teensy2PP.get(), 500));
+		putObject("device", device = new ImperiumDevice(serialPort, Teensy2PP.get(), 500));
 		setFactory(device.getFactory());
 	}
 

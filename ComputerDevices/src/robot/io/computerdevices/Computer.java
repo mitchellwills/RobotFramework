@@ -5,8 +5,8 @@ import gnu.io.CommPortIdentifier;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import robot.io.FactoryObject;
-import robot.io.RobotObjectFactory;
+import robot.io.factory.FactoryObject;
+import robot.io.factory.RobotObjectFactory;
 import robot.io.host.Host;
 
 /**

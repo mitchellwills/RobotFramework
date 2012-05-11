@@ -21,6 +21,12 @@ public class RobotTest {
 		}
 		FakeRobot robot = new FakeRobot();
 		try{
+			robot = new FakeRobot();
+			fail();
+		} catch(IllegalStateException e){
+			//success
+		}
+		try{
 			Robot.getInstance();
 			fail();
 		} catch(IllegalStateException e){

@@ -21,6 +21,17 @@ import robot.io.encoder.Encoder;
  */
 public class ImperiumQuadEncoder extends ImperiumDeviceObject implements Encoder{
 
+	/**
+	 * name of the parameter in factories param map corresponding to one of the quadrature encoder's pins
+	 */
+	public static final String PARAM_LOCATION_A = "locationA";
+	
+	/**
+	 * name of the parameter in factories param map corresponding to one of the quadrature encoder's pins
+	 */
+	public static final String PARAM_LOCATION_B = "locationB";
+
+
 	private int position;
 	
 

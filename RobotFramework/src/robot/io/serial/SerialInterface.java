@@ -14,6 +14,11 @@ import robot.io.Output;
  */
 public interface SerialInterface extends Input, Output{
 	/**
+	 * name of the parameter in factories param map corresponding to the serial port's baud rate
+	 */
+	String PARAM_BAUD = null;
+
+	/**
 	 * @return a stream that allows reading from the serial port
 	 */
 	public InputStream getInputStream();

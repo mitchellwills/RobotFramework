@@ -1,9 +1,11 @@
 package robot.io.vex;
 
-import robot.Robot;
 import robot.error.RobotInitializationException;
 import robot.io.ForwardingRobotObjectModel;
+import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
+import robot.io.factory.FactoryConstructable;
+import robot.io.factory.FactoryParameter;
 import robot.io.joystick.Joystick;
 import robot.io.joystick.JoystickAxis;
 import robot.io.joystick.JoystickAxisDirectional;
@@ -45,7 +47,8 @@ public class VexTransmitter implements Joystick{
 	/**
 	 * @param reader the reader that reads the input from the transmitter
 	 */
-	public VexTransmitter(PPMReader reader) {
+	@FactoryConstructable
+	public VexTransmitter(@FactoryParameter(RobotObject.PARAM_LOCATION) PPMReader reader) {
 		if(reader.getChannelCount()!=6)
 			throw new RobotInitializationException("A Vex Transmitter must take a PPM reader with 6 channels");
 		this.reader = reader;
@@ -62,15 +65,6 @@ public class VexTransmitter implements Joystick{
 		leftDirectional = new JoystickAxisDirectional(getLeftXAxis(), getLeftYAxis());
 		rightDirectional = new JoystickAxisDirectional(getRightXAxis(), getRightYAxis());
 		reader.addUpdateListener(model);
-	}
-	
-	/**
-	 * Create a new VexTransmitter and get the ppmreader from the robot by name
-	 * @param robot
-	 * @param location
-	 */
-	public VexTransmitter(String location) {
-		this(Robot.getInstance().getFactory().getPPMReader(location, 6));
 	}
 	
 	@Override

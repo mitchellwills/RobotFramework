@@ -12,6 +12,11 @@ import robot.io.value.OutputValue;
  */
 public interface PWMOutput extends OutputValue, UpdatableObject {
 	/**
+	 * name of the parameter in factories param map corresponding to the PWM outputs frequency
+	 */
+	String PARAM_FREQUENCY = "frequency";
+
+	/**
 	 * @param dutyCycle duty cycle (0.0 - 1.0)
 	 */
 	public void set(double dutyCycle);

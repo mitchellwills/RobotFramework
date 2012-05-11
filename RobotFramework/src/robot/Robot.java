@@ -9,10 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import robot.error.RobotInitializationException;
-import robot.io.NameRobotObjectFactory;
 import robot.io.RobotObject;
-import robot.io.RobotObjectFactory;
-import robot.io.VirtualRobotObjectFactory;
+import robot.io.factory.NameRobotObjectFactory;
+import robot.io.factory.RobotObjectFactory;
+import robot.io.factory.VirtualRobotObjectFactory;
 import robot.io.host.Host;
 import robot.thread.RobotThreadManager;
 
@@ -34,8 +34,6 @@ public abstract class Robot {
 	 * @param robot
 	 */
 	public static void go(Robot robot){
-		if(robot!=INSTANCE)
-			throw new IllegalArgumentException("Only one robot is allowed per VM");
 		initialized = true;
 
 		INSTANCE.initializeIO();
@@ -80,7 +78,10 @@ public abstract class Robot {
 	 * @param host the host object for this system
 	 */
 	public Robot(File configFile, RobotObjectFactory factory, Host host){
+		if(INSTANCE!=null)
+			throw new IllegalStateException("Only one robot is allowed per VM");
 		INSTANCE = this;
+		
 		if(host!=null)
 			putObject("host", host);
 		threadManager = new RobotThreadManager();
