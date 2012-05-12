@@ -57,12 +57,12 @@ public abstract class RobotObjectFactory {
 		return Double.parseDouble(getParam(params, key));
 	}
 
-	/**
-	 * @param robot the robot the object belongs to
+	/**  
 	 * @param type the full type name of the object to be loaded
 	 * @param params parameters to pass to the class
 	 * @return a new RobotObject
 	 */
+	@SuppressWarnings("unchecked")
 	public RobotObject getObject(String type, Map<String, String> params){
 		if(type==null)
 			throw new RobotInitializationException("Cannot create an object of type null");
@@ -96,7 +96,8 @@ public abstract class RobotObjectFactory {
 			return getObject(SpeedController.class, params);
 		
 		try {
-			return getObject((Class<? extends RobotObject>)Class.forName(type), params);
+			Class<?> clazz = Class.forName(type);
+			return getObject((Class<? extends RobotObject>)clazz, params);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -104,7 +105,6 @@ public abstract class RobotObjectFactory {
 	}
 
 	/**
-	 * @param robot the robot the object belongs to
 	 * @param type the type of the object to be loaded
 	 * @param location the value corresponding to an objects location
 	 * @return a new RobotObject
@@ -121,7 +121,6 @@ public abstract class RobotObjectFactory {
 	}
 	
 	/**
-	 * @param robot the robot the object belongs to
 	 * @param type the type of the object to be loaded
 	 * @param params parameters to pass to the class
 	 * @return a new RobotObject

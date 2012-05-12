@@ -29,7 +29,6 @@ public class AverageInputValue implements InputValue, UpdatableObject {
 	
 	/**
 	 * Create a new AverageInputValue
-	 * @param robot the robot the object is part of
 	 * @param inputValue the source input value
 	 * @param bufferSize the size of the buffer to store values in
 	 * @param updateDelay the delay between adding values to the buffer

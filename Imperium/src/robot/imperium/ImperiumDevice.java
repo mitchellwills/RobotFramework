@@ -74,7 +74,6 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 	private ImperiumHardwareConfiguration hardwareConfiguration;
 
 	/**
-	 * @param robot
 	 * @param params
 	 * @throws SecurityException
 	 * @throws NoSuchMethodException

@@ -32,7 +32,6 @@ public class AnalogVoltageInputWidget extends Widget<AnalogVoltageInput> impleme
 	private final JSlider valueSlider;
 	/**
 	 * Create a new widget
-	 * @param input
 	 */
 	public AnalogVoltageInputWidget(){
 		setLayout(new GridBagLayout());

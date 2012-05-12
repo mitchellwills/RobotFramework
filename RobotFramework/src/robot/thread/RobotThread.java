@@ -13,7 +13,6 @@ public abstract class RobotThread implements Runnable{
 	private Thread thread;
 	/**
 	 * Create a new thread for a given robot
-	 * @param robot
 	 * @param name the name of the thread
 	 */
 	public RobotThread(String name){

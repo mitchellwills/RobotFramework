@@ -36,8 +36,6 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 
 	/**
 	 * Create a new widget
-	 * 
-	 * @param j
 	 */
 	public JoystickWidget() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

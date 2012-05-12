@@ -14,7 +14,6 @@ public abstract class PeriodicRobotThread extends RobotThread {
 	
 	/**
 	 * Create a new periodic robot thread 
-	 * @param robot the robot the thread is for
 	 * @param name the name of the thread
 	 * @param updateDelay the delay (in ms) between calls to the {@link #periodic()} method
 	 */

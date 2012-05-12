@@ -8,3 +8,4 @@
 /ComputerDevicesNative/Release/libComputerDevicesNative.dll
 /ComputerDevicesNative/Release/src/SerialPort.o
 /ComputerDevicesNative/Release/src/termios.o
+/build

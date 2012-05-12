@@ -38,7 +38,6 @@ public class PIDController implements ControlLoop{
 	 * @param Kp
 	 * @param Ki
 	 * @param Kd
-	 * @param robot 
 	 * @param input
 	 * @param output
 	 * @param minOutput 
@@ -52,7 +51,6 @@ public class PIDController implements ControlLoop{
 	 * @param Kp
 	 * @param Ki
 	 * @param Kd
-	 * @param robot 
 	 * @param input
 	 * @param output
 	 * @param minOutput 
@@ -69,7 +67,6 @@ public class PIDController implements ControlLoop{
 	 * @param Kp
 	 * @param Ki
 	 * @param Kd
-	 * @param robot
 	 * @param inputLocation
 	 * @param outputLocation
 	 * @param minOutput
@@ -85,7 +82,6 @@ public class PIDController implements ControlLoop{
 	 * @param Kp
 	 * @param Ki
 	 * @param Kd
-	 * @param robot 
 	 * @param input
 	 * @param output
 	 * @param minOutput 

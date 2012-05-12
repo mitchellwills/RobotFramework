@@ -27,8 +27,6 @@ public class SpeedControllerWidget extends Widget<SpeedController> implements
 
 	/**
 	 * Create a new widget
-	 * 
-	 * @param output
 	 */
 	public SpeedControllerWidget() {
 		setLayout(new BorderLayout());

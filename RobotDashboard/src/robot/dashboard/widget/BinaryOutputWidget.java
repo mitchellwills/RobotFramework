@@ -21,7 +21,6 @@ public class BinaryOutputWidget extends Widget<BinaryOutput> implements RobotObj
 	private final JButton button;
 	/**
 	 * Create a new widget
-	 * @param output
 	 */
 	public BinaryOutputWidget(){
 		setLayout(new BorderLayout());

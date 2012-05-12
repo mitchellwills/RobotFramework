@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="RobotFramework" basedir="." default="main">
+	<property name="lib.dir" value="lib" />
+	<property name="build.dir" value="build" />
+	<property name="src.dir" value="${build.dir}/src" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="jar.tmp.dir" value="${build.dir}/jartmp" />
+	<property name="dist.dir" value="${build.dir}/dist" />
+	<property name="javadoc.dir" value="${build.dir}/javadoc" />
+
+
+
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+
+	<target name="main" depends="clean,dist" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+	
+	<target name="copy_src">
+		<mkdir dir="${src.dir}" />
+		<copy todir="${src.dir}">
+			<fileset dir="ComputerDevices/src/" includes="**/*.java" />
+			<fileset dir="Imperium/src/" includes="**/*.java" />
+			<fileset dir="RobotDashboard/src/" includes="**/*.java" />
+			<fileset dir="RobotFramework/src/" includes="**/*.java" />
+			<fileset dir="RobotObjects/src/" includes="**/*.java" />
+		</copy>
+	</target>
+
+	<target name="compile" depends="copy_src">
+		<mkdir dir="${classes.dir}" />
+		<javac target="1.6" source="1.6" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeAntRuntime="false" >
+		</javac>
+	</target>
+	
+	<target name="javadoc" depends="copy_src">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc sourcepath="${src.dir}" destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="Robot Framework" classpathref="classpath">
+			<doctitle>
+				<![CDATA[<h1>Robot Framework</h1>]]></doctitle>
+		<bottom>
+			<![CDATA[by Mitchell Wills]]></bottom>
+		</javadoc>
+	</target>
+	
+	<target name="dist" depends="copy_src,compile,javadoc">
+		<mkdir dir="${dist.dir}" />
+		
+		<mkdir dir="${jar.tmp.dir}" />
+		<copy todir="${jar.tmp.dir}">
+			<fileset dir="${classes.dir}"/>
+		</copy>
+		<copy todir="${dist.dir}/lib">
+			<fileset dir="${lib.dir}"/>
+		</copy>
+		<copy file="ComputerDevicesNative/Release/libComputerDevicesNative.dll" tofile="${jar.tmp.dir}/robot/io/computerdevices/ComputerDevicesNative.dll"/>
+		<jar destfile="${dist.dir}/RobotFramework.jar" basedir="${jar.tmp.dir}" />
+		
+		
+		<copy file="README.txt" tofile="${dist.dir}/README.txt"/>
+		<copy file="ArduinoImperium/Arduino Duemilanove/ArduinoImperium.hex" tofile="${dist.dir}/ArduinoDuemilanove.hex"/>
+		<copy file="ArduinoImperium/Arduino Mega 2560/ArduinoImperium.hex" tofile="${dist.dir}/ArduinoMega2560.hex"/>
+		<copy file="ArduinoImperium/Teensy 2.0++/ArduinoImperium.hex" tofile="${dist.dir}/Teensy2_0++.hex"/>
+		<zip destfile="${dist.dir}/javadoc.zip" basedir="${javadoc.dir}" />
+		<zip destfile="${dist.dir}/src.zip" basedir="${src.dir}" />
+		<zip destfile="${build.dir}/dist.zip" basedir="${dist.dir}" />
+		
+	</target>
+
+
+
+</project>

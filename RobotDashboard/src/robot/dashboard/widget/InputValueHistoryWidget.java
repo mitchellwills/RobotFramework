@@ -44,7 +44,6 @@ public class InputValueHistoryWidget extends Widget<InputValue> implements Robot
 	/**
 	 * Create a new widget
 	 * @param params 
-	 * @param output
 	 */
 	public InputValueHistoryWidget(Map<String, String> params){
 		setLayout(new BorderLayout());

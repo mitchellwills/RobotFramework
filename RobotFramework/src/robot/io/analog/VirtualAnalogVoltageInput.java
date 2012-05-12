@@ -26,7 +26,6 @@ public class VirtualAnalogVoltageInput implements AnalogVoltageInput {
 	private double voltage;
 	/**
 	 * Create a new Virtual Voltage input
-	 * @param initialVoltage the initial voltage the input will read
 	 * @param maxVoltage the maximum voltage that the input provides
 	 */
 	public VirtualAnalogVoltageInput(final double maxVoltage){

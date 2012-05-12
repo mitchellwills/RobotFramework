@@ -33,7 +33,6 @@ public class ImperiumDebug extends ImperiumDeviceObject implements InputValue, U
 	/**
 	 * Create a new ImperiumDebugOutput
 	 * @param device
-	 * @param pin
 	 */
 	public ImperiumDebug(ImperiumDevice device) {
 		super(DEBUG_TYPE_ID, device);

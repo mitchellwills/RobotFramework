@@ -12,7 +12,6 @@ public class AveragedCompass extends AverageInputValue implements Compass {
 	
 	/**
 	 * Create a new AveragedCompass
-	 * @param robot the robot the object is part of
 	 * @param compass the source compass
 	 * @param bufferSize the size of the buffer to store values in
 	 * @param updateDelay the delay between adding values to the buffer

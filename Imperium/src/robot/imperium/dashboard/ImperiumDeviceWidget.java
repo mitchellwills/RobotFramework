@@ -33,9 +33,6 @@ public class ImperiumDeviceWidget extends Widget<ImperiumDevice> implements Robo
 
 	/**
 	 * Create a new widget
-	 * 
-	 * @param device
-	 *            the device the widget is representing
 	 */
 	public ImperiumDeviceWidget() {
 		setLayout(new GridBagLayout());

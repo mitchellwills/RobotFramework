@@ -28,7 +28,6 @@ public class InputValueBarWidget extends Widget<InputValue> implements RobotObje
 	/**
 	 * Create a new widget
 	 * @param params 
-	 * @param output
 	 */
 	public InputValueBarWidget(Map<String, String> params){
 		setLayout(new BorderLayout());

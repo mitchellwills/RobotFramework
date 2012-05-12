@@ -115,7 +115,7 @@ public abstract class ImperiumDeviceObject implements RobotObject{
 	}
 
 	/**
-	 * this is used by the defaut inplementation of {@link #validPin(int, Set)}
+	 * this is used by the defaut inplementation of {@link #validPin(int, ImperiumHardwareConfiguration, Set)}
 	 * @param pinId
 	 * @return the capabilities required for a given pin
 	 */

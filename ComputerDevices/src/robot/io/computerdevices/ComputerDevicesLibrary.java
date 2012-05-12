@@ -52,8 +52,10 @@ public class ComputerDevicesLibrary {
 	 * @param type
 	 * @return a library of the given type mapped to native functions
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends Library> T load(Class<T> type) {
-		return (T) Native.loadLibrary(LIBRARY_NAME, type);
+		Object library = Native.loadLibrary(LIBRARY_NAME, type);
+		return (T) library;
 	}
 
 }

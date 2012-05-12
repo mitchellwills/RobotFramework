@@ -21,7 +21,6 @@ public class BinaryInputWidget extends Widget<BinaryInput> implements RobotObjec
 	private final JButton button;
 	/**
 	 * Create a new widget
-	 * @param input
 	 */
 	public BinaryInputWidget(){
 		setLayout(new BorderLayout());

@@ -22,7 +22,6 @@ public class InputValueWidget extends Widget<InputValue> implements RobotObjectL
 	private final JLabel label;
 	/**
 	 * Create a new widget
-	 * @param output
 	 */
 	public InputValueWidget(){
 		setLayout(new BorderLayout());
