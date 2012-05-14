@@ -1,0 +1,113 @@
+
+# Change the build target to build a HEX file
+build: elf hex eep lss sym
+
+
+elf: $(TARGET).elf
+hex: $(TARGET).hex
+eep: $(TARGET).eep
+lss: $(TARGET).lss
+sym: $(TARGET).sym
+
+
+
+
+# Display size of file.
+HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
+ELFSIZE = $(SIZE) $(MCU_FLAG) $(FORMAT_FLAG) $(TARGET).elf
+MCU_FLAG = $(shell $(SIZE) --help | grep -- --mcu > /dev/null && echo --mcu=$(MCU) )
+FORMAT_FLAG = $(shell $(SIZE) --help | grep -- --format=.*avr > /dev/null && echo --format=avr )
+
+
+sizebefore:
+	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_BEFORE); $(ELFSIZE); \
+	2>/dev/null; echo; fi
+
+sizeafter:
+	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); \
+	2>/dev/null; echo; fi
+
+
+
+# Display compiler version information.
+gccversion :
+	@$(CC) --version
+
+
+# Program the device.
+program: $(TARGET).hex $(TARGET).eep
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+
+
+# Create final output files (.hex, .eep) from ELF output file.
+%.hex: %.elf
+	@echo
+	@echo $(MSG_FLASH) $@
+	$(OBJCOPY) -O $(FORMAT) -R .eeprom -R .fuse -R .lock $< $@
+
+%.eep: %.elf
+	@echo
+	@echo $(MSG_EEPROM) $@
+	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
+	--change-section-lma .eeprom=0 --no-change-warnings -O $(FORMAT) $< $@ || exit 0
+
+# Create extended listing file from ELF output file.
+%.lss: %.elf
+	@echo
+	@echo $(MSG_EXTENDED_LISTING) $@
+	$(OBJDUMP) -h -S -z $< > $@
+
+# Create a symbol table from ELF output file.
+%.sym: %.elf
+	@echo
+	@echo $(MSG_SYMBOL_TABLE) $@
+	$(NM) -n $< > $@
+
+
+
+# Link: create ELF output file from object files.
+.SECONDARY : $(TARGET).elf
+.PRECIOUS : $(OBJ)
+%.elf: $(OBJ)
+	@echo
+	@echo $(MSG_LINKING) $@
+	$(CC) $(ALL_CFLAGS) $^ --output $@ $(LDFLAGS)
+
+
+# Compile: create object files from C source files.
+$(BUILD_DIR)/%.o : %.c
+	@echo
+	@echo $(MSG_COMPILING) $<
+	mkdir -p $(dir $@)
+	$(CC) -c $(ALL_CFLAGS) $< -o $@
+
+
+# Compile: create object files from C++ source files.
+$(BUILD_DIR)/%.o : %.cpp
+	@echo
+	@echo $(MSG_COMPILING_CPP) $<
+	mkdir -p $(dir $@)
+	$(CC) -c $(ALL_CPPFLAGS) $< -o $@
+
+
+# Compile: create assembler files from C source files.
+%.s : %.c
+	mkdir -p $(dir $@)
+	$(CC) -S $(ALL_CFLAGS) $< -o $@
+
+
+# Compile: create assembler files from C++ source files.
+%.s : %.cpp
+	$(CC) -S $(ALL_CPPFLAGS) $< -o $@
+
+
+# Assemble: create object files from assembler source files.
+$(BUILD_DIR)/%.o : %.S
+	@echo
+	@echo $(MSG_ASSEMBLING) $<
+	$(CC) -c $(ALL_ASFLAGS) $< -o $@
+
+
+# Create preprocessed source for use in sending a bug report.
+%.i : %.c
+	$(CC) -E -mmcu=$(MCU) -I. $(CFLAGS) $< -o $@
