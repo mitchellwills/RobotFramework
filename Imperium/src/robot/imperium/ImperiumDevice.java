@@ -212,6 +212,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 		int objectId = objects.size();
 
 		synchronized (configureLock) {
+			System.out.println("registering "+object);
 			try {// catch any exception that occurs so that state can be
 					// restored to disconnected
 				ImperiumPacket configurePacket = new ImperiumPacket();
@@ -438,7 +439,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 				try {
 					if (is.available() > 0) {
 						packet.read(is);
-						// System.out.println("Received: "+packet);
+						System.out.println("Received: "+packet);
 						processInputPacket(packet);
 
 						long time = System.currentTimeMillis();
@@ -540,7 +541,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 			packetSentSizeTmp += packet.size();
 			++packetSentCountTmp;
 		}
-		// System.out.println("Sent: "+packet);
+		System.out.println("Sent: "+packet);
 	}
 
 	/**

@@ -17,7 +17,7 @@ public class ImperiumPacket {
 	/**
 	 * current version of this packet implementation
 	 */
-	public static final int VERSION = 1;
+	public static final int VERSION = 2;
 	/**
 	 * the number of bytes in the header (bytes before the packet content)
 	 */

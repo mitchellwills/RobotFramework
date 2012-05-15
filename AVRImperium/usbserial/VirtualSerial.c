@@ -79,8 +79,16 @@ inline int virtualSerialRead(){
 	return CDC_Device_ReceiveByte(&VirtualSerial_CDC_Interface);
 }
 
-inline void virtualSerialWrite(unsigned char b){
+inline void virtualSerialWrite(char b){
 	CDC_Device_SendByte(&VirtualSerial_CDC_Interface, b);
+}
+
+inline void virtualSerialWriteBytes(char* b, int num){
+	CDC_Device_SendData(&VirtualSerial_CDC_Interface, b, num);
+}
+
+inline int virtualSerialAvailable(void){
+	return CDC_Device_BytesReceived(&VirtualSerial_CDC_Interface);
 }
 
 inline void virtualSerialTask(void){

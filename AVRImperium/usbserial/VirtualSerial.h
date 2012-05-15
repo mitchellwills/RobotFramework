@@ -51,8 +51,10 @@
 
 	/* Function Prototypes: */
 		void SetupHardware(void);
+		int virtualSerialAvailable(void);
 		int virtualSerialRead(void);
-		void virtualSerialWrite(unsigned char b);
+		void virtualSerialWrite(char b);
+		void virtualSerialWriteBytes(char* b, int num);
 		void virtualSerialTask(void);
 
 #endif
