@@ -9,15 +9,24 @@
 #include "ImperiumPacket.h"
 #include "ByteUtil.h"
 #include <string.h>
+#include <stdlib.h>
+
+
+ImperiumPacket* Packet_new(int dataSize){
+	ImperiumPacket* packet = (ImperiumPacket*)malloc(sizeof(ImperiumPacket));
+	packet->data = (char*)malloc(sizeof(char) * dataSize);
+	Packet_reset(packet, 0);
+	return packet;
+}
 
 inline void Packet_reset(ImperiumPacket* packet, unsigned int id){
 	packet->id = id;
 	packet->dataLength = 0;
-	Packet_resetRWPosition(packet);
+	Packet_resetReadPosition(packet);
 }
 
-inline void Packet_resetRWPosition(ImperiumPacket* packet){
-	packet->rwPosition = 0;
+inline void Packet_resetReadPosition(ImperiumPacket* packet){
+	packet->readPosition = 0;
 }
 
 
@@ -112,13 +121,13 @@ int Packet_appendInteger(ImperiumPacket* packet, long value, unsigned int size) 
 }
 
 long Packet_readInteger(ImperiumPacket* packet, int size){
-	long value = getSignedFromBytes(packet->data, packet->rwPosition, size);
-	packet->rwPosition+=size;
+	long value = getSignedFromBytes(packet->data, packet->readPosition, size);
+	packet->readPosition+=size;
 	return value;
 }
 
 unsigned long Packet_readUInteger(ImperiumPacket* packet, int size){
-	long value = getUnsignedFromBytes(packet->data, packet->rwPosition, size);
-	packet->rwPosition+=size;
+	long value = getUnsignedFromBytes(packet->data, packet->readPosition, size);
+	packet->readPosition+=size;
 	return value;
 }

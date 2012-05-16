@@ -23,11 +23,7 @@
 							<option id="de.innot.avreclipse.toolchain.options.toolchain.size.1555181846" name="Print Size" superClass="de.innot.avreclipse.toolchain.options.toolchain.size"/>
 							<option id="de.innot.avreclipse.toolchain.options.toolchain.avrdude.1213952686" name="AVRDude" superClass="de.innot.avreclipse.toolchain.options.toolchain.avrdude"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="de.innot.avreclipse.targetplatform.avr.198323878" name="AVR Cross-Target" osList="all" superClass="de.innot.avreclipse.targetplatform.avr"/>
-							<builder id="de.innot.avreclipse.target.builder.winavr.base.910552385" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="AVR GNU Make Builder" parallelBuildOn="true" parallelizationNumber="-1" superClass="de.innot.avreclipse.target.builder.winavr.base">
-								<outputEntries>
-									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
-								</outputEntries>
-							</builder>
+							<builder id="de.innot.avreclipse.target.builder.winavr.base.910552385" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="AVR GNU Make Builder" parallelBuildOn="true" parallelizationNumber="-1" superClass="de.innot.avreclipse.target.builder.winavr.base"/>
 							<tool id="de.innot.avreclipse.tool.assembler.winavr.base.492882968" name="AVR Assembler" superClass="de.innot.avreclipse.tool.assembler.winavr.base">
 								<inputType id="de.innot.avreclipse.tool.assembler.input.1992404199" superClass="de.innot.avreclipse.tool.assembler.input"/>
 							</tool>
@@ -42,9 +38,6 @@
 							<tool id="de.innot.avreclipse.tool.archiver.winavr.base.200074483" name="AVR Archiver" superClass="de.innot.avreclipse.tool.archiver.winavr.base"/>
 						</toolChain>
 					</folderInfo>
-					<sourceEntries>
-						<entry excluding="imperium|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

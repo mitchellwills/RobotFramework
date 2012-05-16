@@ -27,9 +27,6 @@ public class ImperiumDeviceWidget extends Widget<ImperiumDevice> implements Robo
 
 	private final JButton pingButton;
 	private final JLabel pingLabel;
-	private final JLabel bulkUpdateLabel;
-	private final JLabel rxPacketLabel;
-	private final JLabel txPacketLabel;
 
 	/**
 	 * Create a new widget
@@ -57,15 +54,6 @@ public class ImperiumDeviceWidget extends Widget<ImperiumDevice> implements Robo
 			}
 		});
 
-		c.gridy = 2;
-		c.gridx = 0;
-		c.gridwidth = 2;
-		add(bulkUpdateLabel = new JLabel("Bulk Update Rate: ??????"), c);
-		c.gridy = 3;
-		add(rxPacketLabel = new JLabel("Rx: ???"), c);
-		c.gridy = 4;
-		add(txPacketLabel = new JLabel("Tx: ???"), c);
-		c.gridwidth = 1;
 
 		objectUpdated(null);
 	}
@@ -95,20 +83,9 @@ public class ImperiumDeviceWidget extends Widget<ImperiumDevice> implements Robo
 				stateLabel.setBackground(Color.GREEN);
 				break;
 			}
-
-			bulkUpdateLabel.setText(String.format("Bulk Update Rate: %.2f",
-					device.getBulkUpdateRate()));
-			rxPacketLabel.setText(String.format("Rx: %d (%d B)",
-					device.getPacketReceivedCount(),
-					device.getPacketReceivedSize()));
-			txPacketLabel.setText(String.format("Tx: %d (%d B)",
-					device.getPacketSentCount(), device.getPacketSentSize()));
 		} else {
 			stateLabel.setText("Not Connected");
 			stateLabel.setBackground(null);
-			bulkUpdateLabel.setText("");
-			rxPacketLabel.setText("");
-			txPacketLabel.setText("");
 		}
 	}
 }

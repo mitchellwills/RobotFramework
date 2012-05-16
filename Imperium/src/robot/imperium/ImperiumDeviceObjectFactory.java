@@ -3,28 +3,8 @@ package robot.imperium;
 import java.util.Map;
 
 import robot.error.RobotInitializationException;
-import robot.imperium.objects.ImperiumAnalogVoltageInput;
-import robot.imperium.objects.ImperiumDigitalInput;
-import robot.imperium.objects.ImperiumDigitalOutput;
-import robot.imperium.objects.ImperiumDutyCycle;
-import robot.imperium.objects.ImperiumFrequency;
-import robot.imperium.objects.ImperiumMSPWMOutput;
-import robot.imperium.objects.ImperiumPPMReader;
-import robot.imperium.objects.ImperiumPulseCounter;
-import robot.imperium.objects.ImperiumQuadEncoder;
-import robot.imperium.objects.ImperiumSerialPort;
 import robot.io.RobotObject;
-import robot.io.analog.AnalogVoltageInput;
-import robot.io.binary.BinaryInput;
-import robot.io.binary.BinaryOutput;
-import robot.io.counter.Counter;
-import robot.io.dutycycle.DutyCycleInput;
-import robot.io.encoder.Encoder;
 import robot.io.factory.RobotObjectFactory;
-import robot.io.frequency.FrequencyInput;
-import robot.io.ppm.PPMReader;
-import robot.io.pwmms.MSPWMOutput;
-import robot.io.serial.SerialInterface;
 
 /**
  * @author Mitchell
@@ -48,7 +28,7 @@ public class ImperiumDeviceObjectFactory extends RobotObjectFactory {
 	protected <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params){
 		if(type==null)
 			throw new RobotInitializationException("Cannot create an object of type null");
-		if(type.isAssignableFrom(AnalogVoltageInput.class)){
+		/*if(type.isAssignableFrom(AnalogVoltageInput.class)){
 			String location = getParam(params, RobotObject.PARAM_LOCATION);
 			return (T) new ImperiumAnalogVoltageInput(device, location);
 		}
@@ -59,8 +39,9 @@ public class ImperiumDeviceObjectFactory extends RobotObjectFactory {
 		else if(type.isAssignableFrom(BinaryOutput.class)){
 			String location = getParam(params, RobotObject.PARAM_LOCATION);
 			return (T) new ImperiumDigitalOutput(device, location);
-		}
-		else if(type.isAssignableFrom(Counter.class)){
+		}*/
+		
+/*		else if(type.isAssignableFrom(Counter.class)){
 			String location = getParam(params, RobotObject.PARAM_LOCATION);
 			return (T) new ImperiumPulseCounter(device, location);
 		}
@@ -98,7 +79,7 @@ public class ImperiumDeviceObjectFactory extends RobotObjectFactory {
 			} catch(NumberFormatException e){
 				throw new RobotInitializationException("You must specify the baud rate of a VirtualSerialInterface");
 			}
-		}
+		}*/
 		
 		return null;
 	}

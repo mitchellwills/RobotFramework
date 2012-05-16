@@ -20,7 +20,7 @@ extern void write(char b);
 extern void writeBytes(char* b, int num);
 extern void readBytes(char* b, int num);
 
-void initImperium(void);
+void Imperium_init(void);
 
 void sendImperiumPacket(ImperiumPacket* packet);
 void sendImperiumInputPacket(int objectId, long value);
@@ -30,7 +30,7 @@ typedef ImperiumObject* (*ObjectInitializer)(int objectId, int* pins, int pinCou
 
 void setObjectTypeInitializer(int typeId, ObjectInitializer initializer);
 
-void periodicImperium(void);
+void Imperium_periodic(void);
 
 
 

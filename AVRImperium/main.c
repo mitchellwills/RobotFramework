@@ -34,10 +34,10 @@ int main(void) {
 	SetupHardware();
 	initTime();
 
-	initImperium();
+	Imperium_init();
 
 	for (;;) {
-		periodicImperium();
+		Imperium_periodic();
 
 		virtualSerialTask();
 	}

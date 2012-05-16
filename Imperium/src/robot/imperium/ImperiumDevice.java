@@ -5,8 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
 import robot.Robot;
@@ -23,6 +22,7 @@ import robot.io.factory.FactoryObject;
 import robot.io.factory.RobotObjectFactory;
 import robot.io.serial.SerialInterface;
 import robot.io.serial.SerialUtils;
+import robot.thread.RobotThread;
 import robot.util.RobotUtil;
 
 /**
@@ -160,9 +160,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 		this.hardwareConfiguration = hardwareConfiguration;
 		this.maxUpdateRate = maxUpdateRate;
 		state = ImperiumDeviceState.DISCONNECTED;
-		new Thread(new ImperiumEventThread()).start();// TODO run this in a
-														// robot thread
-		configure();
+		new ImperiumEventThread().start();
 	}
 
 	private ImperiumDeviceState state;
@@ -197,131 +195,8 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 		return hardwareConfiguration;
 	}
 
-	private final List<ImperiumDeviceObject> objects = new ArrayList<ImperiumDeviceObject>();
 
-	/**
-	 * @param object
-	 *            the object to be added to this device
-	 * @return the object id of the new object
-	 */
-	int register(ImperiumDeviceObject object) {
-		for (int pinId = 0; pinId < object.getPinCount(); ++pinId) {
-			object.validPin(pinId, hardwareConfiguration,
-					hardwareConfiguration.getCapabilities(object.getPin(pinId)));
-		}
-		int objectId = objects.size();
-
-		synchronized (configureLock) {
-			System.out.println("registering "+object);
-			try {// catch any exception that occurs so that state can be
-					// restored to disconnected
-				ImperiumPacket configurePacket = new ImperiumPacket();
-				configurePacket.setId(PacketIds.CONFIGURE_OBJECT);
-				configurePacket.setDataLength(0);
-
-				configurePacket.appendInteger(objectId, 1);
-				configurePacket.appendInteger(object.getTypeId(), 1);
-				configurePacket.appendInteger(object.getPinCount(), 1);
-				for (int pin = 0; pin < object.getPinCount(); ++pin)
-					configurePacket.appendInteger(object.getPin(pin), 1);
-
-				sendPacket(configurePacket);
-
-				if (configureLock.waitOn(1000)) {
-					if (configureLock.isError())
-						throw configureLock.getException();
-
-					ImperiumPacket packet = configureLock.getReturnValue();
-					packet.resetReadPosition();
-					if (packet.getDataLength() != 2)
-						throw new RobotInitializationException(
-								"Error configuring Imperium Device Object. Response configure packet was the wrong size");
-
-					int typeId = packet.readInteger(1);
-					int errorCode = packet.readInteger(1);
-					if (typeId != object.getTypeId() || errorCode != 0)
-						throw new RobotInitializationException(
-								"Error configuring Imperium Device. Object "
-										+ objectId + " of type "
-										+ object.getTypeId()
-										+ " failed to configure");
-				} else
-					throw new RobotInitializationException(
-							"Error configuring Imperium Device. The device did not respond within 1 second");
-			} catch (Exception e) {
-				setState(ImperiumDeviceState.DISCONNECTED);
-				throw new RobotException(e);
-			}
-		}
-
-		objects.add(object);
-		model.fireUpdateEvent();
-		return objectId;
-	}
-
-	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException> configureLock = new ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException>();
-
-	/**
-	 * configure the device based on currently registered
-	 * 
-	 * @throws IOException
-	 */
-	private void configure() {
-		RobotUtil.sleep(1500);// TODO: ping device until initialized
-
-		synchronized (configureLock) {
-			setState(ImperiumDeviceState.CONFIGURING);
-			try {// catch any exception that occurs so that state can be
-					// restored to disconnected
-				ImperiumPacket configurePacket = new ImperiumPacket();
-				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE);
-				configurePacket.setDataLength(0);
-				configurePacket.appendInteger(maxUpdateRate, 2);
-
-				configurePacket.appendInteger(objects.size(), 1);
-
-				for (int i = 0; i < objects.size(); ++i) {
-					ImperiumDeviceObject object = objects.get(i);
-					configurePacket.appendInteger(object.getObjectId(), 1);
-					configurePacket.appendInteger(object.getTypeId(), 1);
-					configurePacket.appendInteger(object.getPinCount(), 1);
-					for (int pin = 0; pin < object.getPinCount(); ++pin)
-						configurePacket.appendInteger(object.getPin(pin), 1);
-				}
-				sendPacket(configurePacket);
-				if (configureLock.waitOn(1000)) {
-					if (configureLock.isError())
-						throw configureLock.getException();
-
-					ImperiumPacket packet = configureLock.getReturnValue();
-					packet.resetReadPosition();
-					if (packet.getDataLength() != objects.size() * 2)
-						throw new RobotInitializationException(
-								"Error configuring Imperium Device. Response configure packet was the wrong size");
-
-					for (int i = 0; i < objects.size(); ++i) {
-						ImperiumDeviceObject object = objects.get(i);
-						int typeId = packet.readInteger(1);
-						int errorCode = packet.readInteger(1);
-						if (typeId != object.getTypeId() || errorCode != 0)
-							throw new RobotInitializationException(
-									"Error configuring Imperium Device. Object "
-											+ object.getObjectId()
-											+ " of type " + object.getTypeId()
-											+ " failed to configure");
-					}
-
-					setState(ImperiumDeviceState.CONNECTED);
-				} else
-					throw new RobotInitializationException(
-							"Error configuring Imperium Device. The device did not respond within 1 second");
-			} catch (Exception e) {
-				setState(ImperiumDeviceState.DISCONNECTED);
-				throw new RobotException(e);
-			}
-		}
-	}
-
+	
 	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotException> pingLock = new ImperiumTaskExecutionLock<ImperiumPacket, RobotException>();
 
 	/**
@@ -346,91 +221,18 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 		}
 	}
 
-	private void inputValue(ImperiumPacket packet) {
-		if (getState() != ImperiumDeviceState.CONNECTED)
-			return;
-		packet.resetReadPosition();
-		int objectId = packet.readInteger(1);
-		int value = packet.readInteger(4);
-		objects.get(objectId).setValue(value);
-	}
-
-	private long lastBulkUpdate = 0;
-	private int bulkUpdateCount = 0;
-	private double bulkUpdateRate = 0;
-
-	/**
-	 * @return the rate at which the device is returning bulk updates (updated
-	 *         once a second)
-	 */
-	public double getBulkUpdateRate() {
-		return bulkUpdateRate;
-	}
-
-	private void bulkValues(ImperiumPacket packet) {
-		if (getState() != ImperiumDeviceState.CONNECTED)
-			return;
-
-		long time = System.currentTimeMillis();
-		long diff = time - lastBulkUpdate;
-		if (diff >= 1000) {
-			bulkUpdateRate = bulkUpdateCount * 1000d / diff;
-			bulkUpdateCount = 0;
-			lastBulkUpdate = time;
-			model.fireUpdateEvent();
-		}
-		++bulkUpdateCount;
-
-		packet.resetReadPosition();
-		int objectCount = packet.readInteger(1);
-		for (int i = 0; i < objectCount && i < objects.size(); ++i) {
-			int value = packet.readInteger(4);
-			objects.get(i).setValue(value);
-		}
-	}
-
-	private void message(ImperiumPacket packet) {
-		if (getState() != ImperiumDeviceState.CONNECTED)
-			return;
-
-		packet.resetReadPosition();
-		int objectId = packet.readInteger(1);
-		int numberSize = packet.readInteger(1);
-		int numberCount = (packet.getDataLength() - 2) / numberSize;
-		long[] values = new long[numberCount];
-		for (int i = 0; i < numberCount; ++i) {
-			values[i] = packet.readInteger(numberSize);
-		}
-		objects.get(objectId).message(values);
-	}
-
 	private void error(ImperiumPacket packet) {
 		packet.resetReadPosition();
 		int errorCode = packet.readInteger(1);
-		throw new RobotException("Error occured on device: " + errorCode);
+		throw new RobotException("Error occured on device: " + errorCode+" - "+Arrays.toString(packet.getData()));
 	}
 
-	private long lastReceivedPacketUpdate = 0;
-	private int packetReceivedCountTmp = 0;
-	private int packetReceivedSizeTmp = 0;
-	private int packetReceivedCount = 0;
-	private int packetReceivedSize = 0;
 
-	/**
-	 * @return the number of packets received in the previous second
-	 */
-	public int getPacketReceivedCount() {
-		return packetReceivedCount;
-	}
+	private class ImperiumEventThread extends RobotThread {
+		public ImperiumEventThread() {
+			super("Imperium Event Thread");
+		}
 
-	/**
-	 * @return the number of bytes of packets received in the previous second
-	 */
-	public int getPacketReceivedSize() {
-		return packetReceivedSize;
-	}
-
-	private class ImperiumEventThread implements Runnable {
 		private ImperiumPacket packet = new ImperiumPacket();
 
 		@Override
@@ -439,23 +241,10 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 				try {
 					if (is.available() > 0) {
 						packet.read(is);
-						System.out.println("Received: "+packet);
+						//System.out.println("Received: "+packet);
 						processInputPacket(packet);
-
-						long time = System.currentTimeMillis();
-						long diff = time - lastReceivedPacketUpdate;
-						if (diff >= 1000) {
-							packetReceivedSize = packetReceivedSizeTmp;
-							packetReceivedCount = packetReceivedCountTmp;
-							packetReceivedSizeTmp = 0;
-							packetReceivedCountTmp = 0;
-							lastReceivedPacketUpdate = time;
-							model.fireUpdateEvent();
-						}
-						packetReceivedSizeTmp += packet.size();
-						++packetReceivedCountTmp;
 					} else
-						RobotUtil.sleep(2);
+						RobotUtil.sleep(1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -470,51 +259,19 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 	 */
 	private void processInputPacket(ImperiumPacket packet) {
 		switch (packet.getId()) {
-		case PacketIds.CONFIGURE_CONFIRM:
-			configureLock.finish(packet.clone());// must clone for other thread
-													// to process
+		case PacketIds.DEVICE_BOOT:
+			System.out.println("Imperium Device Booted");
 			break;
 		case PacketIds.PING_RESPONSE:
-			pingLock.finish(packet.clone());// must clone for other thread to
-											// process
+			pingLock.finish(packet.clone());// must clone for other thread to process
 			break;
 		case PacketIds.ERROR_MESSAGE:
 			error(packet);
 			break;
-		case PacketIds.INPUT_VALUE:
-			inputValue(packet);
-			break;
-		case PacketIds.BULK_INPUT:
-			bulkValues(packet);
-			break;
-		case PacketIds.MESSAGE:
-			message(packet);
-			break;
 		default:
-			System.out.println("Received unknown packet: " + packet + " at "
+			throw new RobotException("Received unknown packet: " + packet + " at "
 					+ System.currentTimeMillis());
-			break;
 		}
-	}
-
-	private long lastSentPacketUpdate = 0;
-	private int packetSentCountTmp = 0;
-	private int packetSentSizeTmp = 0;
-	private int packetSentCount = 0;
-	private int packetSentSize = 0;
-
-	/**
-	 * @return the number of packets sent in the previous second
-	 */
-	public int getPacketSentCount() {
-		return packetSentCount;
-	}
-
-	/**
-	 * @return the number of bytes of packets sent in the previous second
-	 */
-	public int getPacketSentSize() {
-		return packetSentSize;
 	}
 
 	/**
@@ -527,67 +284,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 			throws IOException {
 		if (packet != null) {
 			packet.write(os);
-
-			long time = System.currentTimeMillis();
-			long diff = time - lastSentPacketUpdate;
-			if (diff >= 1000) {
-				packetSentSize = packetSentSizeTmp;
-				packetSentCount = packetSentCountTmp;
-				packetSentSizeTmp = 0;
-				packetSentCountTmp = 0;
-				lastSentPacketUpdate = time;
-				model.fireUpdateEvent();
-			}
-			packetSentSizeTmp += packet.size();
-			++packetSentCountTmp;
-		}
-		System.out.println("Sent: "+packet);
-	}
-
-	/**
-	 * @param object
-	 *            the object whose value is being set
-	 * @param value
-	 *            the new value that will be sent to the device
-	 */
-	public void sendSetPacket(ImperiumDeviceObject object, int value) {
-		ImperiumPacket packet = new ImperiumPacket();
-		packet.setId(PacketIds.SET_VALUE);
-		packet.setDataLength(0);
-		packet.appendInteger(object.getObjectId(), 1);
-		packet.appendInteger(value, 2);
-		try {
-			sendPacket(packet);
-		} catch (IOException e) {
-			throw new RobotException("Error setting output of " + object, e);
-		}
-	}
-
-	/**
-	 * Send a message to an object on the device
-	 * 
-	 * @param object
-	 *            the object this message is for
-	 * @param data
-	 *            the message data
-	 * @param off
-	 *            offset from the start
-	 * @param length
-	 *            number of bytes to write
-	 */
-	public void sendMessagePacket(ImperiumDeviceObject object, byte[] data,
-			int off, int length) {
-		ImperiumPacket packet = new ImperiumPacket();
-		packet.setId(PacketIds.MESSAGE);
-		packet.setDataLength(0);
-		packet.appendInteger(object.getObjectId(), 1);
-		packet.appendInteger(length, 1);
-		for (int i = 0; i < length; ++i)
-			packet.appendInteger(data[off + i], 1);
-		try {
-			sendPacket(packet);
-		} catch (IOException e) {
-			throw new RobotException("Error setting output of " + object, e);
+			//System.out.println("Sent: "+packet);
 		}
 	}
 

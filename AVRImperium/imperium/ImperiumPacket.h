@@ -16,15 +16,16 @@
 struct ImperiumPacket {
 	unsigned int id;
 	unsigned int dataLength;
-	char data[IMPERIUM_PACKET_MAX_DATA_SIZE];
-	unsigned int rwPosition;
+	char* data;
+	unsigned int readPosition;
 };
 typedef struct ImperiumPacket ImperiumPacket;
 
+ImperiumPacket* Packet_new(int dataSize);
 
 
 void Packet_reset(ImperiumPacket* packet, unsigned int id);
-void Packet_resetRWPosition(ImperiumPacket* packet);
+void Packet_resetReadPosition(ImperiumPacket* packet);
 
 int Packet_read(ImperiumPacket* packet);
 int Packet_write(ImperiumPacket* packet);
