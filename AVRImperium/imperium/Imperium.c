@@ -65,6 +65,13 @@ static void Imperium_readPacket(void){
 			Packet_reset(sendPacket, PACKETID_PING_RESPONSE);
 			Packet_write(sendPacket);
 			break;
+
+		case PACKETID_GLOBAL_CONFIGURE_REQUEST:
+			minUpdateDelay = Packet_readUInteger(readPacket, 2);
+			Packet_reset(sendPacket, PACKETID_GLOBAL_CONFIGURE_RESPONSE);
+			Packet_write(sendPacket);
+			break;
+
 		default:
 			Imperium_sendError(ERRORID_UNKNOWN_PACKET_ID, readPacket->id);
 			break;
@@ -85,8 +92,9 @@ void Imperium_periodic(void){
 	}
 
 	for(int i = 0; i<numObjects; ++i){
-		TYPE_update updateMethod = objects[i]->update;
+		ImperiumObject* object = objects[i];
+		void (*updateMethod)(ImperiumObject* object) = object->update;
 		if(updateMethod!=NULL)
-			updateMethod();
+			updateMethod(object);
 	}
 }

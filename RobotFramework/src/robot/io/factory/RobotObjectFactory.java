@@ -23,10 +23,10 @@ import robot.io.serial.SerialInterface;
 import robot.io.speedcontroller.SpeedController;
 
 /**
- * @author Mitchell
- * 
  * An object that can be used to get RobotObjects from a String location
  *
+ * @author Mitchell
+ * 
  */
 public abstract class RobotObjectFactory {
 
@@ -116,9 +116,7 @@ public abstract class RobotObjectFactory {
 	}
 	
 
-	protected <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params){
-		return null;
-	}
+	protected abstract <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params);
 	
 	/**
 	 * @param type the type of the object to be loaded
@@ -126,6 +124,8 @@ public abstract class RobotObjectFactory {
 	 * @return a new RobotObject
 	 */
 	public final <T extends RobotObject> T getObject(Class<T> type, Map<String, String> params){
+		if(type==null)
+			throw new RobotInitializationException("Cannot create an object of type null");
 		T object = _getObject(type, params);
 		if(object!=null)
 			return object;

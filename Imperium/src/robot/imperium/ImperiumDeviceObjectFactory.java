@@ -3,7 +3,9 @@ package robot.imperium;
 import java.util.Map;
 
 import robot.error.RobotInitializationException;
+import robot.imperium.objects.ImperiumDigitalOutput;
 import robot.io.RobotObject;
+import robot.io.binary.BinaryOutput;
 import robot.io.factory.RobotObjectFactory;
 
 /**
@@ -28,17 +30,17 @@ public class ImperiumDeviceObjectFactory extends RobotObjectFactory {
 	protected <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params){
 		if(type==null)
 			throw new RobotInitializationException("Cannot create an object of type null");
-		/*if(type.isAssignableFrom(AnalogVoltageInput.class)){
+		if(type.isAssignableFrom(BinaryOutput.class)){
 			String location = getParam(params, RobotObject.PARAM_LOCATION);
-			return (T) new ImperiumAnalogVoltageInput(device, location);
+			return (T) new ImperiumDigitalOutput(device, location);
 		}
-		else if(type.isAssignableFrom(BinaryInput.class)){
+		/*else if(type.isAssignableFrom(BinaryInput.class)){
 			String location = getParam(params, RobotObject.PARAM_LOCATION);
 			return (T) new ImperiumDigitalInput(device, location);
 		}
-		else if(type.isAssignableFrom(BinaryOutput.class)){
+		else if(type.isAssignableFrom(AnalogVoltageInput.class)){
 			String location = getParam(params, RobotObject.PARAM_LOCATION);
-			return (T) new ImperiumDigitalOutput(device, location);
+			return (T) new ImperiumAnalogVoltageInput(device, location);
 		}*/
 		
 /*		else if(type.isAssignableFrom(Counter.class)){

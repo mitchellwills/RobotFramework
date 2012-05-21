@@ -44,8 +44,6 @@ public class VirtualRobotObjectFactory extends RobotObjectFactory implements Fac
 	@SuppressWarnings("unchecked")
 	@Override
 	protected <T extends RobotObject> T _getObject(Class<T> type, Map<String, String> params){
-		if(type==null)
-			throw new RobotInitializationException("Cannot create an object of type null");
 		if(type.isAssignableFrom(AnalogVoltageInput.class)){
 			try{
 				double maxVoltage = getDoubleParam(params, AnalogVoltageInput.PARAM_MAX_VOLTAGE);

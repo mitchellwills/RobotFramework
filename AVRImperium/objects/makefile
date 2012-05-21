@@ -1,7 +1,7 @@
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC += util/time.c util/ByteUtil.c util/AVRPins.c
+SRC += objects/DigitalOutput.c
 	  
 
 # List any extra directories to look for include files here.
-EXTRAINCDIRS += util/
+EXTRAINCDIRS += objects/

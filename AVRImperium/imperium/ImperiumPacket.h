@@ -38,9 +38,8 @@ unsigned char Packet_calculateChecksum(ImperiumPacket* packet);
 
 
 int Packet_appendInteger(ImperiumPacket* packet, long value, unsigned int size);
-
 long Packet_readInteger(ImperiumPacket* packet, int size);
-
 unsigned long Packet_readUInteger(ImperiumPacket* packet, int size);
+char Packet_readByte(ImperiumPacket* packet);
 
 #endif /* IMPERIUMPACKET_H_ */

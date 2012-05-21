@@ -1,6 +1,9 @@
 #include "usbserial/VirtualSerial.h"
 #include "util/time.h"
 #include "imperium/Imperium.h"
+#include "util/AVRPins.h"
+#include "imperium/TypeIds.h"
+#include "objects/DigitalOutput.h"
 
 inline int available(void) {
 	return virtualSerialAvailable();
@@ -35,6 +38,9 @@ int main(void) {
 	initTime();
 
 	Imperium_init();
+
+	Imperium_setObjectInitializer(TYPEID_DIGITAL_OUTPUT, DigitalOutput_new);
+
 
 	for (;;) {
 		Imperium_periodic();

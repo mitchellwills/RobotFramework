@@ -10,25 +10,22 @@
 
 #include "ImperiumPacket.h"
 
-typedef void (*TYPE_setValue)(long value);
-typedef long (*TYPE_getValue)(void);
-typedef void (*TYPE_receiveMessage)(ImperiumPacket* packet);
-typedef void (*TYPE_update)(void);
+
 
 struct ImperiumObject {
 	int objectId;
-	int* pins;
-	int pinCount;
+	void* data;
 
 	//methods
-	TYPE_setValue setValue;
-	TYPE_getValue getValue;
-	TYPE_receiveMessage receiveMessage;
-	TYPE_update update;
+	void (*setValue)(struct ImperiumObject* object, ImperiumPacket* packet);
+	void (*getValue)(struct ImperiumObject* object, ImperiumPacket* packet);
+	void (*receiveMessage)(struct ImperiumObject* object, ImperiumPacket* packet);
+	void (*update)(struct ImperiumObject* object);
 
 };
 typedef struct ImperiumObject ImperiumObject;
 
-void Object_init(ImperiumObject* object, int _objectId, int* _pins, int _pinCount);
+
+ImperiumObject* Object_new(int objectId, void* data);
 
 #endif /* IMPERIUMOBJECT_H_ */

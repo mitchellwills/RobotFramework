@@ -2,16 +2,12 @@ package robot.imperium;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.List;
 
-import robot.Robot;
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
-import robot.imperium.hardware.ImperiumHardwareConfiguration;
 import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
 import robot.io.RobotObject;
@@ -21,7 +17,6 @@ import robot.io.UpdatableObject;
 import robot.io.factory.FactoryObject;
 import robot.io.factory.RobotObjectFactory;
 import robot.io.serial.SerialInterface;
-import robot.io.serial.SerialUtils;
 import robot.thread.RobotThread;
 import robot.util.RobotUtil;
 
@@ -32,32 +27,10 @@ import robot.util.RobotUtil;
  * @author Mitchell
  * 
  */
-public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
-		FactoryObject, UpdatableObject {
-
-	/**
-	 * name of the parameter in factories param map corresponding to the imperium devices serial port
-	 */
-	public static final String PARAM_SERIAL_PORT = "serialPort";
-
-	/**
-	 * name of the parameter in factories param map corresponding to the maximum number of updates per second
-	 */
-	public static final String PARAM_MAX_UPDATE_RATE = "maxUpdateRate";
-
-	/**
-	 * name of the parameter in factories param map corresponding to the hardware configuration of the device
-	 */
-	public static final String PARAM_HARDWARE_CONFIGURATION = "hardwareConfiguration";
+public abstract class ImperiumDevice implements RobotObject, FactoryObject,
+		UpdatableObject {
 
 	private final RobotObjectModel model = new RobotObjectModel(this);
-	private final ImperiumDeviceObjectFactory factory = new ImperiumDeviceObjectFactory(
-			this);
-
-	@Override
-	public RobotObjectFactory getFactory() {
-		return factory;
-	}
 
 	@Override
 	public void addUpdateListener(RobotObjectListener listener) {
@@ -69,36 +42,7 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 		model.removeUpdateListener(listener);
 	}
 
-	private InputStream is;
-	private OutputStream os;
-	private ImperiumHardwareConfiguration hardwareConfiguration;
-
-	/**
-	 * @param params
-	 * @throws SecurityException
-	 * @throws NoSuchMethodException
-	 * @throws ClassNotFoundException
-	 * @throws InvocationTargetException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
-	 */
-	public ImperiumDevice(Map<String, String> params)
-			throws NoSuchMethodException, SecurityException,
-			ClassNotFoundException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
-
-		SerialInterface serial = SerialUtils.getSerialInterface(Robot.getInstance().getFactory(), getParam(params, PARAM_SERIAL_PORT), 115200);
-
-		int maxUpdateRate = RobotObjectFactory.getIntParam(params,
-				PARAM_MAX_UPDATE_RATE);
-
-		Class<?> hardwareConfigurationClass = Class.forName(getParam(params,
-				PARAM_HARDWARE_CONFIGURATION));
-		Method method = hardwareConfigurationClass.getMethod("get");
-		ImperiumHardwareConfiguration hardwareConfiguration = (ImperiumHardwareConfiguration) method
-				.invoke(null);
-		init(serial, hardwareConfiguration, maxUpdateRate);
-	}
+	private final SerialInterface serialPort;
 
 	/**
 	 * @param serialPort
@@ -108,59 +52,22 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 	 *            the maximum number of input updates per second the device will
 	 *            send
 	 */
-	public ImperiumDevice(SerialInterface serialPort,
-			ImperiumHardwareConfiguration hardwareConfiguration,
-			int maxUpdateRate) {
-		init(serialPort, hardwareConfiguration, maxUpdateRate);
-	}
-
-	/**
-	 * @param is
-	 * @param os
-	 * @param hardwareConfiguration
-	 * @param maxUpdateRate
-	 *            the maximum number of input updates per second the device will
-	 *            send
-	 */
-	public ImperiumDevice(InputStream is, OutputStream os,
-			ImperiumHardwareConfiguration hardwareConfiguration,
-			int maxUpdateRate) {
-		init(is, os, hardwareConfiguration, maxUpdateRate);
-	}
-
-	private void init(SerialInterface serialPort,
-			ImperiumHardwareConfiguration hardwareConfiguration,
-			int maxUpdateRate) {
-		init(serialPort.getInputStream(), serialPort.getOutputStream(),
-				hardwareConfiguration, maxUpdateRate);
-	}
-
-	/**
-	 * @param is
-	 * @param os
-	 * @param hardwareConfiguration
-	 * @param maxUpdateRate
-	 *            the maximum number of input updates per second the device will
-	 *            send
-	 */
-	private void init(InputStream is, OutputStream os,
-			ImperiumHardwareConfiguration hardwareConfiguration,
-			int maxUpdateRate) {
-		if (is == null)
-			throw new RobotInitializationException(
-					"Imperium Input Stream was null");
-		if (os == null)
-			throw new RobotInitializationException(
-					"Imperium Output Stream was null");
-		if (hardwareConfiguration == null)
-			throw new RobotInitializationException(
-					"Imperium Hardware configuration was null");
-		this.is = is;
-		this.os = os;
-		this.hardwareConfiguration = hardwareConfiguration;
+	public ImperiumDevice(SerialInterface serialPort, int maxUpdateRate) {
+		if (serialPort == null)
+			throw new RobotInitializationException("Serial Port was null");
+		this.serialPort = serialPort;
 		this.maxUpdateRate = maxUpdateRate;
 		state = ImperiumDeviceState.DISCONNECTED;
 		new ImperiumEventThread().start();
+		configure();
+	}
+
+	private final ImperiumDeviceObjectFactory factory = new ImperiumDeviceObjectFactory(
+			this);
+
+	@Override
+	public RobotObjectFactory getFactory() {
+		return factory;
 	}
 
 	private ImperiumDeviceState state;
@@ -187,16 +94,6 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 		return maxUpdateRate;
 	}
 
-	/**
-	 * @return the configuration of the hardware device that this object
-	 *         communicates with
-	 */
-	public ImperiumHardwareConfiguration getHardwareConfiguration() {
-		return hardwareConfiguration;
-	}
-
-
-	
 	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotException> pingLock = new ImperiumTaskExecutionLock<ImperiumPacket, RobotException>();
 
 	/**
@@ -221,12 +118,103 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 		}
 	}
 
+	private final ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException> configureLock = new ImperiumTaskExecutionLock<ImperiumPacket, RobotInitializationException>();
+
+	/**
+	 * configure the device based on currently registered
+	 * 
+	 * @throws IOException
+	 */
+	private void configure() {
+		RobotUtil.sleep(1500);// TODO: ping device until initialized
+
+		synchronized (configureLock) {
+			setState(ImperiumDeviceState.CONFIGURING);
+			try {// catch any exception that occurs so that state can be
+					// restored to disconnected
+				ImperiumPacket configurePacket = new ImperiumPacket();
+				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE_REQUEST);
+				configurePacket.appendInteger(maxUpdateRate, 2);
+
+				sendPacket(configurePacket);
+				if (configureLock.waitOn(1000)) {
+					if (configureLock.isError())
+						throw configureLock.getException();
+
+					ImperiumPacket packet = configureLock.getReturnValue();
+					packet.resetReadPosition();
+
+					setState(ImperiumDeviceState.CONNECTED);
+				} else
+					throw new RobotInitializationException(
+							"Error configuring Imperium Device. The device did not respond within 1 second");
+			} catch (Exception e) {
+				setState(ImperiumDeviceState.DISCONNECTED);
+				throw new RobotException(e);
+			}
+		}
+	}
+
+	private final List<ImperiumDeviceObject> objects = new ArrayList<ImperiumDeviceObject>();
+
+	int configure(ImperiumDeviceObject object) {
+		int objectId;
+		synchronized (configureLock) {
+			try {
+				objectId = objects.size();
+				ImperiumPacket configurePacket = new ImperiumPacket();
+				configurePacket.setId(PacketIds.OBJECT_CONFIGURE_REQUEST);
+				configurePacket.setDataLength(0);
+
+				configurePacket.appendInteger(objectId, 1);
+				configurePacket.appendInteger(object.getTypeId(), 1);
+				object.appendConfiguration(configurePacket);
+
+				sendPacket(configurePacket);
+			} catch (Exception e) {
+				setState(ImperiumDeviceState.DISCONNECTED);
+				throw new RobotException(e);
+			}
+
+			if (configureLock.waitOn(1000)) {
+				if (configureLock.isError())
+					throw configureLock.getException();
+
+				ImperiumPacket packet = configureLock.getReturnValue();
+				packet.resetReadPosition();
+				if (packet.getDataLength() != 4)
+					throw new RobotInitializationException("Error configuring Imperium Device Object. Response configure packet was the wrong size");
+
+				if (packet.readInteger(1) != objectId)
+					throw new RobotInitializationException("Error configuring Imperium Device Object. Received incorrect object id");
+
+				if (packet.readInteger(1) != object.getTypeId())
+					throw new RobotInitializationException("Error configuring Imperium Device Object. Received incorrect object type id");
+
+				if (packet.readInteger(1) != object.getInputSize())
+					throw new RobotInitializationException("Error configuring Imperium Device Object. Received incorrect object input size");
+
+				if (packet.readInteger(1) != object.getOutputSize())
+					throw new RobotInitializationException("Error configuring Imperium Device Object. Received incorrect object output size");
+
+			} else
+				throw new RobotInitializationException("Error configuring Imperium Device. The device did not respond within 1 second");
+
+			objects.add(object);
+			model.fireUpdateEvent();
+		}
+
+		return objectId;
+	}
+
 	private void error(ImperiumPacket packet) {
 		packet.resetReadPosition();
 		int errorCode = packet.readInteger(1);
-		throw new RobotException("Error occured on device: " + errorCode+" - "+Arrays.toString(packet.getData()));
+		throw new RobotException("Error occured on device: " + errorCode
+				+ " - " + Arrays.toString(packet.getData()));// TODO display
+																// only valid
+																// bytes
 	}
-
 
 	private class ImperiumEventThread extends RobotThread {
 		public ImperiumEventThread() {
@@ -237,11 +225,12 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 
 		@Override
 		public void run() {
+			InputStream is = serialPort.getInputStream();
 			while (true) {
 				try {
 					if (is.available() > 0) {
 						packet.read(is);
-						//System.out.println("Received: "+packet);
+						// System.out.println("Received: "+packet);
 						processInputPacket(packet);
 					} else
 						RobotUtil.sleep(1);
@@ -263,14 +252,15 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 			System.out.println("Imperium Device Booted");
 			break;
 		case PacketIds.PING_RESPONSE:
-			pingLock.finish(packet.clone());// must clone for other thread to process
+			pingLock.finish(packet.clone());// must clone for other thread to
+											// process
 			break;
 		case PacketIds.ERROR_MESSAGE:
 			error(packet);
 			break;
 		default:
-			throw new RobotException("Received unknown packet: " + packet + " at "
-					+ System.currentTimeMillis());
+			throw new RobotException("Received unknown packet: " + packet
+					+ " at " + System.currentTimeMillis());
 		}
 	}
 
@@ -283,9 +273,11 @@ public class ImperiumDevice extends RobotObjectFactory implements RobotObject,
 	public synchronized void sendPacket(ImperiumPacket packet)
 			throws IOException {
 		if (packet != null) {
-			packet.write(os);
-			//System.out.println("Sent: "+packet);
+			packet.write(serialPort.getOutputStream());
+			// System.out.println("Sent: "+packet);
 		}
 	}
+
+	public abstract byte getPin(String location);
 
 }

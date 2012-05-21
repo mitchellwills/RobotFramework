@@ -20,18 +20,13 @@ extern void write(char b);
 extern void writeBytes(char* b, int num);
 extern void readBytes(char* b, int num);
 
+
+typedef ImperiumObject* (*ObjectInitializer)(int objectId, int* data, int dataSize);
+
 void Imperium_init(void);
-
-void sendImperiumPacket(ImperiumPacket* packet);
-void sendImperiumInputPacket(int objectId, long value);
-void sendImperiumMessagePacket(int objectId, char* data, int dataLength);
-
-typedef ImperiumObject* (*ObjectInitializer)(int objectId, int* pins, int pinCount);
-
-void setObjectTypeInitializer(int typeId, ObjectInitializer initializer);
-
+void Imperium_setObjectInitializer(int typeId, ObjectInitializer initializer);
+void Imperium_sendError(int id, int simpleData);
 void Imperium_periodic(void);
-
 
 
 #endif /* IMPERIUM_H_ */

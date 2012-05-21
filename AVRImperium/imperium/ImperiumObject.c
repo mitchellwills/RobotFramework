@@ -5,10 +5,16 @@
  *      Author: Mitchell
  */
 #include "ImperiumObject.h"
+#include "stdlib.h"
 
 
-void Object_init(ImperiumObject* object, int _objectId, int* _pins, int _pinCount){
+ImperiumObject* Object_new(int _objectId, void* data){
+	ImperiumObject* object = (ImperiumObject*)malloc(sizeof(ImperiumObject));
 	object->objectId = _objectId;
-	object->pins = _pins;
-	object->pinCount = _pinCount;
+	object->data = data;
+	object->getValue = NULL;
+	object->receiveMessage = NULL;
+	object->setValue = NULL;
+	object->update = NULL;
+	return object;
 }
