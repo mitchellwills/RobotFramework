@@ -13,6 +13,7 @@
 #include "PacketIds.h"
 #include "TypeIds.h"
 #include "ErrorIds.h"
+#include "ImperiumPacket.h"
 
 #undef NULL
 #define NULL 0
@@ -55,11 +56,13 @@ void Imperium_sendError(int id, int simpleData){
 	Packet_appendInteger(errorPacket, id, 1);
 	Packet_appendInteger(errorPacket, simpleData, 1);
 	Packet_write(errorPacket);
+	virtualSerialTask();
 }
 
 
 static void Imperium_readPacket(void){
 	if( !Packet_read(readPacket) ){
+		Packet_resetReadPosition(readPacket);
 		switch(readPacket->id){
 		case PACKETID_PING_REQUEST:
 			Packet_reset(sendPacket, PACKETID_PING_RESPONSE);
@@ -67,11 +70,41 @@ static void Imperium_readPacket(void){
 			break;
 
 		case PACKETID_GLOBAL_CONFIGURE_REQUEST:
-			minUpdateDelay = Packet_readUInteger(readPacket, 2);
+			//TODO reset all
+			numObjects = 0;
+			minUpdateDelay = 1000/Packet_readUInteger(readPacket, 2);
 			Packet_reset(sendPacket, PACKETID_GLOBAL_CONFIGURE_RESPONSE);
 			Packet_write(sendPacket);
 			break;
 
+		case PACKETID_OBJECT_CONFIGURE_REQUEST:{
+			int objectId = Packet_readUInteger(readPacket, 1);
+			int typeId = Packet_readUInteger(readPacket, 1);
+			ObjectInitializer objectInitializer = objectInitializers[typeId];
+			if(objectInitializer==NULL){
+				Imperium_sendError(ERRORID_UNKNOWN_TYPE_ID, typeId);
+				return;
+			}
+			ImperiumObject* object = objectInitializer(objectId, Packet_getDataFromReadPosition(readPacket), readPacket->dataLength - 2);
+			objects[objectId] = object;
+			++numObjects;
+
+			 Packet_reset(sendPacket, PACKETID_OBJECT_CONFIGURE_RESPONSE);
+			Packet_appendInteger(sendPacket, objectId, 1);
+			Packet_appendInteger(sendPacket, typeId, 1);
+			Packet_appendInteger(sendPacket, object->inputSize, 1);
+			Packet_appendInteger(sendPacket, object->outputSize, 1);
+			Packet_write(sendPacket);
+			break;
+		}
+		case PACKETID_BULK_OUTPUT_VALUE:
+			for(int i = 0; i<numObjects; ++i){
+				ImperiumObject* object = objects[i];
+				void (*setValueMethod)(struct ImperiumObject* object, ImperiumPacket* packet) = object->setValue;
+				if(setValueMethod!=NULL)
+					setValueMethod(object, readPacket);
+			}
+			break;
 		default:
 			Imperium_sendError(ERRORID_UNKNOWN_PACKET_ID, readPacket->id);
 			break;
@@ -79,6 +112,16 @@ static void Imperium_readPacket(void){
 	}
 }
 
+static void sendBulkInput(void){
+	Packet_reset(sendPacket, PACKETID_BULK_INPUT_VALUE);
+	for(int i = 0; i<numObjects; ++i){
+		ImperiumObject* object = objects[i];
+		void (*inputMethod)(ImperiumObject* object, ImperiumPacket* packet) = object->getValue;
+		if(inputMethod!=NULL)
+			inputMethod(object, sendPacket);
+	}
+	Packet_write(sendPacket);
+}
 
 void Imperium_periodic(void){
 	Imperium_readPacket();
@@ -87,8 +130,8 @@ void Imperium_periodic(void){
 	if( minUpdateDelay>=0 && (time-lastUpdate)>=minUpdateDelay){
 		lastUpdate = time;
 
-//		if(numObjects>0)
-//			sendBulkInput();
+		if(numObjects>0)
+			sendBulkInput();
 	}
 
 	for(int i = 0; i<numObjects; ++i){

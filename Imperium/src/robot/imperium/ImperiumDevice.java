@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import robot.error.RobotException;
 import robot.error.RobotInitializationException;
@@ -17,6 +19,7 @@ import robot.io.UpdatableObject;
 import robot.io.factory.FactoryObject;
 import robot.io.factory.RobotObjectFactory;
 import robot.io.serial.SerialInterface;
+import robot.thread.PeriodicRobotThread;
 import robot.thread.RobotThread;
 import robot.util.RobotUtil;
 
@@ -47,7 +50,6 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 	/**
 	 * @param serialPort
 	 *            the port over which the computer will interact with the device
-	 * @param hardwareConfiguration
 	 * @param maxUpdateRate
 	 *            the maximum number of input updates per second the device will
 	 *            send
@@ -59,11 +61,11 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 		this.maxUpdateRate = maxUpdateRate;
 		state = ImperiumDeviceState.DISCONNECTED;
 		new ImperiumEventThread().start();
+		new ImperiumOutputThread().start();
 		configure();
 	}
 
-	private final ImperiumDeviceObjectFactory factory = new ImperiumDeviceObjectFactory(
-			this);
+	private final ImperiumDeviceObjectFactory factory = new ImperiumDeviceObjectFactory(this);
 
 	@Override
 	public RobotObjectFactory getFactory() {
@@ -130,8 +132,7 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 
 		synchronized (configureLock) {
 			setState(ImperiumDeviceState.CONFIGURING);
-			try {// catch any exception that occurs so that state can be
-					// restored to disconnected
+			try {// catch any exception that occurs so that state can be restored to disconnected
 				ImperiumPacket configurePacket = new ImperiumPacket();
 				configurePacket.setId(PacketIds.GLOBAL_CONFIGURE_REQUEST);
 				configurePacket.appendInteger(maxUpdateRate, 2);
@@ -210,10 +211,7 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 	private void error(ImperiumPacket packet) {
 		packet.resetReadPosition();
 		int errorCode = packet.readInteger(1);
-		throw new RobotException("Error occured on device: " + errorCode
-				+ " - " + Arrays.toString(packet.getData()));// TODO display
-																// only valid
-																// bytes
+		throw new RobotException("Error occured on device: " + errorCode + " - "+Arrays.toString(Arrays.copyOfRange(packet.getData(), 1, packet.getDataLength())));
 	}
 
 	private class ImperiumEventThread extends RobotThread {
@@ -230,13 +228,34 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 				try {
 					if (is.available() > 0) {
 						packet.read(is);
-						// System.out.println("Received: "+packet);
+						//System.out.println("Received: "+packet);
 						processInputPacket(packet);
 					} else
 						RobotUtil.sleep(1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+	private class ImperiumOutputThread extends PeriodicRobotThread {
+		private ImperiumPacket packet = new ImperiumPacket();
+		public ImperiumOutputThread() {
+			super("Imperium Output Thread", 1000/maxUpdateRate);
+			packet.setId(PacketIds.BULK_OUTPUT_VALUE);
+		}
+
+		@Override
+		public void periodic() {
+			if(objects.size()==0)
+				return;
+			try {
+				packet.setDataLength(0);
+				for(ImperiumDeviceObject object:objects)
+					object.appendSetValue(packet);
+				sendPacket(packet);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -247,13 +266,23 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 	 * @param packet
 	 */
 	private void processInputPacket(ImperiumPacket packet) {
+		packet.resetReadPosition();
 		switch (packet.getId()) {
 		case PacketIds.DEVICE_BOOT:
 			System.out.println("Imperium Device Booted");
 			break;
 		case PacketIds.PING_RESPONSE:
-			pingLock.finish(packet.clone());// must clone for other thread to
-											// process
+			pingLock.finish(packet.clone());
+			break;
+		case PacketIds.GLOBAL_CONFIGURE_RESPONSE:
+			configureLock.finish(packet.clone());
+			break;
+		case PacketIds.OBJECT_CONFIGURE_RESPONSE:
+			configureLock.finish(packet.clone());
+			break;
+		case PacketIds.BULK_INPUT_VALUE:
+			for(ImperiumDeviceObject object:objects)
+				object.readValue(packet);
 			break;
 		case PacketIds.ERROR_MESSAGE:
 			error(packet);
@@ -274,10 +303,40 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 			throws IOException {
 		if (packet != null) {
 			packet.write(serialPort.getOutputStream());
-			// System.out.println("Sent: "+packet);
+			//System.out.println("Sent: "+packet);
 		}
 	}
-
-	public abstract byte getPin(String location);
+	
+	
+	
+	
+	
+	
+	
+	private final Map<String, DeviceFeature> features = new HashMap<String, DeviceFeature>();
+	private final Map<String, String> extraFeatureNames = new HashMap<String, String>();
+	protected void addFeature(DeviceFeature feature){
+		if(features.containsKey(feature.getName()) || extraFeatureNames.containsKey(feature.getName()))
+			throw new RobotInitializationException("Device already contains feature "+feature.getName());
+		features.put(feature.getName(), feature);
+	}
+	protected void addExtraFeatureName(String newName, String targetName){
+		if(!features.containsKey(targetName) && !extraFeatureNames.containsKey(targetName))
+			throw new RobotInitializationException("Device does not contain target feature "+targetName);
+		if(features.containsKey(newName) || extraFeatureNames.containsKey(newName))
+			throw new RobotInitializationException("Device already contains feature "+newName);
+		extraFeatureNames.put(newName, targetName);
+	}
+	protected DeviceFeature getFeature(String name){
+		String evaluatedName = name;
+		while(extraFeatureNames.containsKey(evaluatedName))
+			evaluatedName = extraFeatureNames.get(evaluatedName);
+		return features.get(evaluatedName);
+	}
+	public DeviceFeature acquireFeature(String name, ImperiumDeviceObject newOwner, DeviceFeatureCapability... requiredCapabilities){
+		DeviceFeature feature = getFeature(name);
+		feature.acquire(newOwner, requiredCapabilities);
+		return feature;
+	}
 
 }

@@ -4,6 +4,7 @@
 #include "util/AVRPins.h"
 #include "imperium/TypeIds.h"
 #include "objects/DigitalOutput.h"
+#include "objects/Debug.h"
 
 inline int available(void) {
 	return virtualSerialAvailable();
@@ -39,6 +40,7 @@ int main(void) {
 
 	Imperium_init();
 
+	Imperium_setObjectInitializer(TYPEID_DEBUG, Debug_new);
 	Imperium_setObjectInitializer(TYPEID_DIGITAL_OUTPUT, DigitalOutput_new);
 
 

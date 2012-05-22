@@ -16,6 +16,9 @@ struct ImperiumObject {
 	int objectId;
 	void* data;
 
+	int inputSize;
+	int outputSize;
+
 	//methods
 	void (*setValue)(struct ImperiumObject* object, ImperiumPacket* packet);
 	void (*getValue)(struct ImperiumObject* object, ImperiumPacket* packet);

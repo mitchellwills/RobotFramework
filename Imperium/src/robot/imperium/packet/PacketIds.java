@@ -7,7 +7,6 @@ package robot.imperium.packet;
  * @author Mitchell
  *
  */
-@SuppressWarnings("javadoc")
 public interface PacketIds {
 	int DEVICE_BOOT = 0;
 
@@ -24,4 +23,10 @@ public interface PacketIds {
 	int OBJECT_CONFIGURE_REQUEST = 6;
 
 	int OBJECT_CONFIGURE_RESPONSE = 7;
+
+	int MESSAGE = 8;
+
+	int BULK_INPUT_VALUE = 9;
+
+	int BULK_OUTPUT_VALUE = 10;
 }

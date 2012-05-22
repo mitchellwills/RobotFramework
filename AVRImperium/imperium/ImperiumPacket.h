@@ -42,4 +42,7 @@ long Packet_readInteger(ImperiumPacket* packet, int size);
 unsigned long Packet_readUInteger(ImperiumPacket* packet, int size);
 char Packet_readByte(ImperiumPacket* packet);
 
+char* Packet_getDataFromReadPosition(ImperiumPacket* packet);
+
+
 #endif /* IMPERIUMPACKET_H_ */

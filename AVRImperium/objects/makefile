@@ -1,6 +1,6 @@
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC += objects/DigitalOutput.c
+SRC += objects/DigitalOutput.c objects/Debug.c
 	  
 
 # List any extra directories to look for include files here.

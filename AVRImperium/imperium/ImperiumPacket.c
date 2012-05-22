@@ -131,8 +131,13 @@ unsigned long Packet_readUInteger(ImperiumPacket* packet, int size){
 	packet->readPosition+=size;
 	return value;
 }
+
 char Packet_readByte(ImperiumPacket* packet){
 	char value = *(packet->data);
 	packet->readPosition++;
 	return value;
+}
+
+char* Packet_getDataFromReadPosition(ImperiumPacket* packet){
+	return packet->data + packet->readPosition;
 }

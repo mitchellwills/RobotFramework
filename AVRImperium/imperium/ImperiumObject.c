@@ -16,5 +16,7 @@ ImperiumObject* Object_new(int _objectId, void* data){
 	object->receiveMessage = NULL;
 	object->setValue = NULL;
 	object->update = NULL;
+	object->inputSize = 0;
+	object->outputSize = 0;
 	return object;
 }

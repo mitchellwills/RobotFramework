@@ -6,9 +6,10 @@ package robot.imperium.objects;
  * Class storing type ids for Imperium objects
  *
  */
-@SuppressWarnings("javadoc")
+
 public interface ObjectTypeIds {
-	int DIGITAL_OUTPUT_TYPE_ID = 1;
-	int DIGITAL_INPUT_TYPE_ID = 2;
-	int ANALOG_INPUT_TYPE_ID = 3;
+	int DEBUG = 0;
+	int DIGITAL_OUTPUT = 1;
+	int DIGITAL_INPUT = 2;
+	int ANALOG_INPUT = 3;
 }

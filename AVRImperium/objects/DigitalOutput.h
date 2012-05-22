@@ -18,6 +18,6 @@ struct DigitalOutputData {
 };
 typedef struct DigitalOutputData DigitalOutputData;
 
-ImperiumObject* DigitalOutput_new(int objectId, int* data, int dataSize);
+ImperiumObject* DigitalOutput_new(int objectId, char* data, int dataSize);
 
 #endif /* DIGITALOUTPUT_H_ */

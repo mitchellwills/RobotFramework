@@ -1,13 +1,11 @@
 package robot.imperium.objects;
 
-import robot.imperium.DeviceFeature;
-import robot.imperium.DeviceFeatureCapability;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.packet.ImperiumPacket;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
-import robot.io.binary.BinaryOutput;
+import robot.io.UpdatableObject;
 
 /**
  * A digital input on an imperium device
@@ -15,8 +13,7 @@ import robot.io.binary.BinaryOutput;
  * @author Mitchell
  *
  */
-public class ImperiumDigitalOutput extends ImperiumDeviceObject implements
-		BinaryOutput {
+public class ImperiumDebug extends ImperiumDeviceObject implements UpdatableObject{
 	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override
@@ -29,54 +26,30 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements
 		model.removeUpdateListener(listener);
 	}
 
-	private boolean currentState;
-	private DeviceFeature location;
 	/**
 	 * Create a new Digital Output
 	 * 
 	 * @param device
 	 * @param location 
 	 */
-	public ImperiumDigitalOutput(ImperiumDevice device, String location) {
-		super(ObjectTypeIds.DIGITAL_OUTPUT, device, 0, 1);
-		this.location = device.acquireFeature(location, this, DeviceFeatureCapability.DigitalOutput);
+	public ImperiumDebug(ImperiumDevice device) {
+		super(ObjectTypeIds.DEBUG, device, 2, 0);
 		init();
 	}
 
 	@Override
 	protected void appendConfiguration(ImperiumPacket packet) {
-		packet.appendInteger(location.getId(), 1);
-	}
-
-	@Override
-	public void set(boolean value) {
-		currentState = value;
-		model.fireUpdateEvent();
-	}
-
-	@Override
-	public boolean get() {
-		return currentState;
-	}
-
-	@Override
-	public void setValue(double value) {
-		set(value != 0);
-	}
-
-	@Override
-	public double getValue() {
-		return get() ? 1 : 0;
+		//none
 	}
 
 	@Override
 	protected void appendSetValue(ImperiumPacket packet) {
-		packet.appendInteger(get() ? 1 : 0, 1);
+		//none
 	}
 
 	@Override
 	protected void readValue(ImperiumPacket packet) {
-		//none
+		System.out.println(packet.readInteger(2));
 	}
 
 }

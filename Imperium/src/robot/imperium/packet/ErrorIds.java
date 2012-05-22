@@ -7,7 +7,6 @@ package robot.imperium.packet;
  * @author Mitchell
  *
  */
-@SuppressWarnings("javadoc")
 public interface ErrorIds {
 	int GENERAL_DEVICE = 0;
 

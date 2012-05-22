@@ -1,10 +1,10 @@
 package robot.imperium.hardware;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import robot.imperium.DeviceFeature;
+import robot.imperium.DeviceFeatureCapability;
 import robot.imperium.ImperiumDevice;
 import robot.io.serial.SerialInterface;
+import robot.util.RobotUtil;
 
 
 /**
@@ -20,7 +20,6 @@ public class AVRImperiumDevice extends ImperiumDevice {
 	 * @author Mitchell
 	 *
 	 */
-	@SuppressWarnings("javadoc")
 	public enum IOPort{
 		PORTA(0, "A"),
 		PORTB(1, "B"),
@@ -29,14 +28,11 @@ public class AVRImperiumDevice extends ImperiumDevice {
 		PORTE(4, "E"),
 		PORTF(5, "F");
 		
-		private int num;
-		private String label;
+		private final int num;
+		private final String label;
 		private IOPort(int num, String label){
 			this.num = num;
 			this.label = label;
-		}
-		public int getNum(){
-			return num;
 		}
 		public static IOPort toPort(String portName) {
 			if("A".equals(portName))
@@ -62,7 +58,6 @@ public class AVRImperiumDevice extends ImperiumDevice {
 	 * @author Mitchell
 	 *
 	 */
-	@SuppressWarnings("javadoc")	
 	public enum IOPortBit{
 		Bit0(0),
 		Bit1(1),
@@ -73,12 +68,9 @@ public class AVRImperiumDevice extends ImperiumDevice {
 		Bit6(6),
 		Bit7(7);
 		
-		private int num;
+		private final int num;
 		private IOPortBit(int num){
 			this.num = num;
-		}
-		public int getNum(){
-			return num;
 		}
 		public static IOPortBit toPortBit(String portBitName) {
 			if("0".equals(portBitName))
@@ -105,23 +97,19 @@ public class AVRImperiumDevice extends ImperiumDevice {
 	public AVRImperiumDevice(SerialInterface serialPort, int maxUpdateRate) {
 		super(serialPort, maxUpdateRate);
 	}
-
-
-	private static final Pattern simpleAVRPinPattern = Pattern.compile("P([A-F])([0-7])");
-	@Override
-	public byte getPin(String location) {
-		Matcher matcher = simpleAVRPinPattern.matcher(location);
-		if(matcher.find()){
-			return getPin(IOPort.toPort(matcher.group(1)), IOPortBit.toPortBit(matcher.group(2)));
-		}
-		throw new UnknownImperiumObjectException(location);
+	
+	protected void addExtraFeatureName(String newName, IOPort port, IOPortBit bit){
+		addExtraFeatureName(newName, pinName(port, bit));
 	}
-	
-	public byte getPin(IOPort port, IOPortBit portBit) {
-		return (byte) (port.getNum()*8 + portBit.getNum());
+	protected void addAVRPin(IOPort port, IOPortBit bit, DeviceFeatureCapability...capabilities){
+		addFeature(new DeviceFeature(pinName(port, bit), pinLocation(port, bit), RobotUtil.concat(capabilities, DeviceFeatureCapability.DigitalInput, DeviceFeatureCapability.DigitalOutput, DeviceFeatureCapability.InternalPullUp)));
 	}
-	
-	
+	private static int pinLocation(IOPort port, IOPortBit bit){
+		return port.num*8 + bit.num;
+	}
+	public static String pinName(IOPort port, IOPortBit bit){
+		return "P"+port.label+bit.num;
+	}
 
 
 }

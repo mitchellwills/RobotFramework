@@ -21,7 +21,7 @@ extern void writeBytes(char* b, int num);
 extern void readBytes(char* b, int num);
 
 
-typedef ImperiumObject* (*ObjectInitializer)(int objectId, int* data, int dataSize);
+typedef ImperiumObject* (*ObjectInitializer)(int objectId, char* data, int dataSize);
 
 void Imperium_init(void);
 void Imperium_setObjectInitializer(int typeId, ObjectInitializer initializer);

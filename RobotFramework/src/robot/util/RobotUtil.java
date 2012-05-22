@@ -1,5 +1,7 @@
 package robot.util;
 
+import java.util.Arrays;
+
 /**
  * @author Mitchell
  * 
@@ -72,5 +74,10 @@ public final class RobotUtil {
 		return threshold(value, -threshold, threshold, 0);
 	}
 
+	public static <T> T[] concat(T[] first, T... second) {
+		T[] result = Arrays.copyOf(first, first.length + second.length);
+		System.arraycopy(second, 0, result, first.length, second.length);
+		return result;
+	}
 
 }

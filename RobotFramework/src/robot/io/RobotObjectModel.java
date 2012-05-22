@@ -1,8 +1,7 @@
 package robot.io;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 /**
@@ -12,7 +11,7 @@ import java.util.Set;
  *
  */
 public class RobotObjectModel {
-	private final Set<RobotObjectListener> listeners = Collections.synchronizedSet(new HashSet<RobotObjectListener>());
+	private final Set<RobotObjectListener> listeners = new CopyOnWriteArraySet<RobotObjectListener>();
 
 	private final RobotObject object;
 	/**
