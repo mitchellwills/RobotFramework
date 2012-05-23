@@ -14,9 +14,19 @@
 typedef volatile unsigned char* PinRegister;
 typedef unsigned char PinMask;
 
-#define setPinRegister(pin, mask) ( setBit(*pin, mask) )
-#define clearPinRegister(pin, mask) ( clearBit(*pin, mask) )
-#define getPinRegister(pin, mask) ( getBit(*pin, mask) )
+
+inline void setPinRegister(PinRegister reg, PinMask mask){
+	(*reg) |= mask;
+}
+inline void clearPinRegister(PinRegister reg, PinMask mask){
+	(*reg) &= ~mask;
+}
+inline unsigned char getPinRegister(PinRegister reg, PinMask mask){
+	return (*reg) & mask;
+}
+inline unsigned char getPinRegisterBit(PinRegister reg, unsigned char bitPosition){
+	return ((*reg) >> bitPosition)&1;
+}
 
 PinRegister Pin_getDataRegister(int pin);
 PinRegister Pin_getDirectionRegister(int pin);

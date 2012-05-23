@@ -192,12 +192,22 @@ public class ImperiumPacket {
 		readPosition = 0;
 	}
 	/**
-	 * read an unsigned integer
+	 * read a signed integer
 	 * @param size the size of the number to read
 	 * @return the unsigned integer
 	 */
 	public int readInteger(int size){
 		int value = ByteUtil.getSigned(getData(), readPosition, size);
+		readPosition+=size;
+		return value;
+	}
+	/**
+	 * read an unsigned integer
+	 * @param size the size of the number to read
+	 * @return the unsigned integer
+	 */
+	public int readUInteger(int size){
+		int value = ByteUtil.getUnsigned(getData(), readPosition, size);
 		readPosition+=size;
 		return value;
 	}

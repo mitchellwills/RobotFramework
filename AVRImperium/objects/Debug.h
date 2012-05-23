@@ -1,5 +1,5 @@
 /*
- * DigitalOutput.h
+ * Debug.h
  *
  *  Created on: May 16, 2012
  *      Author: Mitchell

@@ -1,5 +1,5 @@
 /*
- * DigitalOutput.c
+ * Debug.c
  *
  *  Created on: May 16, 2012
  *      Author: Mitchell
@@ -34,6 +34,10 @@ ImperiumObject* Debug_new(int objectId, char* data, int dataSize){
 	object->update = update;
 
 	object->inputSize = 2;
+
+	objectData->lastUpdate = millis();
+	objectData->value = objectData->count;
+	objectData->count = 0;
 
 	return object;
 }

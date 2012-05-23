@@ -19,7 +19,7 @@ F_USB = $(F_CPU)
 # Output format. (can be srec, ihex, binary)
 FORMAT = ihex
 # Optimization level, can be [0, 1, 2, 3, s].
-OPT = 0
+OPT = s
 # Debugging format.
 DEBUG = dwarf-2
 # Compiler flag to set the C Standard level.

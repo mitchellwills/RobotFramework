@@ -8,7 +8,7 @@ import robot.io.RobotObjectModel;
 import robot.io.UpdatableObject;
 
 /**
- * A digital input on an imperium device
+ * A debug object on an imperium device
  * 
  * @author Mitchell
  *
@@ -26,11 +26,11 @@ public class ImperiumDebug extends ImperiumDeviceObject implements UpdatableObje
 		model.removeUpdateListener(listener);
 	}
 
+	private int numUpdatePerSec = 0;
 	/**
-	 * Create a new Digital Output
+	 * Create a new Imperium Debug Object
 	 * 
 	 * @param device
-	 * @param location 
 	 */
 	public ImperiumDebug(ImperiumDevice device) {
 		super(ObjectTypeIds.DEBUG, device, 2, 0);
@@ -49,7 +49,10 @@ public class ImperiumDebug extends ImperiumDeviceObject implements UpdatableObje
 
 	@Override
 	protected void readValue(ImperiumPacket packet) {
-		System.out.println(packet.readInteger(2));
+		numUpdatePerSec = packet.readUInteger(2);
+	}
+	public int getUpdateRate(){
+		return numUpdatePerSec;
 	}
 
 }

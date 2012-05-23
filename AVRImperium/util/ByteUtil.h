@@ -8,9 +8,6 @@
 #ifndef BYTEUTIL_H_
 #define BYTEUTIL_H_
 
-#define setBit(value, mask) ( value |= mask )
-#define clearBit(value, mask) ( value &= ~mask )
-#define getBit(value, mask) ( value & mask )
 
 unsigned long getUnsignedFromBytes(char* b, int offset, int size);
 long getSignedFromBytes(char* b, int offset, int size);
