@@ -12,6 +12,8 @@ import robot.error.RobotException;
 import robot.error.RobotInitializationException;
 import robot.imperium.packet.ImperiumPacket;
 import robot.imperium.packet.PacketIds;
+import robot.imperium.resources.DeviceResource;
+import robot.imperium.resources.DeviceResourceState;
 import robot.io.RobotObject;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
@@ -313,30 +315,31 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 	
 	
 	
-	private final Map<String, DeviceFeature> features = new HashMap<String, DeviceFeature>();
-	private final Map<String, String> extraFeatureNames = new HashMap<String, String>();
-	protected void addFeature(DeviceFeature feature){
-		if(features.containsKey(feature.getName()) || extraFeatureNames.containsKey(feature.getName()))
-			throw new RobotInitializationException("Device already contains feature "+feature.getName());
-		features.put(feature.getName(), feature);
+	private final Map<String, DeviceResource> resources = new HashMap<String, DeviceResource>();
+	private final Map<String, String> extraResourceNames = new HashMap<String, String>();
+	protected DeviceResource addResource(DeviceResource resource){
+		if(resources.containsKey(resource.getName()) || extraResourceNames.containsKey(resource.getName()))
+			throw new RobotInitializationException("Device already contains resource "+resource.getName());
+		resources.put(resource.getName(), resource);
+		return resource;
 	}
-	protected void addExtraFeatureName(String newName, String targetName){
-		if(!features.containsKey(targetName) && !extraFeatureNames.containsKey(targetName))
-			throw new RobotInitializationException("Device does not contain target feature "+targetName);
-		if(features.containsKey(newName) || extraFeatureNames.containsKey(newName))
-			throw new RobotInitializationException("Device already contains feature "+newName);
-		extraFeatureNames.put(newName, targetName);
+	protected void addExtraResourceName(String newName, String targetName){
+		if(!resources.containsKey(targetName) && !extraResourceNames.containsKey(targetName))
+			throw new RobotInitializationException("Device does not contain target resource "+targetName);
+		if(resources.containsKey(newName) || extraResourceNames.containsKey(newName))
+			throw new RobotInitializationException("Device already contains resource "+newName);
+		extraResourceNames.put(newName, targetName);
 	}
-	protected DeviceFeature getFeature(String name){
+	protected DeviceResource getResource(String name){
 		String evaluatedName = name;
-		while(extraFeatureNames.containsKey(evaluatedName))
-			evaluatedName = extraFeatureNames.get(evaluatedName);
-		return features.get(evaluatedName);
+		while(extraResourceNames.containsKey(evaluatedName))
+			evaluatedName = extraResourceNames.get(evaluatedName);
+		return resources.get(evaluatedName);
 	}
-	public DeviceFeature acquireFeature(String name, ImperiumDeviceObject newOwner, DeviceFeatureCapability... requiredCapabilities){
-		DeviceFeature feature = getFeature(name);
-		feature.acquire(newOwner, requiredCapabilities);
-		return feature;
+	public DeviceResource acquireResource(String name, ImperiumDeviceObject newOwner, DeviceResourceState requiredState){
+		DeviceResource resource = getResource(name);
+		resource.acquire(newOwner, requiredState);
+		return resource;
 	}
 
 }

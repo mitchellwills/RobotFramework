@@ -1,10 +1,10 @@
 package robot.imperium.objects;
 
-import robot.imperium.DeviceFeature;
-import robot.imperium.DeviceFeatureCapability;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.packet.ImperiumPacket;
+import robot.imperium.resources.DeviceResource;
+import robot.imperium.resources.ResourceState;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 import robot.io.binary.BinaryOutput;
@@ -30,7 +30,7 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements
 	}
 
 	private boolean currentState;
-	private DeviceFeature location;
+	private DeviceResource location;
 	/**
 	 * Create a new Digital Output
 	 * 
@@ -39,8 +39,13 @@ public class ImperiumDigitalOutput extends ImperiumDeviceObject implements
 	 */
 	public ImperiumDigitalOutput(ImperiumDevice device, String location) {
 		super(ObjectTypeIds.DIGITAL_OUTPUT, device, 0, 1);
-		this.location = device.acquireFeature(location, this, DeviceFeatureCapability.DigitalOutput);
+		this.location = device.acquireResource(location, this, ResourceState.DigitalOutput);
 		init();
+	}
+
+	@Override
+	public String getName() {
+		return "Imperium Digital Output";
 	}
 
 	@Override

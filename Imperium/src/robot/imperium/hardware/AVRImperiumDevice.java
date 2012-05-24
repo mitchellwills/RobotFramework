@@ -1,10 +1,11 @@
 package robot.imperium.hardware;
 
-import robot.imperium.DeviceFeature;
-import robot.imperium.DeviceFeatureCapability;
+import robot.error.RobotInitializationException;
 import robot.imperium.ImperiumDevice;
+import robot.imperium.resources.DeviceResource;
+import robot.imperium.resources.ResourceFactory;
+import robot.imperium.resources.ResourceState;
 import robot.io.serial.SerialInterface;
-import robot.util.RobotUtil;
 
 
 /**
@@ -47,7 +48,7 @@ public class AVRImperiumDevice extends ImperiumDevice {
 				return PORTE;
 			else if("F".equals(portName))
 				return PORTF;
-			throw new UnknownImperiumObjectException("Port "+portName);
+			throw new RobotInitializationException("Unknown port "+portName);
 		}
 	}
 	
@@ -89,7 +90,7 @@ public class AVRImperiumDevice extends ImperiumDevice {
 				return Bit6;
 			else if("7".equals(portBitName))
 				return Bit7;
-			throw new UnknownImperiumObjectException("Port bit "+portBitName);
+			throw new RobotInitializationException("Unknown port bit "+portBitName);
 		}
 	}
 
@@ -98,12 +99,27 @@ public class AVRImperiumDevice extends ImperiumDevice {
 		super(serialPort, maxUpdateRate);
 	}
 	
-	protected void addExtraFeatureName(String newName, IOPort port, IOPortBit bit){
-		addExtraFeatureName(newName, pinName(port, bit));
+	protected void addAVRPin(IOPort port, IOPortBit bit){
+		addResource(ResourceFactory.single(pinName(port, bit), pinLocation(port, bit)).states(ResourceState.DigitalInput, ResourceState.DigitalOutput, ResourceState.Dependancy).build());
 	}
-	protected void addAVRPin(IOPort port, IOPortBit bit, DeviceFeatureCapability...capabilities){
-		addFeature(new DeviceFeature(pinName(port, bit), pinLocation(port, bit), RobotUtil.concat(capabilities, DeviceFeatureCapability.DigitalInput, DeviceFeatureCapability.DigitalOutput, DeviceFeatureCapability.InternalPullUp)));
+	protected void addAVRExternalInterrupt(int id, IOPort port, IOPortBit bit){
+		addResource(ResourceFactory.single("INT"+id, id).states(ResourceState.Dependancy, ResourceState.Interrupt).dependancies(getResource(pinName(port, bit))).build());
 	}
+	protected void addAVRAnalogInput(int id, IOPort port, IOPortBit bit){
+		addResource(ResourceFactory.single("ADC"+id, id).states(ResourceState.Dependancy, ResourceState.AnalogInput).dependancies(getResource(pinName(port, bit)), getADCResource()).build());
+	}
+	protected DeviceResource getADCResource(){
+		DeviceResource resource = getResource("ADC");
+		if(resource==null)
+			return addResource(ResourceFactory.single("ADC", 0).states(ResourceState.Dependancy).build());
+		return resource;
+	}
+	protected void addAVRSerialPort(int id, IOPort txPort, IOPortBit txBit, IOPort rxPort, IOPortBit rxBit){
+		addResource(ResourceFactory.single("Serial"+id, id).states(ResourceState.SerialPort)
+				.dependancies(getResource(pinName(txPort, txBit)), getResource(pinName(rxPort, rxBit))).build());
+	}
+	
+	
 	private static int pinLocation(IOPort port, IOPortBit bit){
 		return port.num*8 + bit.num;
 	}

@@ -1,13 +1,14 @@
 package robot.imperium;
 
 import robot.imperium.packet.ImperiumPacket;
+import robot.imperium.resources.DeviceResourceOwner;
 import robot.io.RobotObject;
 
 /**
  * @author Mitchell
  * 
  */
-public abstract class ImperiumDeviceObject implements RobotObject {
+public abstract class ImperiumDeviceObject implements RobotObject, DeviceResourceOwner{
 	private final ImperiumDevice device;
 	private final int typeId;
 	private int objectId  = -1;

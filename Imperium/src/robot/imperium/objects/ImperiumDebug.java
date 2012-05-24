@@ -38,6 +38,11 @@ public class ImperiumDebug extends ImperiumDeviceObject implements UpdatableObje
 	}
 
 	@Override
+	public String getName() {
+		return "Imperium Debug";
+	}
+
+	@Override
 	protected void appendConfiguration(ImperiumPacket packet) {
 		//none
 	}

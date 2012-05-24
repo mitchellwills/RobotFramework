@@ -1,10 +1,10 @@
 package robot.imperium.objects;
 
-import robot.imperium.DeviceFeature;
-import robot.imperium.DeviceFeatureCapability;
 import robot.imperium.ImperiumDevice;
 import robot.imperium.ImperiumDeviceObject;
 import robot.imperium.packet.ImperiumPacket;
+import robot.imperium.resources.DeviceResource;
+import robot.imperium.resources.ResourceState;
 import robot.io.RobotObjectListener;
 import robot.io.RobotObjectModel;
 import robot.io.binary.BinaryInput;
@@ -31,7 +31,7 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements
 
 	private boolean currentState;
 	private boolean pullupState;
-	private DeviceFeature location;
+	private DeviceResource location;
 	/**
 	 * Create a new Digital Output
 	 * 
@@ -40,9 +40,14 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements
 	 */
 	public ImperiumDigitalInput(ImperiumDevice device, String location) {
 		super(ObjectTypeIds.DIGITAL_INPUT, device, 1, 1);
-		this.location = device.acquireFeature(location, this, DeviceFeatureCapability.DigitalOutput);
+		this.location = device.acquireResource(location, this, ResourceState.DigitalOutput);
 		pullupState = false;
 		init();
+	}
+
+	@Override
+	public String getName() {
+		return "Imperium Digital Input";
 	}
 
 	@Override
