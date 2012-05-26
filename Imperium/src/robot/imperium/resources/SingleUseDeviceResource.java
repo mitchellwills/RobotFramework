@@ -7,7 +7,7 @@ import robot.error.RobotInitializationException;
 public class SingleUseDeviceResource extends DeviceResource{
 	private DeviceResourceOwner owner;
 	
-	public SingleUseDeviceResource(String name, int id, Set<? extends DeviceResourceState> states, Set<? extends DeviceResource> dependancies){
+	public SingleUseDeviceResource(String name, int id, Set<? extends DeviceResourceState> states, Set<ResourceDependancy> dependancies){
 		super(name, id, states, dependancies);
 		owner = null;
 	}

@@ -7,10 +7,10 @@ public abstract class DeviceResource implements DeviceResourceOwner{
 	private final int id;
 	
 	private final Set<? extends DeviceResourceState> states;
-	private final Set<? extends DeviceResource> dependancies;
+	private final Set<ResourceDependancy> dependancies;
 	private DeviceResourceState state = null;
 	
-	public DeviceResource(String name, int id, Set<? extends DeviceResourceState> states, Set<? extends DeviceResource> dependancies){
+	public DeviceResource(String name, int id, Set<? extends DeviceResourceState> states, Set<ResourceDependancy> dependancies){
 		this.name = name;
 		this.id = id;
 		this.states = states;
@@ -36,13 +36,13 @@ public abstract class DeviceResource implements DeviceResourceOwner{
 	}
 	
 	protected final void _acquire(DeviceResourceOwner newOwner, DeviceResourceState state){
-		for(DeviceResource dependancy:dependancies)
-			dependancy.acquire(this, ResourceState.Dependancy);
+		for(ResourceDependancy dependancy:dependancies)
+			dependancy.getResource().acquire(this, dependancy.getState());
 		this.state = state;
 	}
 	protected final void _surrender(DeviceResourceOwner oldOwner){
-		for(DeviceResource dependancy:dependancies)
-			dependancy.surrender(this);
+		for(ResourceDependancy dependancy:dependancies)
+			dependancy.getResource().surrender(this);
 		state = null;
 	}
 	

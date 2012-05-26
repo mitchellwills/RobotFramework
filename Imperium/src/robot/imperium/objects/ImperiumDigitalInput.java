@@ -40,8 +40,8 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements
 	 */
 	public ImperiumDigitalInput(ImperiumDevice device, String location) {
 		super(ObjectTypeIds.DIGITAL_INPUT, device, 1, 1);
-		this.location = device.acquireResource(location, this, ResourceState.DigitalOutput);
-		pullupState = false;
+		this.location = device.acquireResource(location, this, ResourceState.DigitalInput);
+		setPullupEnabled(false);
 		init();
 	}
 
@@ -70,6 +70,10 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements
 	}
 	
 	public void setPullupEnabled(boolean enabled){
+		if(enabled)
+			location.acquire(this, ResourceState.DigitalInputPullup);
+		else
+			location.acquire(this, ResourceState.DigitalInput);
 		pullupState = enabled;
 	}
 

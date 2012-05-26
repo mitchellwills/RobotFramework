@@ -8,7 +8,7 @@ import robot.error.RobotInitializationException;
 public class MultiUseDeviceResource extends DeviceResource{
 	private Set<DeviceResourceOwner> owners;
 	
-	public MultiUseDeviceResource(String name, int id, Set<? extends DeviceResourceState> states, Set<? extends DeviceResource> dependancies){
+	public MultiUseDeviceResource(String name, int id, Set<? extends DeviceResourceState> states, Set<ResourceDependancy> dependancies){
 		super(name, id, states, dependancies);
 		owners = new HashSet<DeviceResourceOwner>();
 	}

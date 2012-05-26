@@ -12,7 +12,7 @@ public class ResourceFactory {
 	private ResourceType type;
 	private String name;
 	private int id;
-	private Set<DeviceResource> dependancies = new HashSet<DeviceResource>();
+	private Set<ResourceDependancy> dependancies = new HashSet<ResourceDependancy>();
 	private Set<DeviceResourceState> states = new HashSet<DeviceResourceState>();
 	private ResourceFactory(ResourceType type, String name, int id){
 		this.type = type;
@@ -29,11 +29,13 @@ public class ResourceFactory {
 		this.states.addAll(Arrays.asList(states));
 		return this;
 	}
-	public ResourceFactory dependancies(DeviceResource... dependancies){
-		this.dependancies.addAll(Arrays.asList(dependancies));
+	public ResourceFactory dependancy(DeviceResource resource, DeviceResourceState state){
+		dependancies.add(new ResourceDependancy(resource, state));
 		return this;
 	}
 	public DeviceResource build(){
+		if(states.size()==0)
+			throw new IllegalArgumentException("A resource must have at least one state");
 		switch(type){
 		case Single:
 			return new SingleUseDeviceResource(name, id, states, dependancies);

@@ -100,23 +100,35 @@ public class AVRImperiumDevice extends ImperiumDevice {
 	}
 	
 	protected void addAVRPin(IOPort port, IOPortBit bit){
-		addResource(ResourceFactory.single(pinName(port, bit), pinLocation(port, bit)).states(ResourceState.DigitalInput, ResourceState.DigitalOutput, ResourceState.Dependancy).build());
+		addResource(ResourceFactory.single(pinName(port, bit), pinLocation(port, bit))
+				.states(ResourceState.DigitalInput, ResourceState.DigitalOutput, ResourceState.DigitalInputPullup, ResourceState.Disconnected)
+				.build());
 	}
 	protected void addAVRExternalInterrupt(int id, IOPort port, IOPortBit bit){
-		addResource(ResourceFactory.single("INT"+id, id).states(ResourceState.Dependancy, ResourceState.Interrupt).dependancies(getResource(pinName(port, bit))).build());
+		addResource(ResourceFactory.single("INT"+id, id).states(ResourceState.Interrupt)
+				.dependancy(getResource(pinName(port, bit)), ResourceState.DigitalInput)
+				.build());
 	}
 	protected void addAVRAnalogInput(int id, IOPort port, IOPortBit bit){
-		addResource(ResourceFactory.single("ADC"+id, id).states(ResourceState.Dependancy, ResourceState.AnalogInput).dependancies(getResource(pinName(port, bit)), getADCResource()).build());
+		addResource(ResourceFactory.single("ADC"+id, id)
+				.states(ResourceState.AnalogInput)
+				.dependancy(getResource(pinName(port, bit)), ResourceState.DigitalInput)
+				.dependancy(getADCResource(), ResourceState.Enabled)
+				.build());
 	}
 	protected DeviceResource getADCResource(){
 		DeviceResource resource = getResource("ADC");
 		if(resource==null)
-			return addResource(ResourceFactory.single("ADC", 0).states(ResourceState.Dependancy).build());
+			return addResource(ResourceFactory.multi("ADC", 0)
+					.states(ResourceState.Enabled, ResourceState.Disabled)
+					.build());
 		return resource;
 	}
 	protected void addAVRSerialPort(int id, IOPort txPort, IOPortBit txBit, IOPort rxPort, IOPortBit rxBit){
 		addResource(ResourceFactory.single("Serial"+id, id).states(ResourceState.SerialPort)
-				.dependancies(getResource(pinName(txPort, txBit)), getResource(pinName(rxPort, rxBit))).build());
+				.dependancy(getResource(pinName(txPort, txBit)), ResourceState.Disconnected)
+				.dependancy(getResource(pinName(rxPort, rxBit)), ResourceState.Disconnected)
+				.build());
 	}
 	
 	
