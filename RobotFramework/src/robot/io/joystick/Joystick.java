@@ -1,7 +1,6 @@
 package robot.io.joystick;
 
-import robot.io.Input;
-import robot.io.UpdatableObject;
+import robot.io.*;
 
 /**
  * @author Mitchell
@@ -10,11 +9,10 @@ import robot.io.UpdatableObject;
  *
  */
 public interface Joystick extends Input, UpdatableObject{
-	/**
-	 * @return the name of the joystick
-	 */
-	public String getName();
 	
+	String PARAM_NUM_DIRECTIONALS = "numDirectionals";
+	String PARAM_NUM_AXES = "numAxes";
+	String PARAM_NUM_BUTTONS = "numButtons";
 	
 	/**
 	 * @param id

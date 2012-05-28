@@ -1,10 +1,8 @@
 package robot.io.serial;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
-import robot.io.Input;
-import robot.io.Output;
+import robot.io.*;
 
 /**
  * @author Mitchell
@@ -16,7 +14,7 @@ public interface SerialInterface extends Input, Output{
 	/**
 	 * name of the parameter in factories param map corresponding to the serial port's baud rate
 	 */
-	String PARAM_BAUD = null;
+	String PARAM_BAUD = "baud";
 
 	/**
 	 * @return a stream that allows reading from the serial port

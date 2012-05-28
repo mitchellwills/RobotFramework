@@ -1,7 +1,6 @@
 package robot.io.accelerometer;
 
-import robot.io.Input;
-import robot.io.UpdatableObject;
+import robot.io.*;
 
 /**
  * Represents a multi-axis accelerometer

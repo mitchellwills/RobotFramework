@@ -1,8 +1,7 @@
 package robot.io.host;
 
-import robot.io.Input;
-import robot.io.Output;
-import robot.io.battery.Battery;
+import robot.io.*;
+import robot.io.battery.*;
 
 /**
  * @author Mitchell

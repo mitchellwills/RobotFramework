@@ -1,6 +1,6 @@
 package robot.drive;
 
-import robot.io.speedcontroller.SpeedController;
+import robot.io.speedcontroller.*;
 
 /**
  * A simple tank drive system that has 2 or 4 wheels

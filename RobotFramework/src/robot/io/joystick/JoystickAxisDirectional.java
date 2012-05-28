@@ -1,7 +1,6 @@
 package robot.io.joystick;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
+import robot.io.*;
 
 /**
  * @author Mitchell
@@ -35,11 +34,6 @@ public class JoystickAxisDirectional implements JoystickDirectional {
 		xAxis.addUpdateListener(model);
 		this.yAxis = yAxis;
 		yAxis.addUpdateListener(model);
-	}
-
-	@Override
-	public String getName() {
-		return "Axis Directional [x="+xAxis.getName()+", y="+yAxis.getName()+"]";
 	}
 
 	@Override

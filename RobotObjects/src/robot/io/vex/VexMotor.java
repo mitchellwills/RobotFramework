@@ -1,8 +1,7 @@
 package robot.io.vex;
 
 import robot.io.RobotObject;
-import robot.io.factory.FactoryConstructable;
-import robot.io.factory.FactoryParameter;
+import robot.io.factory.old.*;
 import robot.io.pwmms.MSPWMOutput;
 import robot.io.speedcontroller.SpeedControllerMS;
 

@@ -1,6 +1,6 @@
 package robot;
 
-import robot.io.RobotObject;
+import robot.io.*;
 
 /**
  * @author Mitchell

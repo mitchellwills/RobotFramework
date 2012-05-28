@@ -1,6 +1,6 @@
 package robot.math;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Represents a matrix 

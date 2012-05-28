@@ -1,7 +1,7 @@
 package robot.io.servo;
 
-import robot.io.UpdatableObject;
-import robot.io.value.OutputValue;
+import robot.io.*;
+import robot.io.value.*;
 
 /**
  * @author Mitchell
@@ -10,6 +10,8 @@ import robot.io.value.OutputValue;
  *
  */
 public interface Servo extends OutputValue, UpdatableObject {
+	String PARAM_MIN_ANGLE = "minAngle";
+	String PARAM_MAX_ANGLE = "maxAngle";
 	
 	/**
 	 * Set the angle the servo is at

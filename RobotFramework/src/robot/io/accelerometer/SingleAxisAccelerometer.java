@@ -1,10 +1,8 @@
 package robot.io.accelerometer;
 
-import robot.error.RobotException;
-import robot.error.RobotInitializationException;
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.value.InputValue;
+import robot.error.*;
+import robot.io.*;
+import robot.io.value.*;
 
 /**
  * 

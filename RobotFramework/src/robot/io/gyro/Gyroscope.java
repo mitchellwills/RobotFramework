@@ -1,7 +1,6 @@
 package robot.io.gyro;
 
-import robot.io.Input;
-import robot.io.UpdatableObject;
+import robot.io.*;
 
 /**
  * Represents a multi-axis gyroscope
@@ -10,6 +9,11 @@ import robot.io.UpdatableObject;
  * 
  */
 public interface Gyroscope extends Input, UpdatableObject{
+	/**
+	 * name of the parameter in factories param map corresponding to the number of axes on the gyroscope
+	 */
+	String PARAM_NUM_AXES = "numAxes";
+	
 	/**
 	 * @param axis
 	 * @return the value of that axis

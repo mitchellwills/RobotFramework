@@ -1,12 +1,12 @@
 package robot.io.value;
 
-import robot.io.Input;
+import robot.io.*;
 
 /**
- * @author Mitchell
- * 
  * An input that has a single value associated with it
  *
+ * @author Mitchell
+ * 
  */
 public interface InputValue extends Input{
 	/**

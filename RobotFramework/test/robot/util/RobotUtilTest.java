@@ -1,11 +1,11 @@
 package robot.util;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-@SuppressWarnings("javadoc")
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+
 @RunWith(JUnit4.class)
 public class RobotUtilTest {
 	@SuppressWarnings("unused")
@@ -64,5 +64,24 @@ public class RobotUtilTest {
 		RobotUtil.sleep(100);
 		long diff = System.currentTimeMillis()-start;
 		assertEquals(100, diff, 5);
+	}
+	
+	@Test
+	public void testArrayConcat(){
+		Integer[] array1Expected = new Integer[]{0, 4, 5};
+		Integer[] array1 = RobotUtil.concat(new Integer[]{0, 4, 5});
+		assertArrayEquals(array1Expected, array1);
+		
+		Integer[] array2Expected = new Integer[]{3, 4, 5, 4, 5};
+		Integer[] array2 = RobotUtil.concat(new Integer[]{3, 4, 5}, 4, 5);
+		assertArrayEquals(array2Expected, array2);
+		
+		Integer[] array3Expected = new Integer[]{1, 2, 4};
+		Integer[] array3 = RobotUtil.concat(new Integer[]{}, 1, 2, 4);
+		assertArrayEquals(array3Expected, array3);
+		
+		Integer[] array4Expected = new Integer[]{};
+		Integer[] array4 = RobotUtil.concat(new Integer[]{});
+		assertArrayEquals(array4Expected, array4);
 	}
 }

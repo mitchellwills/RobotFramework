@@ -1,10 +1,8 @@
 package robot.io.gyro;
 
-import robot.error.RobotException;
-import robot.error.RobotInitializationException;
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.value.InputValue;
+import robot.error.*;
+import robot.io.*;
+import robot.io.value.*;
 
 /**
  * A gyroscope that only has one axis and gets its value from another gyroscope

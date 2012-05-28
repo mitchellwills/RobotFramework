@@ -1,13 +1,11 @@
 package robot.io.parallax;
 
-import robot.Robot;
-import robot.error.RobotException;
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.accelerometer.Accelerometer;
-import robot.io.analog.AnalogVoltageInput;
-import robot.io.dutycycle.DutyCycleInput;
-import robot.io.factory.FactoryConstructable;
+import robot.error.*;
+import robot.io.*;
+import robot.io.accelerometer.*;
+import robot.io.analog.*;
+import robot.io.dutycycle.*;
+import robot.io.factory.old.*;
 
 /**
  * @author Mitchell
@@ -48,20 +46,6 @@ public class Memsic2125 implements Accelerometer{
 		xAxis.addUpdateListener(model);
 		yAxis.addUpdateListener(model);
 		temp.addUpdateListener(model);
-	}
-
-	/**
-	 * 
-	 * Create a new Accelerometer
-	 * 
-	 * @param xAxis
-	 * @param yAxis
-	 * @param temp
-	 */
-	public Memsic2125(String xAxis, String yAxis, String temp) {
-		this(Robot.getInstance().getFactory().getObject(DutyCycleInput.class, xAxis),
-				Robot.getInstance().getFactory().getObject(DutyCycleInput.class, yAxis),
-				Robot.getInstance().getFactory().getObject(AnalogVoltageInput.class, temp));
 	}
 	
 	

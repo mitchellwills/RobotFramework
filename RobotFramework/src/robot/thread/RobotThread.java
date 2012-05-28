@@ -1,6 +1,5 @@
 package robot.thread;
 
-import robot.Robot;
 
 
 /**
@@ -13,10 +12,11 @@ public abstract class RobotThread implements Runnable{
 	private Thread thread;
 	/**
 	 * Create a new thread for a given robot
+	 * @param threadFactory 
 	 * @param name the name of the thread
 	 */
-	public RobotThread(String name){
-		thread = Robot.getInstance().getThreadManager().newThread(this, name);
+	public RobotThread(RobotThreadFactory threadFactory, String name){
+		thread = threadFactory.newThread(this, name);
 	}
 	/**
 	 * start the thread

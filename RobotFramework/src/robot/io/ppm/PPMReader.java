@@ -1,7 +1,6 @@
 package robot.io.ppm;
 
-import robot.io.Input;
-import robot.io.UpdatableObject;
+import robot.io.*;
 
 /**
  * @author Mitchell

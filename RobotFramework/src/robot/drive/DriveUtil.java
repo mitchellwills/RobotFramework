@@ -1,6 +1,6 @@
 package robot.drive;
 
-import robot.util.RobotUtil;
+import robot.util.*;
 
 /**
  * A collection of utility functions to assist with driving

@@ -1,7 +1,7 @@
 package robot.drive;
 
-import robot.io.speedcontroller.SpeedController;
-import robot.math.LinearVector;
+import robot.io.speedcontroller.*;
+import robot.math.*;
 
 /**
  * A simple mecanum drive system that has 4 wheels

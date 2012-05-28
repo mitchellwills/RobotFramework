@@ -1,7 +1,7 @@
 package robot.io.joystick;
 
-import robot.io.UpdatableObject;
-import robot.io.value.InputValue;
+import robot.io.*;
+import robot.io.value.*;
 
 /**
  * @author Mitchell
@@ -10,10 +10,8 @@ import robot.io.value.InputValue;
  *
  */
 public interface JoystickAxis extends InputValue, UpdatableObject{
-	/**
-	 * @return the name of the axis
-	 */
-	public String getName();
+	String PARAM_ID = "id";
+
 	/**
 	 * @return the current value of a joystick
 	 */

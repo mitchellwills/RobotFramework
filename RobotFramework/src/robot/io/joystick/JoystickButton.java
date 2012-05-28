@@ -1,7 +1,7 @@
 package robot.io.joystick;
 
-import robot.io.UpdatableObject;
-import robot.io.binary.BinaryInput;
+import robot.io.*;
+import robot.io.binary.*;
 
 /**
  * @author Mitchell
@@ -10,10 +10,9 @@ import robot.io.binary.BinaryInput;
  *
  */
 public interface JoystickButton extends BinaryInput, UpdatableObject{
-	/**
-	 * @return the name of the button
-	 */
-	public String getName();
+	
+	String PARAM_ID = "id";
+	
 	/**
 	 * @return true if the button is pressed
 	 */

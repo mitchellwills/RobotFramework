@@ -1,22 +1,18 @@
 package robot.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
-import java.io.StringReader;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.*;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 
-@SuppressWarnings("javadoc")
 @RunWith(JUnit4.class)
 public class XMLUtilTest {
 	@SuppressWarnings("unused")

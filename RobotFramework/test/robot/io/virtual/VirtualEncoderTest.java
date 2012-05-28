@@ -1,0 +1,104 @@
+package robot.io.virtual;
+
+import static org.junit.Assert.*;
+
+import java.util.*;
+
+import org.jmock.*;
+import org.jmock.integration.junit4.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import org.junit.runners.Parameterized.Parameters;
+
+import robot.io.*;
+import robot.math.*;
+
+@RunWith(Parameterized.class)
+public class VirtualEncoderTest {
+	@Rule
+	public JUnitRuleMockery context = new JUnitRuleMockery();
+
+	@After
+	public void mockeryCheck() {
+		context.assertIsSatisfied();
+	}
+
+	@Parameters public static Collection<Object[]> data() {
+		Object[][] data = new Object[][] {
+				{ new int[] {1, 4, 3} },
+				{ new int[] {2} },
+				{ new int[] {8, 3, 1, 6, 10} } };
+		return Arrays.asList(data);
+	}
+
+	private final int[] values;
+	public VirtualEncoderTest(int[] values) {
+		this.values = values;
+	}
+	
+	private VirtualEncoder input;
+	private RobotObjectListener listener;
+	@Before public void setup(){
+		input = new VirtualEncoder();
+		listener = context.mock(RobotObjectListener.class);
+		input.addUpdateListener(listener);
+	}
+
+	@Test public void testSet() {
+		context.checking(new Expectations() {
+			{
+				exactly(values.length).of(listener).objectUpdated(input);
+			}
+		});
+
+		for(int i = 0; i<values.length; ++i){
+			input.setPosition(values[i]);
+			assertEquals(values[i], input.getPosition());
+			assertEquals(values[i], input.getValue(), 0);
+		}
+	}
+	
+	@Test public void testIncrementDecrement() {
+		context.checking(new Expectations() {
+			{
+				exactly(MathUtil.sum(values)*2-values[0]+1).of(listener).objectUpdated(input);
+			}
+		});
+
+		input.setPosition(values[0]);
+		int value = values[0];
+		for(int i = 1; i<values.length; ++i){
+			for(int j = 0; j<values[i]; ++j){
+				input.increment();
+				++value;
+				assertEquals(value, input.getPosition());
+				assertEquals(value, input.getValue(), 0);
+			}
+		}
+		for(int i = 0; i<values.length; ++i){
+			for(int j = 0; j<values[i]; ++j){
+				input.decrement();
+				--value;
+				assertEquals(value, input.getPosition());
+				assertEquals(value, input.getValue(), 0);
+			}
+		}
+	}
+	
+	@Test public void testRemoveListener() {
+		if(values.length==0)
+			return;
+		
+		context.checking(new Expectations() {
+			{
+				oneOf(listener).objectUpdated(input);
+			}
+		});
+		
+		input.setPosition(values[0]);
+		
+		input.removeUpdateListener(listener);
+		input.setPosition(0);
+	}
+}

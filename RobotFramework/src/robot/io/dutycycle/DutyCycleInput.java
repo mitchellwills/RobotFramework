@@ -1,7 +1,7 @@
 package robot.io.dutycycle;
 
-import robot.io.UpdatableObject;
-import robot.io.value.InputValue;
+import robot.io.*;
+import robot.io.value.*;
 
 /**
  * @author Mitchell

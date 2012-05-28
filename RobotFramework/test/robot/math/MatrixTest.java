@@ -1,13 +1,11 @@
 package robot.math;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
-@SuppressWarnings("javadoc")
 @RunWith(JUnit4.class)
 public class MatrixTest {
 	@Test
@@ -141,5 +139,15 @@ public class MatrixTest {
 		for(int r = 0; r<matrix1.getNumRows(); ++r)
 			for(int c = 0; c<matrix1.getNumCols(); ++c)
 				assertEquals((r+c)*r+c + r+c, matrix1.get(r, c), 0);
+	}
+	
+	@Test
+	public void testToString(){
+		Matrix matrix = new Matrix(5, 4);
+		for(int r = 0; r<matrix.getNumRows(); ++r)
+			for(int c = 0; c<matrix.getNumCols(); ++c)
+				matrix.set(r, c, (r+c)*r+c);
+		assertEquals("[[0.0, 1.0, 2.0, 3.0], [1.0, 3.0, 5.0, 7.0], [4.0, 7.0, 10.0, 13.0], [9.0, 13.0, 17.0, 21.0], [16.0, 21.0, 26.0, 31.0]]",
+				matrix.toString());
 	}
 }

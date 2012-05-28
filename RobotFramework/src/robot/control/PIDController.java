@@ -1,10 +1,8 @@
 package robot.control;
 
-import robot.Robot;
-import robot.io.value.InputValue;
-import robot.io.value.OutputValue;
-import robot.thread.PeriodicRobotThread;
-import robot.util.RobotUtil;
+import robot.io.value.*;
+import robot.thread.*;
+import robot.util.*;
 
 /**
  * @author Mitchell
@@ -34,62 +32,17 @@ public class PIDController implements ControlLoop{
 	private final PIDControllerThread updateThread;
 	
 
-	/**
-	 * @param Kp
-	 * @param Ki
-	 * @param Kd
-	 * @param input
-	 * @param output
-	 * @param minOutput 
-	 * @param maxOutput 
-	 */
-	public PIDController(double Kp, double Ki, double Kd, InputValue input,
+	public PIDController(RobotThreadFactory threadFactory, double Kp, double Ki, double Kd, InputValue input,
 			OutputValue output, double minOutput, double maxOutput) {
-		this(Kp, Ki, Kd, input, output, minOutput, maxOutput, 20);
+		this(threadFactory, Kp, Ki, Kd, input, output, minOutput, maxOutput, 20);
 	}
-	/**
-	 * @param Kp
-	 * @param Ki
-	 * @param Kd
-	 * @param input
-	 * @param output
-	 * @param minOutput 
-	 * @param maxOutput 
-	 * @param updateDelay the delay between updates of the PID loop
-	 */
-	public PIDController(double Kp, double Ki, double Kd, InputValue input,
+
+	public PIDController(RobotThreadFactory threadFactory, double Kp, double Ki, double Kd, InputValue input,
 			OutputValue output, double minOutput, double maxOutput, long updateDelay) {
-		this(Kp, Ki, Kd, input, output, minOutput, maxOutput, 0, updateDelay);
+		this(threadFactory, Kp, Ki, Kd, input, output, minOutput, maxOutput, 0, updateDelay);
 	}
 	
-
-	/**
-	 * @param Kp
-	 * @param Ki
-	 * @param Kd
-	 * @param inputLocation
-	 * @param outputLocation
-	 * @param minOutput
-	 * @param maxOutput
-	 * @param threshold
-	 * @param updateDelay
-	 */
-	public PIDController(double Kp, double Ki, double Kd, String inputLocation,
-			String outputLocation, double minOutput, double maxOutput, double threshold, long updateDelay) {
-		this(Kp, Ki, Kd, (InputValue)Robot.getInstance().getObject(inputLocation), (OutputValue)Robot.getInstance().getObject(outputLocation), minOutput, maxOutput, threshold, updateDelay);
-	}
-	/**
-	 * @param Kp
-	 * @param Ki
-	 * @param Kd
-	 * @param input
-	 * @param output
-	 * @param minOutput 
-	 * @param maxOutput 
-	 * @param threshold 
-	 * @param updateDelay the delay between updates of the PID loop
-	 */
-	public PIDController(double Kp, double Ki, double Kd, InputValue input,
+	public PIDController(RobotThreadFactory threadFactory, double Kp, double Ki, double Kd, InputValue input,
 			OutputValue output, double minOutput, double maxOutput, double threshold, long updateDelay) {
 		this.Kp = Kp;
 		this.Ki = Ki;
@@ -105,7 +58,7 @@ public class PIDController implements ControlLoop{
 		integral = 0;
 		previousError = 0;
 		
-		updateThread = new PIDControllerThread(updateDelay);
+		updateThread = new PIDControllerThread(threadFactory, updateDelay);
 		updateThread.start();
 	}
 	
@@ -150,8 +103,8 @@ public class PIDController implements ControlLoop{
 
 	
 	private class PIDControllerThread extends PeriodicRobotThread {
-		public PIDControllerThread(long updateDelay) {
-			super("PID Controller ("+PIDController.this.toString()+")", updateDelay);
+		public PIDControllerThread(RobotThreadFactory threadFactory, long updateDelay) {
+			super(threadFactory, "PID Controller ("+PIDController.this.toString()+")", updateDelay);
 		}
 
 		@Override

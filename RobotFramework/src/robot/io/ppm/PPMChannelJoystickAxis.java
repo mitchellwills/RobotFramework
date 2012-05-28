@@ -1,8 +1,8 @@
 package robot.io.ppm;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.joystick.JoystickAxis;
+import robot.*;
+import robot.io.*;
+import robot.io.joystick.*;
 
 /**
  * A Joystick Axis that maps a channel from a ppm reader to an axis value
@@ -10,13 +10,14 @@ import robot.io.joystick.JoystickAxis;
  * @author Mitchell
  *
  */
-public class PPMChannelJoystickAxis implements JoystickAxis{
+public class PPMChannelJoystickAxis implements JoystickAxis, Nameable{
 
 	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 	@Override
 	public void addUpdateListener(RobotObjectListener listener) {
 		model.addUpdateListener(listener);
 	}
+	
 	@Override
 	public void removeUpdateListener(RobotObjectListener listener) {
 		model.removeUpdateListener(listener);

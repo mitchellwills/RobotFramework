@@ -1,6 +1,6 @@
 package robot.math;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * @author Mitchell

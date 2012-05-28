@@ -1,7 +1,6 @@
 package robot.io.joystick;
 
-import robot.io.Input;
-import robot.io.UpdatableObject;
+import robot.io.*;
 
 /**
  * @author Mitchell
@@ -10,10 +9,9 @@ import robot.io.UpdatableObject;
  *
  */
 public interface JoystickDirectional extends Input, UpdatableObject{
-	/**
-	 * @return the name of the directional
-	 */
-	public String getName();
+	
+	String PARAM_ID = "id";
+	
 	/**
 	 * @return the angle the directional is at
 	 */
