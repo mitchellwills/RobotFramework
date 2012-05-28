@@ -3,38 +3,40 @@ package robot.io.virtual;
 import static org.junit.Assert.*;
 
 import org.jmock.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
 
 import robot.io.*;
-import robot.math.*;
 import test.*;
 import test.RobotTestRunner.DefaultTestParameter;
 import test.RobotTestRunner.ParamTest;
 import test.RobotTestRunner.TestParameter;
 
 @RunWith(RobotTestRunner.class)
-public class VirtualCounterTest {
+public class VirtualPWMTest {
 	public final Mockery context = new Mockery();
 
 	@DefaultTestParameter
 	@TestParameter
-	public static final Object[] test1 = { new int[] {1, 4, 3} };
+	public static final Object[] test1 = { 90, new double[] {80, 30} };
 	@TestParameter
-	public static final Object[] test2 = { new int[] {2} };
+	public static final Object[] test2 = { 80, new double[] {70} };
 	@TestParameter
-	public static final Object[] test3 = { new int[] {8, 3, 1, 6, 10} };
+	public static final Object[] test3 = { 200, new double[] {90, 100, 140, 120.4} };
 
-	private final int[] values;
-	public VirtualCounterTest(int[] values) {
+
+	private final double[] values;
+	private final double frequency;
+	public VirtualPWMTest(double frequency, double[] values) {
+		this.frequency = frequency;
 		this.values = values;
 	}
 	
-	private VirtualCounter input;
-	private RobotObjectListener listener;
+	private VirtualPWMOutput input;
+	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
-		input = new VirtualCounter();
-		listener = context.mock(RobotObjectListener.class);
+		input = new VirtualPWMOutput(frequency);
 		input.addUpdateListener(listener);
 	}
 
@@ -46,37 +48,35 @@ public class VirtualCounterTest {
 		});
 
 		for(int i = 0; i<values.length; ++i){
-			input.setCount(values[i]);
-			assertEquals(values[i], input.getCount());
+			input.set(values[i]);
+			assertEquals(values[i], input.get(), 0);
 			assertEquals(values[i], input.getValue(), 0);
 		}
 	}
-	
-	@ParamTest public void testIncrementDecrement() {
+
+	@ParamTest public void testFrequency() {
 		context.checking(new Expectations() {
 			{
-				exactly(MathUtil.sum(values)*2-values[0]+1).of(listener).objectUpdated(input);
+				never(listener).objectUpdated(input);
 			}
 		});
 
-		input.setCount(values[0]);
-		int value = values[0];
-		for(int i = 1; i<values.length; ++i){
-			for(int j = 0; j<values[i]; ++j){
-				input.increment();
-				++value;
-				assertEquals(value, input.getCount());
-				assertEquals(value, input.getValue(), 0);
+		assertEquals(frequency, input.getFrequency(), 0);
+	}
+	
+	@ParamTest public void testSetValue() {
+		context.checking(new Expectations() {
+			{
+				exactly(values.length).of(listener).objectUpdated(input);
 			}
-		}
+		});
+
 		for(int i = 0; i<values.length; ++i){
-			for(int j = 0; j<values[i]; ++j){
-				input.decrement();
-				--value;
-				assertEquals(value, input.getCount());
-				assertEquals(value, input.getValue(), 0);
-			}
+			input.setValue(values[i]);
+			assertEquals(values[i], input.get(), 0);
+			assertEquals(values[i], input.getValue(), 0);
 		}
+
 	}
 	
 	@Test public void testRemoveListener() {
@@ -89,9 +89,9 @@ public class VirtualCounterTest {
 			}
 		});
 		
-		input.setCount(values[0]);
+		input.set(values[0]);
 		
 		input.removeUpdateListener(listener);
-		input.setCount(0);
+		input.set(0);
 	}
 }

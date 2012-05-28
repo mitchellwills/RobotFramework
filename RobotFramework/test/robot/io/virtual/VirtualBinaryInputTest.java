@@ -2,34 +2,28 @@ package robot.io.virtual;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
-
 import org.jmock.*;
-import org.jmock.integration.junit4.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
 
 import robot.io.*;
+import test.*;
+import test.RobotTestRunner.ParamTest;
+import test.RobotTestRunner.TestParameter;
 
-@RunWith(Parameterized.class)
+@RunWith(RobotTestRunner.class)
 public class VirtualBinaryInputTest {
-	@Rule
-	public JUnitRuleMockery context = new JUnitRuleMockery();
+	public final Mockery context = new Mockery();
 
-	@After
-	public void mockeryCheck() {
-		context.assertIsSatisfied();
-	}
-
-	@Parameters public static Collection<Object[]> data() {
-		Object[][] data = new Object[][] {
-				{ new boolean[] {true}, new double[] {1} },
-				{ new boolean[] {true, false}, new double[] {1, 0} },
-				{ new boolean[] {false, true, false, true, true}, new double[] {0, 1, 0, 1, 1} } };
-		return Arrays.asList(data);
-	}
+	
+	@TestParameter
+	public static final Object[] test1 = { new boolean[] {true}, new double[] {1} };
+	@TestParameter
+	public static final Object[] test2 = { new boolean[] {true, false}, new double[] {1, 0} };
+	@TestParameter
+	public static final Object[] test3 = { new boolean[] {false, true, false, true, true}, new double[] {0, 1, 0, 1, 1} };
+	
 
 	private final boolean[] values;
 	private final double[] doubleValues;
@@ -39,14 +33,13 @@ public class VirtualBinaryInputTest {
 	}
 	
 	private VirtualBinaryInput input;
-	private RobotObjectListener listener;
+	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
 		input = new VirtualBinaryInput();
-		listener = context.mock(RobotObjectListener.class);
 		input.addUpdateListener(listener);
 	}
 
-	@Test public void testGet() {
+	@ParamTest public void testGet() {
 		context.checking(new Expectations() {
 			{
 				exactly(values.length).of(listener).objectUpdated(input);
@@ -61,7 +54,7 @@ public class VirtualBinaryInputTest {
 
 	}
 	
-	@Test public void testRemoveListener() {
+	@ParamTest public void testRemoveListener() {
 		if(values.length==0)
 			return;
 		

@@ -2,35 +2,29 @@ package robot.io.virtual;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
-
 import org.jmock.*;
-import org.jmock.integration.junit4.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
 
 import robot.error.*;
 import robot.io.*;
+import test.*;
+import test.RobotTestRunner.DefaultTestParameter;
+import test.RobotTestRunner.ParamTest;
+import test.RobotTestRunner.TestParameter;
 
-@RunWith(Parameterized.class)
+@RunWith(RobotTestRunner.class)
 public class VirtualGyroTest {
-	@Rule
-	public JUnitRuleMockery context = new JUnitRuleMockery();
+	public final Mockery context = new Mockery();
 
-	@After
-	public void mockeryCheck() {
-		context.assertIsSatisfied();
-	}
-
-	@Parameters public static Collection<Object[]> data() {
-		Object[][] data = new Object[][] {
-				{ new double[] {1.0} },
-				{ new double[] {1, -4.3} },
-				{ new double[] {8, -3.2, -1, 6.2} } };
-		return Arrays.asList(data);
-	}
+	@DefaultTestParameter
+	@TestParameter
+	public static final Object[] test1 = {new double[] {1.0}};
+	@TestParameter
+	public static final Object[] test2 = {new double[] {1, -4.3}};
+	@TestParameter
+	public static final Object[] test3 = {new double[] {8, -3.2, -1, 6.2}};
 
 	private final double[] values;
 	public VirtualGyroTest(double[] values) {
@@ -38,14 +32,13 @@ public class VirtualGyroTest {
 	}
 	
 	private VirtualGyro input;
-	private RobotObjectListener listener;
+	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
 		input = new VirtualGyro(values.length);
-		listener = context.mock(RobotObjectListener.class);
 		input.addUpdateListener(listener);
 	}
 	
-	@Test public void testNumAxes() {
+	@ParamTest public void testNumAxes() {
 		context.checking(new Expectations() {
 			{
 				never(listener).objectUpdated(input);
@@ -54,7 +47,7 @@ public class VirtualGyroTest {
 		assertEquals(values.length, input.getNumGyroAxes());
 	}
 
-	@Test public void testSet() {
+	@ParamTest public void testSet() {
 		context.checking(new Expectations() {
 			{
 				exactly(values.length).of(listener).objectUpdated(input);
@@ -87,7 +80,7 @@ public class VirtualGyroTest {
 	}
 	
 	
-	@Test public void testOutOfBounds(){
+	@ParamTest public void testOutOfBounds(){
 		context.checking(new Expectations() {
 			{
 				never(listener).objectUpdated(input);

@@ -5,7 +5,6 @@ import robot.io.*;
 import robot.io.accelerometer.*;
 import robot.io.analog.*;
 import robot.io.dutycycle.*;
-import robot.io.factory.old.*;
 
 /**
  * @author Mitchell
@@ -38,7 +37,6 @@ public class Memsic2125 implements Accelerometer{
 	 * @param yAxis
 	 * @param temp
 	 */
-	@FactoryConstructable
 	public Memsic2125(DutyCycleInput xAxis, DutyCycleInput yAxis, AnalogVoltageInput temp){
 		this.xAxis = xAxis;
 		this.yAxis = yAxis;

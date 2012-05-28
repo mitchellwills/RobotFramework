@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
 
-@RunWith(JUnit4.class)
+import test.*;
+
+@RunWith(RobotTestRunner.class)
 public class RingBufferTest {
+	//TODO make param test
 	@Test
 	public void testSumAverage(){
 		RingBuffer buffer = new RingBuffer(5);

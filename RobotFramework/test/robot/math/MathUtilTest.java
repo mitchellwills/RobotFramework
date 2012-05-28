@@ -2,14 +2,13 @@ package robot.math;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
-
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(Parameterized.class)
+import test.*;
+import test.RobotTestRunner.*;
+
+@RunWith(RobotTestRunner.class)
 public class MathUtilTest {
 
 	@SuppressWarnings("unused")
@@ -18,14 +17,16 @@ public class MathUtilTest {
 		new MathUtil();
 	}
 	
-	@Parameters public static Collection<Object[]> data() {
-		Object[][] data = new Object[][] {
-				{ 0, new int[] {} },
-				{ 75, new int[] {10, 20, 45} },
-				{ 28, new int[] {28} },
-				{ -2, new int[] {2, -1, 7, -10} } };
-		return Arrays.asList(data);
-	}
+	@DefaultTestParameter
+	@TestParameter
+	public static final Object[] test1 = {0, new int[] {}};
+	@TestParameter
+	public static final Object[] test2 = {75, new int[] {10, 20, 45}};
+	@TestParameter
+	public static final Object[] test3 = {28, new int[] {28}};
+	@TestParameter
+	public static final Object[] test4 = {-2, new int[] {2, -1, 7, -10}};
+	
 	
 	private final int sum;
 	private final int[] array;
@@ -34,7 +35,7 @@ public class MathUtilTest {
 		this.array = array;
 	}
 
-	@Test
+	@ParamTest
 	public void testSum() {
 		assertEquals(sum, MathUtil.sum(array));
 	}

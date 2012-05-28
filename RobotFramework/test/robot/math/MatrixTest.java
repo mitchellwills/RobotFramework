@@ -4,9 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
 
-@RunWith(JUnit4.class)
+import test.*;
+
+@RunWith(RobotTestRunner.class)
 public class MatrixTest {
 	@Test
 	public void testConstructor(){

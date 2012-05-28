@@ -3,6 +3,7 @@ package robot.io.virtual;
 import static org.junit.Assert.*;
 
 import org.jmock.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -13,27 +14,26 @@ import test.RobotTestRunner.ParamTest;
 import test.RobotTestRunner.TestParameter;
 
 @RunWith(RobotTestRunner.class)
-public class VirtualFrequencyTest {
+public class VirtualServoTest {
 	public final Mockery context = new Mockery();
 
 	@DefaultTestParameter
 	@TestParameter
-	public static final Object[] test1 = { new long[] {1, 4, 3} };
+	public static final Object[] test1 = {new double[] {1.0}};
 	@TestParameter
-	public static final Object[] test2 = { new long[] {1} };
+	public static final Object[] test2 = {new double[] {1, -4.3}};
 	@TestParameter
-	public static final Object[] test3 = { new long[] {8, 3, 1, 6, 10} };
+	public static final Object[] test3 = {new double[] {8, -3.2, -1, 6.2}};
 
-	private final long[] values;
-	public VirtualFrequencyTest(long[] values) {
+	private final double[] values;
+	public VirtualServoTest(double[] values) {
 		this.values = values;
 	}
 	
-	private VirtualFrequencyInput input;
-	private RobotObjectListener listener;
+	private VirtualSpeedController input;
+	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
-		input = new VirtualFrequencyInput();
-		listener = context.mock(RobotObjectListener.class);
+		input = new VirtualSpeedController();
 		input.addUpdateListener(listener);
 	}
 
@@ -45,8 +45,22 @@ public class VirtualFrequencyTest {
 		});
 
 		for(int i = 0; i<values.length; ++i){
-			input.setFrequency(values[i]);
-			assertEquals(values[i], input.getFrequency(), 0);
+			input.set(values[i]);
+			assertEquals(values[i], input.get(), 0);
+			assertEquals(values[i], input.getValue(), 0);
+		}
+
+	}
+	@ParamTest public void testSetValue() {
+		context.checking(new Expectations() {
+			{
+				exactly(values.length).of(listener).objectUpdated(input);
+			}
+		});
+
+		for(int i = 0; i<values.length; ++i){
+			input.setValue(values[i]);
+			assertEquals(values[i], input.get(), 0);
 			assertEquals(values[i], input.getValue(), 0);
 		}
 
@@ -62,9 +76,9 @@ public class VirtualFrequencyTest {
 			}
 		});
 		
-		input.setFrequency(values[0]);
+		input.set(values[0]);
 		
 		input.removeUpdateListener(listener);
-		input.setFrequency(0);
+		input.set(0);
 	}
 }

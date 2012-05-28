@@ -1,17 +1,10 @@
 package robot.io.vex;
 
-import robot.error.RobotInitializationException;
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObject;
-import robot.io.RobotObjectListener;
-import robot.io.factory.old.*;
-import robot.io.joystick.Joystick;
-import robot.io.joystick.JoystickAxis;
-import robot.io.joystick.JoystickAxisDirectional;
-import robot.io.joystick.JoystickButton;
-import robot.io.joystick.JoystickDirectional;
-import robot.io.ppm.PPMChannelJoystickAxis;
-import robot.io.ppm.PPMReader;
+import robot.*;
+import robot.error.*;
+import robot.io.*;
+import robot.io.joystick.*;
+import robot.io.ppm.*;
 
 /**
  * 
@@ -21,7 +14,7 @@ import robot.io.ppm.PPMReader;
  * @author Mitchell
  *
  */
-public class VexTransmitter implements Joystick{
+public class VexTransmitter implements Joystick, Nameable{
 	private static final long AXIS_MIN = 500;
 	private static final long AXIS_MAX = 1500;
 	private static final long BUTTON_CENTER = 1000;
@@ -46,8 +39,7 @@ public class VexTransmitter implements Joystick{
 	/**
 	 * @param reader the reader that reads the input from the transmitter
 	 */
-	@FactoryConstructable
-	public VexTransmitter(@FactoryParameter(RobotObject.PARAM_LOCATION) PPMReader reader) {
+	public VexTransmitter(PPMReader reader) {
 		if(reader.getChannelCount()!=6)
 			throw new RobotInitializationException("A Vex Transmitter must take a PPM reader with 6 channels");
 		this.reader = reader;
@@ -81,7 +73,7 @@ public class VexTransmitter implements Joystick{
 		return 4;
 	}
 	
-	private static class VexTransmitterButton implements JoystickButton{
+	private static class VexTransmitterButton implements JoystickButton, Nameable{
 
 		private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 		@Override

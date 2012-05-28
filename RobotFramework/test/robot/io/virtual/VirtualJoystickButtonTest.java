@@ -14,36 +14,54 @@ import test.RobotTestRunner.ParamTest;
 import test.RobotTestRunner.TestParameter;
 
 @RunWith(RobotTestRunner.class)
-public class VirtualBinaryOutputTest {
+public class VirtualJoystickButtonTest {
 	public final Mockery context = new Mockery();
 
 	@DefaultTestParameter
 	@TestParameter
-	public static final Object[] test1 = { new boolean[] {true}, new double[] {1}, new double[] {3.7} };
+	public static final Object[] test1 = { 0, new boolean[] {true}, new double[] {1} };
 	@TestParameter
-	public static final Object[] test2 = { new boolean[] {true, false}, new double[] {1, 0}, new double[] {4.2, 0} };
+	public static final Object[] test2 = { 10, new boolean[] {true, false}, new double[] {1, 0} };
 	@TestParameter
-	public static final Object[] test3 = { new boolean[] {false, true, false, true, true},
-					new double[] {0, 1, 0, 1, 1},
-					new double[] {0, 3.2, 0, 4.2, -4} };
+	public static final Object[] test3 = { 1, new boolean[] {false, true, false, true, true}, new double[] {0, 1, 0, 1, 1} };
 
+	private final int id;
 	private final boolean[] values;
 	private final double[] doubleValues;
-	private final double[] otherDoubleValues;
-	public VirtualBinaryOutputTest(boolean[] values, double[] doubleValues, double[] otherDoubleValues) {
+	public VirtualJoystickButtonTest(int id, boolean[] values, double[] doubleValues) {
+		this.id = id;
 		this.values = values;
 		this.doubleValues = doubleValues;
-		this.otherDoubleValues = otherDoubleValues;
 	}
 	
-	private VirtualBinaryOutput input;
+	private VirtualJoystickButton input;
 	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
-		input = new VirtualBinaryOutput();
+		input = new VirtualJoystickButton(id);
 		input.addUpdateListener(listener);
 	}
+	
+	@Test public void test0Arg() {
+		context.checking(new Expectations() {
+			{
+				never(listener).objectUpdated(input);
+			}
+		});
+		VirtualJoystickButton input0 = new VirtualJoystickButton();
+		assertEquals(0, input0.getId());
+	}
 
-	@ParamTest public void testSet() {
+	@ParamTest public void testId() {
+		context.checking(new Expectations() {
+			{
+				never(listener).objectUpdated(input);
+			}
+		});
+
+		assertEquals(id, input.getId());
+	}
+	
+	@ParamTest public void testGet() {
 		context.checking(new Expectations() {
 			{
 				exactly(values.length).of(listener).objectUpdated(input);
@@ -55,19 +73,7 @@ public class VirtualBinaryOutputTest {
 			assertEquals(values[i], input.get());
 			assertEquals(doubleValues[i], input.getValue(), 0);
 		}
-	}
-	@ParamTest public void testSetValue() {
-		context.checking(new Expectations() {
-			{
-				exactly(values.length).of(listener).objectUpdated(input);
-			}
-		});
 
-		for(int i = 0; i<values.length; ++i){
-			input.setValue(otherDoubleValues[i]);
-			assertEquals(values[i], input.get());
-			assertEquals(doubleValues[i], input.getValue(), 0);
-		}
 	}
 	
 	@Test public void testRemoveListener() {

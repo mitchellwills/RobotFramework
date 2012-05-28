@@ -3,39 +3,38 @@ package robot.io;
 import java.util.*;
 
 import org.jmock.*;
-import org.jmock.integration.junit4.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(Parameterized.class)
+import test.*;
+import test.RobotTestRunner.ParamTest;
+import test.RobotTestRunner.TestParameter;
+
+@RunWith(RobotTestRunner.class)
 public class ForwardingRobotObjectModelTest {
-	@Rule
-	public JUnitRuleMockery context = new JUnitRuleMockery();
+	public final Mockery context = new Mockery();
 
-	@After
-	public void mockeryCheck() {
-		context.assertIsSatisfied();
-	}
+	
+	@TestParameter
+	public static final Object[] test1 = {1};
+	@TestParameter
+	public static final Object[] test2 = {3};
+	@TestParameter
+	public static final Object[] test3 = {12};
 
-	@Parameters public static Collection<Object[]> data() {
-		Object[][] data = new Object[][] { { 1 }, { 3 }, { 12 } };
-		return Arrays.asList(data);
-	}
-
+	
 	private final int numListeners;
 	public ForwardingRobotObjectModelTest(int numListeners) {
 		this.numListeners = numListeners;
 	}
 	
 	private ForwardingRobotObjectModel model;
-	private RobotObject mockRobotObject;
-	private RobotObject innerMockRobotObject;
+	@Mock private RobotObject mockRobotObject;
+	@Mock private RobotObject innerMockRobotObject;
 	private Set<RobotObjectListener> listeners = new HashSet<RobotObjectListener>();
 	@Before public void setup(){
-		innerMockRobotObject = context.mock(RobotObject.class, "InnerRobotObject");
-		model = new ForwardingRobotObjectModel(mockRobotObject = context.mock(RobotObject.class));
+		model = new ForwardingRobotObjectModel(mockRobotObject);
 		for(int i = 0; i<numListeners; ++i){
 			RobotObjectListener listener = context.mock(RobotObjectListener.class, "RobotObjectListener"+i);
 			listeners.add(listener);
@@ -43,7 +42,7 @@ public class ForwardingRobotObjectModelTest {
 		}
 	}
 	
-	@Test public void testUpdateEvent() {
+	@ParamTest public void testUpdateEvent() {
 		for(final RobotObjectListener listener:listeners){
 			context.checking(new Expectations() {
 				{

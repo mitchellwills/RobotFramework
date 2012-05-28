@@ -2,36 +2,30 @@ package robot.io.virtual;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
-
 import org.jmock.*;
-import org.jmock.integration.junit4.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
 
 import robot.error.*;
 import robot.io.*;
 import robot.io.ppm.*;
+import test.*;
+import test.RobotTestRunner.DefaultTestParameter;
+import test.RobotTestRunner.ParamTest;
+import test.RobotTestRunner.TestParameter;
 
-@RunWith(Parameterized.class)
+@RunWith(RobotTestRunner.class)
 public class VirtualPPMReaderTest {
-	@Rule
-	public JUnitRuleMockery context = new JUnitRuleMockery();
+	public final Mockery context = new Mockery();
 
-	@After
-	public void mockeryCheck() {
-		context.assertIsSatisfied();
-	}
-
-	@Parameters public static Collection<Object[]> data() {
-		Object[][] data = new Object[][] {
-				{ new long[] {500} },
-				{ new long[] {1000, 1500} },
-				{ new long[] {1000, 3000, 2500, 1500, 1850} } };
-		return Arrays.asList(data);
-	}
+	@DefaultTestParameter
+	@TestParameter
+	public static final Object[] test1 = { new long[] {500} };
+	@TestParameter
+	public static final Object[] test2 = { new long[] {1000, 1500} };
+	@TestParameter
+	public static final Object[] test3 = { new long[] {1000, 3000, 2500, 1500, 1850} };
 
 	private final long[] values;
 	public VirtualPPMReaderTest(long[] values) {
@@ -39,14 +33,13 @@ public class VirtualPPMReaderTest {
 	}
 	
 	private VirtualPPMReader input;
-	private RobotObjectListener listener;
+	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
 		input = new VirtualPPMReader(values.length);
-		listener = context.mock(RobotObjectListener.class);
 		input.addUpdateListener(listener);
 	}
 	
-	@Test public void testNumAxes() {
+	@ParamTest public void testNumAxes() {
 		context.checking(new Expectations() {
 			{
 				never(listener).objectUpdated(input);
@@ -55,7 +48,7 @@ public class VirtualPPMReaderTest {
 		assertEquals(values.length, input.getChannelCount());
 	}
 
-	@Test public void testSet() {
+	@ParamTest public void testSet() {
 		context.checking(new Expectations() {
 			{
 				exactly(values.length).of(listener).objectUpdated(input);
@@ -68,7 +61,7 @@ public class VirtualPPMReaderTest {
 			assertEquals(values[i], input.getChannel(i));
 
 	}
-	@Test public void testInitialState() {
+	@ParamTest public void testInitialState() {
 		for(int i = 0; i<values.length; ++i)
 			assertEquals(PPMReader.INVALID_VALUE, input.getChannel(i));
 	}
@@ -91,7 +84,7 @@ public class VirtualPPMReaderTest {
 	}
 	
 	
-	@Test public void testOutOfBounds(){
+	@ParamTest public void testOutOfBounds(){
 		context.checking(new Expectations() {
 			{
 				never(listener).objectUpdated(input);

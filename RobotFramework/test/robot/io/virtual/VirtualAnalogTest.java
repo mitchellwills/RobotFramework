@@ -2,35 +2,28 @@ package robot.io.virtual;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
-
 import org.jmock.*;
-import org.jmock.integration.junit4.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.*;
-import org.junit.runners.Parameterized.Parameters;
 
 import robot.error.*;
 import robot.io.*;
+import test.*;
+import test.RobotTestRunner.*;
 
-@RunWith(Parameterized.class)
+@RunWith(RobotTestRunner.class)
 public class VirtualAnalogTest {
-	@Rule
-	public JUnitRuleMockery context = new JUnitRuleMockery();
+	public final Mockery context = new Mockery();
+	
+	@DefaultTestParameter
+	@TestParameter
+	public static final Object[] test1 = {5, new double[] {1.0, 4.3}};
+	@TestParameter
+	public static final Object[] test2 = {3, new double[] {1}};
+	@TestParameter
+	public static final Object[] test3 = {12, new double[] {8, 3.2, 1, 6.2, 10}};
 
-	@After
-	public void mockeryCheck() {
-		context.assertIsSatisfied();
-	}
-
-	@Parameters public static Collection<Object[]> data() {
-		Object[][] data = new Object[][] {
-				{ 5, new double[] {1.0, 4.3} },
-				{ 3, new double[] {1} },
-				{ 12, new double[] {8, 3.2, 1, 6.2, 10} } };
-		return Arrays.asList(data);
-	}
 
 	private final double[] values;
 	private final int maxVoltage;
@@ -40,14 +33,13 @@ public class VirtualAnalogTest {
 	}
 	
 	private VirtualAnalogVoltageInput input;
-	private RobotObjectListener listener;
+	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
 		input = new VirtualAnalogVoltageInput(maxVoltage);
-		listener = context.mock(RobotObjectListener.class);
 		input.addUpdateListener(listener);
 	}
 	
-	@Test public void testMaxVoltage() {
+	@ParamTest public void testMaxVoltage() {
 		context.checking(new Expectations() {
 			{
 				never(listener).objectUpdated(input);
@@ -56,7 +48,7 @@ public class VirtualAnalogTest {
 		assertEquals(maxVoltage, input.getMaxVoltage(), 0);
 	}
 
-	@Test public void testSet() {
+	@ParamTest public void testSet() {
 		context.checking(new Expectations() {
 			{
 				exactly(values.length).of(listener).objectUpdated(input);
@@ -71,7 +63,7 @@ public class VirtualAnalogTest {
 
 	}
 	
-	@Test public void testRemoveListener() {
+	@ParamTest public void testRemoveListener() {
 		if(values.length==0)
 			return;
 		

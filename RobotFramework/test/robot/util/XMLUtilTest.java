@@ -15,6 +15,7 @@ import org.xml.sax.*;
 
 @RunWith(JUnit4.class)
 public class XMLUtilTest {
+	
 	@SuppressWarnings("unused")
 	@Test
 	public void testConstructor() {

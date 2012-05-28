@@ -3,38 +3,37 @@ package robot.io.virtual;
 import static org.junit.Assert.*;
 
 import org.jmock.*;
+import org.jmock.auto.*;
 import org.junit.*;
 import org.junit.runner.*;
 
 import robot.io.*;
-import robot.math.*;
 import test.*;
 import test.RobotTestRunner.DefaultTestParameter;
 import test.RobotTestRunner.ParamTest;
 import test.RobotTestRunner.TestParameter;
 
 @RunWith(RobotTestRunner.class)
-public class VirtualEncoderTest {
+public class VirtualMSPWMOutputTest {
 	public final Mockery context = new Mockery();
 
 	@DefaultTestParameter
 	@TestParameter
-	public static final Object[] test1 = { new int[] {1, 4, 3} };
+	public static final Object[] test1 = { new int[] {80, 30} };
 	@TestParameter
-	public static final Object[] test2 = { new int[] {2} };
+	public static final Object[] test2 = { new int[] {70} };
 	@TestParameter
-	public static final Object[] test3 = { new int[] {8, 3, 1, 6, 10} };
+	public static final Object[] test3 = { new int[] {90, 100, 140, 120} };
 
 	private final int[] values;
-	public VirtualEncoderTest(int[] values) {
+	public VirtualMSPWMOutputTest(int[] values) {
 		this.values = values;
 	}
 	
-	private VirtualEncoder input;
-	private RobotObjectListener listener;
+	private VirtualMSPWMOutput input;
+	@Mock private RobotObjectListener listener;
 	@Before public void setup(){
-		input = new VirtualEncoder();
-		listener = context.mock(RobotObjectListener.class);
+		input = new VirtualMSPWMOutput();
 		input.addUpdateListener(listener);
 	}
 
@@ -46,37 +45,25 @@ public class VirtualEncoderTest {
 		});
 
 		for(int i = 0; i<values.length; ++i){
-			input.setPosition(values[i]);
-			assertEquals(values[i], input.getPosition());
+			input.set(values[i]);
+			assertEquals(values[i], input.get());
 			assertEquals(values[i], input.getValue(), 0);
 		}
 	}
 	
-	@ParamTest public void testIncrementDecrement() {
+	@ParamTest public void testSetValue() {
 		context.checking(new Expectations() {
 			{
-				exactly(MathUtil.sum(values)*2-values[0]+1).of(listener).objectUpdated(input);
+				exactly(values.length).of(listener).objectUpdated(input);
 			}
 		});
 
-		input.setPosition(values[0]);
-		int value = values[0];
-		for(int i = 1; i<values.length; ++i){
-			for(int j = 0; j<values[i]; ++j){
-				input.increment();
-				++value;
-				assertEquals(value, input.getPosition());
-				assertEquals(value, input.getValue(), 0);
-			}
-		}
 		for(int i = 0; i<values.length; ++i){
-			for(int j = 0; j<values[i]; ++j){
-				input.decrement();
-				--value;
-				assertEquals(value, input.getPosition());
-				assertEquals(value, input.getValue(), 0);
-			}
+			input.setValue(values[i]);
+			assertEquals(values[i], input.get());
+			assertEquals(values[i], input.getValue(), 0);
 		}
+
 	}
 	
 	@Test public void testRemoveListener() {
@@ -89,9 +76,9 @@ public class VirtualEncoderTest {
 			}
 		});
 		
-		input.setPosition(values[0]);
+		input.set(values[0]);
 		
 		input.removeUpdateListener(listener);
-		input.setPosition(0);
+		input.set(0);
 	}
 }

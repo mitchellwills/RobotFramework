@@ -66,6 +66,7 @@ public class VirtualJoystickDirectional implements JoystickDirectional{
 	 */
 	public void setAngle(final double angle){
 		this.angle = angle;
+		model.fireUpdateEvent();
 	}
 	
 	/**
@@ -74,6 +75,7 @@ public class VirtualJoystickDirectional implements JoystickDirectional{
 	 */
 	public void setMagnitude(final double magnitude){
 		this.magnitude = magnitude;
+		model.fireUpdateEvent();
 	}
 
 }
