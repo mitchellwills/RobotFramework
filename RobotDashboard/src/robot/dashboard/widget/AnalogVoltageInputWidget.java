@@ -1,22 +1,15 @@
 package robot.dashboard.widget;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Hashtable;
+import java.awt.*;
+import java.util.*;
 
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
-import javax.swing.JSlider;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.*;
+import javax.swing.event.*;
 
-import robot.dashboard.Widget;
-import robot.io.RobotObject;
-import robot.io.RobotObjectListener;
-import robot.io.analog.AnalogVoltageInput;
-import robot.io.analog.VirtualAnalogVoltageInput;
+import robot.dashboard.*;
+import robot.io.*;
+import robot.io.analog.*;
+import robot.io.virtual.*;
 
 /**
  * @author Mitchell

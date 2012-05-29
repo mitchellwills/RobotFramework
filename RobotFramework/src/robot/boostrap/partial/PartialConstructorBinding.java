@@ -4,6 +4,7 @@ import java.lang.annotation.*;
 import java.lang.reflect.*;
 import java.util.*;
 
+import robot.*;
 import robot.boostrap.*;
 import robot.error.*;
 
@@ -41,15 +42,12 @@ public class PartialConstructorBinding<T> implements PartialBinding<T> {
 		for(ParameterKey key:keys){
 			if(!paramKeys.remove(key.getName()))
 				return false;
-			Object value = params.get(key);
-			if(value!=null && !key.getType().isAssignableFrom(value.getClass()))
-				return false;
 		}
 		return paramKeys.isEmpty();
 	}
 
 	@Override
-	public T get(final Map<String, Object> params) {
+	public T get(final RobotObjectStore objectStore, final Map<String, Object> params) {
 		if (!matches(params))
 			throw new RobotInitializationException("Parameters do not match");
 
@@ -59,7 +57,18 @@ public class PartialConstructorBinding<T> implements PartialBinding<T> {
 			protected void configure() {
 				Binder binder = binder().withSource(PartialConstructorBinding.this);
 				for(ParameterKey key:keys){
-					binder.bind(key.asKey()).toProvider((Provider) Providers.of(params.get(key.getName())));
+					Object value = params.get(key.getName());
+					if(value instanceof String){
+						Object storedValue = objectStore.getObject((String)value);
+						if(storedValue != null && key.getType().isAssignableFrom(storedValue.getClass()))
+							value = storedValue;
+					}
+					if(value==null)
+						throw new RobotInitializationException("Cannot inject null");
+					if(!key.getType().isAssignableFrom(value.getClass()))
+						throw new RobotInitializationException("Parameter "+key.getName()+" of type "+value.getClass().getName()+" '"+value+"' does not match "+key.getType());
+						
+					binder.bind(key.asKey()).toProvider((Provider) Providers.of(value));
 				}
 				binder.bind(type).toConstructor(constructor);
 			}

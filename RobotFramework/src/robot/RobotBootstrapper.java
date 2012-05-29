@@ -58,6 +58,7 @@ public class RobotBootstrapper {
 		modules.add(new RobotInstanceModule(robot));
 		Injector injector = Guice.createInjector(stage, modules);
 		RobotObjectStore objectStore = injector.getInstance(RobotObjectStore.class);
+		objectStore.putObject("host", injector.getInstance(Host.class));
 		robot.inject(injector, new PartialInjector(injector, objectStore, partialModules), objectStore);
 
 		robot.initializeIO();

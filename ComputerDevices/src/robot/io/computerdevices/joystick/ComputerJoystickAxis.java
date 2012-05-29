@@ -1,9 +1,9 @@
 package robot.io.computerdevices.joystick;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.computerdevices.DIJoystick;
-import robot.io.joystick.JoystickAxis;
+import robot.*;
+import robot.io.*;
+import robot.io.computerdevices.*;
+import robot.io.joystick.*;
 
 /**
  * @author Mitchell
@@ -11,7 +11,7 @@ import robot.io.joystick.JoystickAxis;
  * Represents an axis from a joystick connected to a computer
  *
  */
-public class ComputerJoystickAxis implements JoystickAxis{
+public class ComputerJoystickAxis implements JoystickAxis, Nameable{
 	private final ForwardingRobotObjectModel model = new ForwardingRobotObjectModel(this);
 	@Override
 	public void addUpdateListener(RobotObjectListener listener) {

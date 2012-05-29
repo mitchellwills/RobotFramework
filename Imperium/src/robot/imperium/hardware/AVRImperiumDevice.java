@@ -1,11 +1,13 @@
 package robot.imperium.hardware;
 
-import robot.error.RobotInitializationException;
-import robot.imperium.ImperiumDevice;
-import robot.imperium.resources.DeviceResource;
-import robot.imperium.resources.ResourceFactory;
-import robot.imperium.resources.ResourceState;
-import robot.io.serial.SerialInterface;
+import robot.error.*;
+import robot.imperium.*;
+import robot.imperium.resources.*;
+import robot.io.serial.*;
+import robot.thread.*;
+
+import com.google.inject.*;
+import com.google.inject.assistedinject.*;
 
 
 /**
@@ -95,8 +97,10 @@ public class AVRImperiumDevice extends ImperiumDevice {
 	}
 
 
-	public AVRImperiumDevice(SerialInterface serialPort, int maxUpdateRate) {
-		super(serialPort, maxUpdateRate);
+	@Inject public AVRImperiumDevice(RobotThreadFactory threadFactory,
+			@Assisted(ImperiumDevice.PARAM_SERIAL_INTERFACE) SerialInterface serialPort,
+			@Assisted(ImperiumDevice.PARAM_MAX_UPDATE_RATE) int maxUpdateRate) {
+		super(threadFactory, serialPort, maxUpdateRate);
 	}
 	
 	protected void addAVRPin(IOPort port, IOPortBit bit){

@@ -1,11 +1,11 @@
 package robot.imperium.objects;
 
-import robot.imperium.ImperiumDevice;
-import robot.imperium.ImperiumDeviceObject;
-import robot.imperium.packet.ImperiumPacket;
-import robot.io.RobotObjectListener;
-import robot.io.RobotObjectModel;
-import robot.io.UpdatableObject;
+import robot.imperium.*;
+import robot.imperium.packet.*;
+import robot.io.*;
+
+import com.google.inject.*;
+import com.google.inject.assistedinject.*;
 
 /**
  * A debug object on an imperium device
@@ -32,7 +32,7 @@ public class ImperiumDebug extends ImperiumDeviceObject implements UpdatableObje
 	 * 
 	 * @param device
 	 */
-	public ImperiumDebug(ImperiumDevice device) {
+	@Inject public ImperiumDebug(@Assisted(ImperiumDeviceObject.PARAM_DEVICE) ImperiumDevice device) {
 		super(ObjectTypeIds.DEBUG, device, 2, 0);
 		init();
 	}

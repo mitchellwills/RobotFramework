@@ -1,9 +1,9 @@
 package robot.io.computerdevices.jxinput;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.joystick.JoystickDirectional;
-import de.hardcode.jxinput.Directional;
+import robot.*;
+import robot.io.*;
+import robot.io.joystick.*;
+import de.hardcode.jxinput.*;
 
 /**
  * @author Mitchell
@@ -11,7 +11,7 @@ import de.hardcode.jxinput.Directional;
  * A directional on a joystick connected to a computer
  *
  */
-public class JXInputJoystickDirectional implements JoystickDirectional {
+public class JXInputJoystickDirectional implements JoystickDirectional, Nameable {
 
 	private final Directional nativeDirectional;
 	JXInputJoystickDirectional(JXInputJoystick joystick, Directional nativeDirectional) {

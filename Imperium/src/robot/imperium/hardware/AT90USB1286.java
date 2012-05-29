@@ -1,12 +1,19 @@
 package robot.imperium.hardware;
 
-import robot.io.serial.SerialInterface;
+import robot.imperium.*;
+import robot.io.serial.*;
+import robot.thread.*;
+
+import com.google.inject.*;
+import com.google.inject.assistedinject.*;
 
 
 public class AT90USB1286 extends AVRImperiumDevice {
 
-	public AT90USB1286(SerialInterface serialPort, int maxUpdateRate) {
-		super(serialPort, maxUpdateRate);
+	@Inject public AT90USB1286(RobotThreadFactory threadFactory,
+			@Assisted(ImperiumDevice.PARAM_SERIAL_INTERFACE) SerialInterface serialPort,
+			@Assisted(ImperiumDevice.PARAM_MAX_UPDATE_RATE) int maxUpdateRate) {
+		super(threadFactory, serialPort, maxUpdateRate);
 
 		
 		addAVRPin(IOPort.PORTA, IOPortBit.Bit7);

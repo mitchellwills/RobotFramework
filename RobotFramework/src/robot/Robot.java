@@ -99,6 +99,24 @@ public abstract class Robot {
 	public <T> T get(Class<T> type){
 		return injector.getInstance(type);
 	}
+	public ContextBuilder in(String contextName){
+		RobotObject object = objectStore.getObject(contextName);
+		if(object instanceof BuilderContext)
+			return in((BuilderContext)object);
+		throw new RobotInitializationException(contextName+" is not a builder context");
+	}
+	public ContextBuilder in(BuilderContext context){
+		return new ContextBuilder(context, injector, partialInjector);
+	}
+	public RobotObject getObject(String name){
+		return objectStore.getObject(name);
+	}
+	public <T extends RobotObject> T putObject(String name, T object){
+		return objectStore.putObject(name, object);
+	}
+	
+	
+	
 	
 	/**
 	 * Add an update listener

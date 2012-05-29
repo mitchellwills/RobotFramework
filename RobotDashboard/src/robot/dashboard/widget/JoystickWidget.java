@@ -1,25 +1,14 @@
 package robot.dashboard.widget;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
-import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
+import javax.swing.*;
+import javax.swing.border.*;
 
-import robot.dashboard.Widget;
-import robot.io.RobotObject;
-import robot.io.RobotObjectListener;
-import robot.io.joystick.Joystick;
-import robot.io.joystick.JoystickDirectional;
+import robot.*;
+import robot.dashboard.*;
+import robot.io.*;
+import robot.io.joystick.*;
 
 /**
  * @author Mitchell
@@ -90,8 +79,14 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 				for (int i = 0; i < joystick.getAxisCount(); ++i) {
 					c.gridy = i;
 					c.gridx = 0;
-					add(nameLabels[i] = new JLabel("(" + i + ") "
-							+ joystick.getAxis(i).getName(),
+					JoystickAxis axis = joystick.getAxis(i);
+					String labelText;
+					if(axis instanceof Nameable)
+						labelText = "(" + i + ") " + ((Nameable)axis).getName();
+					else
+						labelText = "(" + i + ") ";
+				
+					add(nameLabels[i] = new JLabel(labelText,
 							SwingConstants.LEADING), c);
 					c.gridx = 1;
 					add(valueBars[i] = new JProgressBar(-1000, 1000), c);
@@ -135,8 +130,15 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 							&& i < joystick.getButtonCount(); ++j) {
 						c.gridy = i / ROW_SIZE;
 						c.gridx = j;
-						add(buttons[i] = new JRadioButton("(" + i + ") "
-								+ joystick.getButton(i).getName()), c);
+						
+						JoystickButton button = joystick.getButton(i);
+						String labelText;
+						if(button instanceof Nameable)
+							labelText = "(" + i + ") " + ((Nameable)button).getName();
+						else
+							labelText = "(" + i + ") ";
+						
+						add(buttons[i] = new JRadioButton(labelText), c);
 						buttons[i].setEnabled(false);
 						++i;
 					}
@@ -199,8 +201,14 @@ public class JoystickWidget extends Widget<Joystick> implements RobotObjectListe
 
 		public DirectionalView(int index, JoystickDirectional directional) {
 			this.directional = directional;
-			setBorder(new TitledBorder("(" + index + ") "
-					+ directional.getName()));
+			
+			String labelText;
+			if(directional instanceof Nameable)
+				labelText = "(" + index + ") " + ((Nameable)directional).getName();
+			else
+				labelText = "(" + index + ") ";
+			
+			setBorder(new TitledBorder(labelText));
 			setPreferredSize(new Dimension(SIZE, SIZE));
 			setMinimumSize(new Dimension(SIZE, SIZE));
 			update();

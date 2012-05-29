@@ -3,28 +3,38 @@ package robot.boostrap.partial;
 import java.util.*;
 
 import robot.*;
-import robot.error.*;
 import robot.io.*;
 
 public class PartialInjectionBuilder<T extends RobotObject> {
 	
-	private final Set<PartialBinding<T>> bindings;
+	private final PartialBinding<T> binding;
 
 	private final Map<String, Object> params = new HashMap<String, Object>();
 	private final RobotObjectStore objectStore;
 
-	public PartialInjectionBuilder(RobotObjectStore objectStore, Set<PartialBinding<T>> bindings) {
+	public PartialInjectionBuilder(RobotObjectStore objectStore, PartialBinding<T> binding) {
 		this.objectStore = objectStore;
-		this.bindings = bindings;
+		this.binding = binding;
 	}
 
-	public PartialInjectionBuilder<T> with(String name, String objectName) {
-		params.put(name, objectStore.getObject(objectName));
+	public PartialInjectionBuilder<T> with(String name, Object value) {
+		params.put(name, value);
 		return this;
 	}
 
-	public PartialInjectionBuilder<T> withValue(String name, Object value) {
-		params.put(name, value);
+	public PartialInjectionBuilder<T> with(String name, int value) {
+		return with(name, (Object)value);
+	}
+
+	public PartialInjectionBuilder<T> with(String name, String value) {
+		return with(name, (Object)value);
+	}
+	
+	public PartialInjectionBuilder<T> with(Map<String, Object> paramMap) {
+		if(paramMap==null)
+			return this;
+		for(Map.Entry<String, Object> entry:paramMap.entrySet())
+			with(entry.getKey(), entry.getValue());
 		return this;
 	}
 
@@ -33,17 +43,8 @@ public class PartialInjectionBuilder<T extends RobotObject> {
 		objectStore.putObject(name, value);
 		return value;
 	}
+	
 	public T create() {
-		PartialBinding<T> match = null;
-		for(PartialBinding<T> binding:bindings){
-			if(binding.matches(params)){
-				if(match!=null)
-					throw new RobotInitializationException("Multiple matches found");
-				match = binding;
-			}
-		}
-		if(match==null)
-			throw new RobotInitializationException("No matching constructor found");
-		return match.get(params);
+		return binding.get(objectStore, params);
 	}
 }

@@ -1,13 +1,9 @@
 package robot.io.computerdevices.jxinput;
 
-import robot.io.RobotObjectListener;
-import robot.io.RobotObjectModel;
-import robot.io.joystick.Joystick;
-import robot.io.joystick.JoystickAxis;
-import robot.io.joystick.JoystickButton;
-import robot.io.joystick.JoystickDirectional;
-import de.hardcode.jxinput.JXInputDevice;
-import de.hardcode.jxinput.JXInputManager;
+import robot.*;
+import robot.io.*;
+import robot.io.joystick.*;
+import de.hardcode.jxinput.*;
 
 /**
  * @author Mitchell
@@ -15,7 +11,7 @@ import de.hardcode.jxinput.JXInputManager;
  * Represents a joystick on the computer using the JXInput library
  *
  */
-public class JXInputJoystick implements Joystick{
+public class JXInputJoystick implements Joystick, Nameable{
 	
 	/**
 	 * @param id

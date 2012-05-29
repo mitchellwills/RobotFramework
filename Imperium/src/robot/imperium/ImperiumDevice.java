@@ -1,29 +1,18 @@
 package robot.imperium;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-import robot.error.RobotException;
-import robot.error.RobotInitializationException;
-import robot.imperium.packet.ImperiumPacket;
-import robot.imperium.packet.PacketIds;
-import robot.imperium.resources.DeviceResource;
-import robot.imperium.resources.DeviceResourceState;
-import robot.io.RobotObject;
-import robot.io.RobotObjectListener;
-import robot.io.RobotObjectModel;
-import robot.io.UpdatableObject;
-import robot.io.factory.FactoryObject;
-import robot.io.factory.RobotObjectFactory;
-import robot.io.serial.SerialInterface;
-import robot.thread.PeriodicRobotThread;
-import robot.thread.RobotThread;
-import robot.util.RobotUtil;
+import robot.boostrap.partial.*;
+import robot.error.*;
+import robot.imperium.packet.*;
+import robot.imperium.resources.*;
+import robot.io.*;
+import robot.io.serial.*;
+import robot.thread.*;
+import robot.util.*;
+
+import com.google.inject.*;
 
 /**
  * 
@@ -32,8 +21,9 @@ import robot.util.RobotUtil;
  * @author Mitchell
  * 
  */
-public abstract class ImperiumDevice implements RobotObject, FactoryObject,
-		UpdatableObject {
+public abstract class ImperiumDevice implements RobotObject, UpdatableObject, BuilderContext {
+	public static final String PARAM_SERIAL_INTERFACE = "serialInterface";
+	public static final String PARAM_MAX_UPDATE_RATE = "maxUpdateRate";
 
 	private final RobotObjectModel model = new RobotObjectModel(this);
 
@@ -50,28 +40,22 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 	private final SerialInterface serialPort;
 
 	/**
+	 * @param threadFactory 
 	 * @param serialPort
 	 *            the port over which the computer will interact with the device
 	 * @param maxUpdateRate
 	 *            the maximum number of input updates per second the device will
 	 *            send
 	 */
-	public ImperiumDevice(SerialInterface serialPort, int maxUpdateRate) {
+	public ImperiumDevice(RobotThreadFactory threadFactory, SerialInterface serialPort, int maxUpdateRate) {
 		if (serialPort == null)
 			throw new RobotInitializationException("Serial Port was null");
 		this.serialPort = serialPort;
 		this.maxUpdateRate = maxUpdateRate;
 		state = ImperiumDeviceState.DISCONNECTED;
-		new ImperiumEventThread().start();
-		new ImperiumOutputThread().start();
+		new ImperiumEventThread(threadFactory).start();
+		new ImperiumOutputThread(threadFactory).start();
 		configure();
-	}
-
-	private final ImperiumDeviceObjectFactory factory = new ImperiumDeviceObjectFactory(this);
-
-	@Override
-	public RobotObjectFactory getFactory() {
-		return factory;
 	}
 
 	private ImperiumDeviceState state;
@@ -217,8 +201,8 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 	}
 
 	private class ImperiumEventThread extends RobotThread {
-		public ImperiumEventThread() {
-			super("Imperium Event Thread");
+		public ImperiumEventThread(RobotThreadFactory threadFactory) {
+			super(threadFactory, "Imperium Event Thread");
 		}
 
 		private ImperiumPacket packet = new ImperiumPacket();
@@ -242,8 +226,8 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 	}
 	private class ImperiumOutputThread extends PeriodicRobotThread {
 		private ImperiumPacket packet = new ImperiumPacket();
-		public ImperiumOutputThread() {
-			super("Imperium Output Thread", 1000/maxUpdateRate);
+		public ImperiumOutputThread(RobotThreadFactory threadFactory) {
+			super(threadFactory, "Imperium Output Thread", 1000/maxUpdateRate);
 			packet.setId(PacketIds.BULK_OUTPUT_VALUE);
 		}
 
@@ -342,4 +326,23 @@ public abstract class ImperiumDevice implements RobotObject, FactoryObject,
 		return resource;
 	}
 
+	
+	
+	
+	
+	
+	@Override
+	public Iterable<? extends Module> getInjectionModules() {
+		return Collections.singleton(new ImperiumModule(this));
+	}
+	@Override
+	public Iterable<? extends PartialModule> getPartialInjectionModules() {
+		return Collections.singleton(new ImperiumPartialModule());
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Map<String, Object> getPartialParameters() {
+		return (Map)Collections.singletonMap(ImperiumDeviceObject.PARAM_DEVICE, this);
+	}
 }

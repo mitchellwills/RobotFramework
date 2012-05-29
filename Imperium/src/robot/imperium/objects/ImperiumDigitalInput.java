@@ -1,13 +1,13 @@
 package robot.imperium.objects;
 
-import robot.imperium.ImperiumDevice;
-import robot.imperium.ImperiumDeviceObject;
-import robot.imperium.packet.ImperiumPacket;
-import robot.imperium.resources.DeviceResource;
-import robot.imperium.resources.ResourceState;
-import robot.io.RobotObjectListener;
-import robot.io.RobotObjectModel;
-import robot.io.binary.BinaryInput;
+import robot.imperium.*;
+import robot.imperium.packet.*;
+import robot.imperium.resources.*;
+import robot.io.*;
+import robot.io.binary.*;
+
+import com.google.inject.*;
+import com.google.inject.assistedinject.*;
 
 /**
  * A digital input on an imperium device
@@ -38,7 +38,9 @@ public class ImperiumDigitalInput extends ImperiumDeviceObject implements
 	 * @param device
 	 * @param location 
 	 */
-	public ImperiumDigitalInput(ImperiumDevice device, String location) {
+	@Inject public ImperiumDigitalInput(
+			@Assisted(ImperiumDeviceObject.PARAM_DEVICE) ImperiumDevice device,
+			@Assisted(RobotObject.PARAM_LOCATION) String location) {
 		super(ObjectTypeIds.DIGITAL_INPUT, device, 1, 1);
 		this.location = device.acquireResource(location, this, ResourceState.DigitalInput);
 		setPullupEnabled(false);

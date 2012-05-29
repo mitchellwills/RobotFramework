@@ -1,13 +1,13 @@
 package robot.io.computerdevices;
 
-import gnu.io.CommPortIdentifier;
+import gnu.io.*;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.*;
 
-import robot.io.factory.FactoryObject;
-import robot.io.factory.RobotObjectFactory;
-import robot.io.host.Host;
+import robot.boostrap.partial.*;
+import robot.io.host.*;
+
+import com.google.inject.*;
 
 /**
  * @author Mitchell
@@ -15,24 +15,8 @@ import robot.io.host.Host;
  * Object that represents a computer
  *
  */
-public class Computer implements FactoryObject, Host{
-	private static final Computer INSTANCE = new Computer();
-	/**
-	 * @return the singleton computer instance
-	 */
-	public static Computer get() {
-		return INSTANCE;
-	}
-	private Computer(){
-	}
-	
-	
-	private ComputerDeviceFactory factory = new ComputerDeviceFactory();
-	@Override
-	public RobotObjectFactory getFactory() {
-		return factory;
-	}
-	
+public class Computer implements BuilderContext, Host{
+
 	private final ComputerBattery battery = new ComputerBattery();//TODO handle if there is not battery
 	/**
 	 * @return the battery installed on the computer
@@ -57,6 +41,20 @@ public class Computer implements FactoryObject, Host{
 		for(int i = 0; i<ports.size(); ++i)
 			r[i] = ports.get(i);
 		return r;
+	}
+	
+	
+	@Override
+	public Iterable<? extends Module> getInjectionModules() {
+		return Collections.singleton(new ComputerDevicesModule());
+	}
+	@Override
+	public Iterable<? extends PartialModule> getPartialInjectionModules() {
+		return Collections.singleton(new ComputerDevicesPartialModule());
+	}
+	@Override
+	public Map<String, Object> getPartialParameters() {
+		return Collections.EMPTY_MAP;
 	}
 
 }

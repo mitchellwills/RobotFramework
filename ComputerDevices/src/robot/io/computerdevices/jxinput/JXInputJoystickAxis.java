@@ -1,9 +1,9 @@
 package robot.io.computerdevices.jxinput;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.joystick.JoystickAxis;
-import de.hardcode.jxinput.Axis;
+import robot.*;
+import robot.io.*;
+import robot.io.joystick.*;
+import de.hardcode.jxinput.*;
 
 /**
  * @author Mitchell
@@ -11,7 +11,7 @@ import de.hardcode.jxinput.Axis;
  * An axis joystick on a joystick connected to a computer
  *
  */
-public class JXInputJoystickAxis implements JoystickAxis {
+public class JXInputJoystickAxis implements JoystickAxis, Nameable {
 
 	private final Axis nativeAxis;
 	JXInputJoystickAxis(JXInputJoystick joystick, Axis nativeAxis) {

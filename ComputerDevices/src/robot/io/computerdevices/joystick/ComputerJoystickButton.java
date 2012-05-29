@@ -1,9 +1,9 @@
 package robot.io.computerdevices.joystick;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.computerdevices.DIJoystick;
-import robot.io.joystick.JoystickButton;
+import robot.*;
+import robot.io.*;
+import robot.io.computerdevices.*;
+import robot.io.joystick.*;
 
 /**
  * @author Mitchell
@@ -11,7 +11,7 @@ import robot.io.joystick.JoystickButton;
  * represents a button on a joystick connected to a computer
  *
  */
-public class ComputerJoystickButton implements JoystickButton{
+public class ComputerJoystickButton implements JoystickButton, Nameable{
 	
 	private final ComputerJoystick joystick;
 	private final int id;

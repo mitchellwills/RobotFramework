@@ -1,7 +1,8 @@
 package robot.boostrap.partial;
 
 import java.lang.reflect.*;
-import java.util.*;
+
+import robot.error.*;
 
 import com.google.inject.*;
 
@@ -19,15 +20,24 @@ public class PartialBindingBuilder<T> {
 		return type;
 	}
 
-	public Set<PartialBinding<T>> build(Injector injector) {
-		Set<PartialBinding<T>> bindings = new HashSet<PartialBinding<T>>();
+	public PartialBinding<T> build(Injector injector) {
+		PartialBinding<T> binding = null;
 		Constructor<T>[] constructors = (Constructor<T>[]) targetType.getConstructors();
+		Constructor<T> defaultConstructor = null;
 		for (Constructor<T> constructor : constructors) {
-			if (constructor.getAnnotation(Inject.class) != null) {
-				bindings.add(new PartialConstructorBinding<T>(injector, type, constructor));
+			if (constructor.getAnnotation(Inject.class) != null){
+				if(binding!=null)
+					throw new RobotInitializationException("Cannot have more than one possible injection point in "+targetType.getName());
+				binding = new PartialConstructorBinding<T>(injector, type, constructor);
 			}
+			if(constructor.getParameterTypes().length==0)
+				defaultConstructor = constructor;
 		}
-		return bindings;
+		if(binding==null && defaultConstructor!=null)
+				binding = new PartialConstructorBinding<T>(injector, type, defaultConstructor);
+		if(binding==null)
+			throw new RobotInitializationException("No possible injection points found for "+targetType.getName());
+		return binding;
 	}
 
 }

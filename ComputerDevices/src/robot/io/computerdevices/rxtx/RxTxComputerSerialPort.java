@@ -1,17 +1,15 @@
 package robot.io.computerdevices.rxtx;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.NoSuchPortException;
-import gnu.io.PortInUseException;
-import gnu.io.SerialPort;
-import gnu.io.UnsupportedCommOperationException;
+import gnu.io.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
-import robot.error.RobotInitializationException;
-import robot.io.serial.SerialInterface;
+import robot.error.*;
+import robot.io.*;
+import robot.io.serial.*;
+
+import com.google.inject.*;
+import com.google.inject.assistedinject.*;
 
 /**
  * @author Mitchell
@@ -32,7 +30,7 @@ public final class RxTxComputerSerialPort implements SerialInterface{
 	 * @param name the name of the port
 	 * @param baud the baud rate of the port
 	 */
-	public RxTxComputerSerialPort(String name, int baud){
+	@Inject public RxTxComputerSerialPort(@Assisted(RobotObject.PARAM_LOCATION) String name, @Assisted(SerialInterface.PARAM_BAUD) int baud){
 		this(name, baud, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 	}
 	/**

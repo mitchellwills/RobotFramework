@@ -1,9 +1,9 @@
 package robot.io.computerdevices.jxinput;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.joystick.JoystickButton;
-import de.hardcode.jxinput.Button;
+import robot.*;
+import robot.io.*;
+import robot.io.joystick.*;
+import de.hardcode.jxinput.*;
 
 /**
  * @author Mitchell
@@ -11,7 +11,7 @@ import de.hardcode.jxinput.Button;
  * A joystick button that exists on a joystick connected to a computers
  *
  */
-public class JXInputJoystickButton implements JoystickButton {
+public class JXInputJoystickButton implements JoystickButton, Nameable {
 	
 	private final Button nativeButton;
 	JXInputJoystickButton(JXInputJoystick joystick, Button nativeButton){

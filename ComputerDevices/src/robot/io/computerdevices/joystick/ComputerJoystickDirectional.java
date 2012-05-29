@@ -1,9 +1,9 @@
 package robot.io.computerdevices.joystick;
 
-import robot.io.ForwardingRobotObjectModel;
-import robot.io.RobotObjectListener;
-import robot.io.computerdevices.DIJoystick;
-import robot.io.joystick.JoystickDirectional;
+import robot.*;
+import robot.io.*;
+import robot.io.computerdevices.*;
+import robot.io.joystick.*;
 
 /**
  * @author Mitchell
@@ -11,7 +11,7 @@ import robot.io.joystick.JoystickDirectional;
  * Represents a directional on a joystick connected to a computer
  *
  */
-public class ComputerJoystickDirectional implements JoystickDirectional{
+public class ComputerJoystickDirectional implements JoystickDirectional, Nameable{
 	
 	private final ComputerJoystick joystick;
 	private final int id;

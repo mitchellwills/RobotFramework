@@ -1,15 +1,14 @@
 package robot.io.computerdevices.joystick;
 
-import robot.error.RobotInitializationException;
-import robot.io.RobotObjectListener;
-import robot.io.RobotObjectModel;
-import robot.io.computerdevices.DIJoystick;
-import robot.io.joystick.Joystick;
-import robot.io.joystick.JoystickAxis;
-import robot.io.joystick.JoystickButton;
-import robot.io.joystick.JoystickDirectional;
+import robot.*;
+import robot.error.*;
+import robot.io.*;
+import robot.io.computerdevices.*;
+import robot.io.joystick.*;
 
-import com.sun.jna.Pointer;
+import com.google.inject.*;
+import com.google.inject.assistedinject.*;
+import com.sun.jna.*;
 
 /**
  * @author Mitchell
@@ -17,31 +16,13 @@ import com.sun.jna.Pointer;
  * A joystick connected to the computer
  *
  */
-public class ComputerJoystick implements Joystick{
-	private static ComputerJoystick[] joysticks;
-	static{
-		DIJoystick.INSTANCE.initDI();
-		DIJoystick.INSTANCE.enumerateDevices();
-		joysticks = new ComputerJoystick[DIJoystick.INSTANCE.getJoystickCount()];
-	}
+public class ComputerJoystick implements Joystick, Nameable{
 	
 	/**
 	 * @return the number of joysticks attacked to the computer
 	 */
 	public static int getJoystickCount(){
-		return joysticks.length;
-	}
-	/**
-	 * @param id the id of the joystick on the system
-	 * @return a joystick with the given id
-	 */
-	public static ComputerJoystick getJoystick(int id){
-		if(id<0 || id>=getJoystickCount())
-			throw new RobotInitializationException("Illegal computer joystick id: "+id+". There are  "+getJoystickCount()+" joysticks on the system");
-		ComputerJoystick joystick = joysticks[id];
-		if(joystick != null)
-			return joystick;
-		return joysticks[id] = new ComputerJoystick(id);
+		return DIJoystick.INSTANCE.getJoystickCount();
 	}
 	
 	
@@ -67,7 +48,10 @@ public class ComputerJoystick implements Joystick{
 	/**
 	 * @param id the id of the joystick
 	 */
-	ComputerJoystick(int id){
+	@Inject public ComputerJoystick(@Assisted(PARAM_LOCATION) int id){
+		if(id<0 || id>=getJoystickCount())
+			throw new RobotInitializationException("Illegal computer joystick id: "+id+". There are  "+getJoystickCount()+" joysticks on the system");
+		
 		nativeJoystickPointer = DIJoystick.INSTANCE.getJoystickReference(id);
 		
 		int axisCount = DIJoystick.INSTANCE.getNumAxes(nativeJoystickPointer);
