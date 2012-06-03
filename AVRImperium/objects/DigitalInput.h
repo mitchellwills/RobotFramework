@@ -11,13 +11,6 @@
 #include "ImperiumObject.h"
 #include "AVRPins.h"
 
-struct DigitalInputData {
-	PinRegister pullupRegister;
-	PinRegister directionRegister;
-	PinRegister inputRegister;
-	PinMask mask;
-};
-
 typedef struct DigitalInputData DigitalInputData;
 
 ImperiumObject* DigitalInput_new(int objectId, char* data, int dataSize);

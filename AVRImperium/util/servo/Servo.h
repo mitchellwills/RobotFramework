@@ -107,4 +107,22 @@ typedef struct {
 #define true 1
 typedef uint8_t bool;
 
+
+
+
+uint8_t newServo(void);
+
+uint8_t attachServo(uint8_t servoIndex, int pin);
+
+void detachServo(uint8_t servoIndex);
+
+void writeServoMicroseconds(uint8_t servoIndex, int value);
+
+int readServoMicroseconds(uint8_t servoIndex);
+
+bool attached(uint8_t servoIndex);
+
+
+
+
 #endif

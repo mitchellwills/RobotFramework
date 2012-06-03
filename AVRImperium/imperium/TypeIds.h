@@ -17,5 +17,7 @@
 
 #define TYPEID_ANALOG_VOLTAGE_INPUT 3
 
+#define TYPEID_SERVO_OUTPUT 4
+
 
 #endif /* TYPEIDS_H_ */

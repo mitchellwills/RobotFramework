@@ -11,13 +11,6 @@
 #include "ImperiumObject.h"
 #include "AVRPins.h"
 
-struct DigitalOutputData {
-	PinRegister directionRegister;
-	PinRegister dataRegister;
-	PinMask mask;
-};
-typedef struct DigitalOutputData DigitalOutputData;
-
 ImperiumObject* DigitalOutput_new(int objectId, char* data, int dataSize);
 
 #endif /* DIGITALOUTPUT_H_ */

@@ -60,11 +60,11 @@ inline uint8_t getPinInput(AVRPin_t* pin){
 
 
 
-PinRegister Pin_getDataRegister(int pin);
-PinRegister Pin_getDirectionRegister(int pin);
-PinRegister Pin_getInputRegister(int pin);
-PinMask Pin_getMask(int pin);
-unsigned char Pin_getRegOffset(int pin);
+//PinRegister Pin_getDataRegister(int pin);
+//PinRegister Pin_getDirectionRegister(int pin);
+//PinRegister Pin_getInputRegister(int pin);
+//PinMask Pin_getMask(int pin);
+//unsigned char Pin_getRegOffset(int pin);
 
 AVRPin_t* newPin(int rawPin);
 void initPin(AVRPin_t* pinData, int rawPin);

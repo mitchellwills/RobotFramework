@@ -9,11 +9,14 @@
 #define IMPERIUMOBJECT_H_
 
 #include "ImperiumPacket.h"
+#include "AVRPins.h"
 
 
 
 struct ImperiumObject {
 	int objectId;
+	AVRPin_t pin;
+	unsigned int value;
 	void* data;
 
 	int inputSize;

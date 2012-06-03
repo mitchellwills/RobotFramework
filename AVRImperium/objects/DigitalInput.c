@@ -12,26 +12,20 @@
 #include "LUFA/Drivers/Peripheral/ADC.h"
 
 static void getValue(ImperiumObject* object, ImperiumPacket* packet){
-	DigitalInputData* objectData = (DigitalInputData*)object->data;
-	Packet_appendInteger(packet, getPinRegister(objectData->inputRegister, objectData->mask), 1);
+	Packet_appendInteger(packet, getPinInput(&object->pin), 1);
 }
 static void setValue(ImperiumObject* object, ImperiumPacket* packet){
-	DigitalInputData* objectData = (DigitalInputData*)object->data;
 	if(Packet_readByte(packet))
-		setPinRegister( objectData->pullupRegister, objectData->mask );
+		setPinHigh(&object->pin);
 	else
-		clearPinRegister( objectData->pullupRegister, objectData->mask );
+		setPinLow(&object->pin);
 }
 
 ImperiumObject* DigitalInput_new(int objectId, char* data, int dataSize){
-	DigitalInputData* objectData = (DigitalInputData*)malloc(sizeof(DigitalInputData));
-	ImperiumObject* object = Object_new(objectId, objectData);
+	ImperiumObject* object = Object_new(objectId, NULL);
 
-	objectData->directionRegister = Pin_getDirectionRegister(data[0]);
-	objectData->pullupRegister = Pin_getDataRegister(data[0]);
-	objectData->inputRegister = Pin_getInputRegister(data[0]);
-	objectData->mask = Pin_getMask(data[0]);
-	clearPinRegister( objectData->directionRegister, objectData->mask );
+	initPin(&object->pin, data[0]);
+	setPinInput(&object->pin);
 
 	object->outputSize = 1;
 	object->inputSize = 1;
