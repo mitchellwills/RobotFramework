@@ -13,7 +13,7 @@ import com.google.inject.assistedinject.*;
  * @author Mitchell
  *
  */
-public class ImperiumDebug extends ImperiumDeviceObject implements UpdatableObject{
+public final class ImperiumDebug extends ImperiumDeviceObject implements UpdatableObject{
 	private final RobotObjectModel model = new RobotObjectModel(this);
 
 	@Override

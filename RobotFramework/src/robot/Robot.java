@@ -16,9 +16,6 @@ import com.google.inject.*;
  *
  */
 public abstract class Robot {
-	/**
-	 * Initialization of all robot communication with other devices should occur here
-	 */
 	protected abstract void initializeIO();
 	/**
 	 * perform the main actions of the robot

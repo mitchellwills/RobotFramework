@@ -15,7 +15,7 @@ import com.google.inject.assistedinject.*;
  * @author Mitchell
  *
  */
-public class ImperiumDigitalOutput extends ImperiumDeviceObject implements
+public final class ImperiumDigitalOutput extends ImperiumDeviceObject implements
 		BinaryOutput {
 	private final RobotObjectModel model = new RobotObjectModel(this);
 

@@ -42,9 +42,15 @@
 		<mkdir dir="${javadoc.dir}" />
 		<javadoc sourcepath="${src.dir}" destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="Robot Framework" classpathref="classpath">
 			<doctitle>
-				<![CDATA[<h1>Robot Framework</h1>]]></doctitle>
-		<bottom>
-			<![CDATA[by Mitchell Wills]]></bottom>
+				<![CDATA[
+				<h1>Robot Framework</h1>
+				]]>
+			</doctitle>
+			<bottom>
+				<![CDATA[
+				by Mitchell Wills
+				]]>
+			</bottom>
 		</javadoc>
 	</target>
 	

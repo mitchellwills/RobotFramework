@@ -11,8 +11,18 @@
 #include <avr/io.h>
 #include "ByteUtil.h"
 
-typedef volatile unsigned char* PinRegister;
-typedef unsigned char PinMask;
+typedef volatile uint8_t* PinRegister;
+typedef uint8_t PinMask;
+
+typedef struct  {
+	PinRegister dataRegister;
+	PinRegister directionRegister;
+	PinRegister inputRegister;
+	PinMask mask;
+	uint8_t regOffset           :3;
+	uint8_t isValid           :1;
+} AVRPin_t;
+
 
 
 inline void setPinRegister(PinRegister reg, PinMask mask){
@@ -21,17 +31,42 @@ inline void setPinRegister(PinRegister reg, PinMask mask){
 inline void clearPinRegister(PinRegister reg, PinMask mask){
 	(*reg) &= ~mask;
 }
-inline unsigned char getPinRegister(PinRegister reg, PinMask mask){
+inline uint8_t getPinRegister(PinRegister reg, PinMask mask){
 	return (*reg) & mask;
 }
-inline unsigned char getPinRegisterBit(PinRegister reg, unsigned char bitPosition){
+
+inline uint8_t getPinRegisterBit(PinRegister reg, uint8_t bitPosition){
 	return ((*reg) >> bitPosition)&1;
 }
+
+inline void setPinOutput(AVRPin_t* pin){
+	setPinRegister(pin->directionRegister, pin->mask);
+}
+inline void setPinInput(AVRPin_t* pin){
+	clearPinRegister(pin->directionRegister, pin->mask);
+}
+
+inline void setPinHigh(AVRPin_t* pin){
+	setPinRegister(pin->dataRegister, pin->mask);
+}
+inline void setPinLow(AVRPin_t* pin){
+	clearPinRegister(pin->dataRegister, pin->mask);
+}
+inline uint8_t getPinInput(AVRPin_t* pin){
+	return getPinRegister(pin->inputRegister, pin->mask);
+}
+
+
+
+
 
 PinRegister Pin_getDataRegister(int pin);
 PinRegister Pin_getDirectionRegister(int pin);
 PinRegister Pin_getInputRegister(int pin);
 PinMask Pin_getMask(int pin);
-unsigned char Pin_getPinPosition(int pin);
+unsigned char Pin_getRegOffset(int pin);
+
+AVRPin_t* newPin(int rawPin);
+void initPin(AVRPin_t* pinData, int rawPin);
 
 #endif /* PINS_H_ */

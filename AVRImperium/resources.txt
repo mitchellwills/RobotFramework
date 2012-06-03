@@ -1,4 +1,16 @@
-http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=50106
+Timer/Counter
 http://www.wrightflyer.co.uk/Using%20AVR%20Counter.pdf
+http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=50106
+
+USB:
 http://www.fourwalledcubicle.com/LUFA.php
+
+Time:
 http://www.bildr.org/forum/viewtopic.php?f=17&t=386
+
+ADC:
+http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=56429
+http://maxembedded.wordpress.com/2011/06/20/the-adc-of-the-avr/
+
+PWM:
+http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=68302&start=all&postdays=0&postorder=asc

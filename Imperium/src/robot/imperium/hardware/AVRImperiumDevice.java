@@ -113,6 +113,10 @@ public class AVRImperiumDevice extends ImperiumDevice {
 				.dependancy(getResource(pinName(port, bit)), ResourceState.DigitalInput)
 				.build());
 	}
+	protected void addAVRPinChangeInterrupt(int id){
+		addResource(ResourceFactory.single("PCINT"+id, id).states(ResourceState.Interrupt)
+				.build());
+	}
 	protected void addAVRAnalogInput(int id, IOPort port, IOPortBit bit){
 		addResource(ResourceFactory.single("ADC"+id, id)
 				.states(ResourceState.AnalogInput)

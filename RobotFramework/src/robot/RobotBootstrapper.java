@@ -16,10 +16,11 @@ public class RobotBootstrapper {
 	private Collection<Module> modules = new HashSet<Module>();
 	private Collection<PartialModule> partialModules = new HashSet<PartialModule>();
 
-	public RobotBootstrapper(Class<? extends Robot> robotClass, String[] args) {
+	public RobotBootstrapper(Class<? extends Robot> robotClass, Class<? extends Host> hostClass, String[] args) {
 		this.robotClass = robotClass;
 		addModule(new SimpleSingletonModule<RobotThreadFactory>(RobotThreadFactory.class, RobotThreadFactoryImpl.class));
 		addModule(new SimpleSingletonModule<RobotObjectStore>(RobotObjectStore.class, RobotObjectStoreImpl.class));
+		addModule(new SimpleSingletonModule<Host>(Host.class, hostClass));
 		addModule(new BoostrapperModule(args));
 		stage = Stage.PRODUCTION;
 	}

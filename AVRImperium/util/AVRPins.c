@@ -6,6 +6,7 @@
  */
 
 #include "AVRPins.h"
+#include <stdlib.h>
 static volatile unsigned char tmp = 0;
 
 PinRegister Pin_getDataRegister(int pin){
@@ -62,10 +63,26 @@ PinRegister Pin_getInputRegister(int pin){
 	return &tmp;
 }
 
-unsigned char Pin_getPinPosition(int pin){
+unsigned char Pin_getRegOffset(int pin){
 	return pin%8;
 }
 
 unsigned char Pin_getMask(int pin){
-	return 1<<(Pin_getPinPosition(pin));
+	return 1<<(Pin_getRegOffset(pin));
+}
+
+
+void initPin(AVRPin_t* pinData, int rawPin){
+	pinData->dataRegister = Pin_getDataRegister(rawPin);
+	pinData->directionRegister = Pin_getDirectionRegister(rawPin);
+	pinData->inputRegister = Pin_getInputRegister(rawPin);
+	pinData->mask = Pin_getMask(rawPin);
+	pinData->regOffset = Pin_getRegOffset(rawPin);
+	pinData->isValid = 1;
+}
+
+AVRPin_t* newPin(int rawPin){
+	AVRPin_t* pinData = (AVRPin_t*)malloc(sizeof(AVRPin_t));
+	initPin(pinData, rawPin);
+	return pinData;
 }

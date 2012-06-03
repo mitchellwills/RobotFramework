@@ -79,6 +79,7 @@ public class AT90USB1286 extends AVRImperiumDevice {
 		addAVRExternalInterrupt(2, IOPort.PORTD, IOPortBit.Bit2);
 		addAVRExternalInterrupt(1, IOPort.PORTD, IOPortBit.Bit1);
 		addAVRExternalInterrupt(0, IOPort.PORTD, IOPortBit.Bit0);
+		addAVRPinChangeInterrupt(0);
 		
 		addAVRAnalogInput(7, IOPort.PORTF, IOPortBit.Bit7);
 		addAVRAnalogInput(6, IOPort.PORTF, IOPortBit.Bit6);
