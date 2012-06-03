@@ -16,6 +16,7 @@
 struct ImperiumObject {
 	int objectId;
 	AVRPin_t pin;
+	unsigned long time;
 	unsigned int value;
 	void* data;
 
@@ -27,11 +28,13 @@ struct ImperiumObject {
 	void (*getValue)(struct ImperiumObject* object, ImperiumPacket* packet);
 	void (*receiveMessage)(struct ImperiumObject* object, ImperiumPacket* packet);
 	void (*update)(struct ImperiumObject* object);
+	void (*cleanup)(struct ImperiumObject* object);
 
 };
 typedef struct ImperiumObject ImperiumObject;
 
 
 ImperiumObject* Object_new(int objectId, void* data);
+void Object_cleanup(ImperiumObject* object);
 
 #endif /* IMPERIUMOBJECT_H_ */

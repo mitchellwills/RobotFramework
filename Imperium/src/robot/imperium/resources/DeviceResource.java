@@ -1,6 +1,6 @@
 package robot.imperium.resources;
 
-import java.util.Set;
+import java.util.*;
 
 public abstract class DeviceResource implements DeviceResourceOwner{
 	private final String name;
@@ -20,6 +20,11 @@ public abstract class DeviceResource implements DeviceResourceOwner{
 	@Override
 	public final String getName(){
 		return name;
+	}
+	
+	@Override
+	public String toString(){
+		return getName();
 	}
 	
 	public final int getId(){

@@ -20,7 +20,8 @@ typedef struct  {
 	PinRegister inputRegister;
 	PinMask mask;
 	uint8_t regOffset           :3;
-	uint8_t isValid           :1;
+	uint8_t isValid             :1;
+	uint8_t isEnabled           :1;
 } AVRPin_t;
 
 
@@ -67,6 +68,6 @@ inline uint8_t getPinInput(AVRPin_t* pin){
 //unsigned char Pin_getRegOffset(int pin);
 
 AVRPin_t* newPin(int rawPin);
-void initPin(AVRPin_t* pinData, int rawPin);
+void initPin(AVRPin_t* pinData, uint8_t rawPin, uint8_t enable);
 
 #endif /* PINS_H_ */

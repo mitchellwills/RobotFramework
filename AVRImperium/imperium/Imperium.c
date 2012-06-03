@@ -61,6 +61,7 @@ void Imperium_sendError(int id, int simpleData){
 
 
 static void Imperium_readPacket(void){
+	int numOldObjects;
 	if( !Packet_read(readPacket) ){
 		Packet_resetReadPosition(readPacket);
 		switch(readPacket->id){
@@ -70,8 +71,12 @@ static void Imperium_readPacket(void){
 			break;
 
 		case PACKETID_GLOBAL_CONFIGURE_REQUEST:
-			//TODO reset all
+			numOldObjects = numObjects;
 			numObjects = 0;
+			for(int i = 0; i<numOldObjects; ++i){
+				ImperiumObject* object = objects[i];
+				Object_cleanup(object);
+			}
 			minUpdateDelay = 1000/Packet_readUInteger(readPacket, 2);
 			Packet_reset(sendPacket, PACKETID_GLOBAL_CONFIGURE_RESPONSE);
 			Packet_write(sendPacket);

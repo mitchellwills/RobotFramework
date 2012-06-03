@@ -116,6 +116,10 @@ uint8_t attachServo(uint8_t servoIndex, int pin);
 
 void detachServo(uint8_t servoIndex);
 
+void enableServo(uint8_t servoIndex);
+
+void disableServo(uint8_t servoIndex);
+
 void writeServoMicroseconds(uint8_t servoIndex, int value);
 
 int readServoMicroseconds(uint8_t servoIndex);

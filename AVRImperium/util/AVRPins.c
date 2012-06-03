@@ -72,17 +72,21 @@ unsigned char Pin_getMask(int pin){
 }
 
 
-void initPin(AVRPin_t* pinData, int rawPin){
+void initPin(AVRPin_t* pinData, uint8_t rawPin, uint8_t enable){
 	pinData->dataRegister = Pin_getDataRegister(rawPin);
 	pinData->directionRegister = Pin_getDirectionRegister(rawPin);
 	pinData->inputRegister = Pin_getInputRegister(rawPin);
 	pinData->mask = Pin_getMask(rawPin);
 	pinData->regOffset = Pin_getRegOffset(rawPin);
 	pinData->isValid = 1;
+	if(enable)
+		pinData->isEnabled = 1;
+	else
+		pinData->isEnabled = 0;
 }
 
 AVRPin_t* newPin(int rawPin){
 	AVRPin_t* pinData = (AVRPin_t*)malloc(sizeof(AVRPin_t));
-	initPin(pinData, rawPin);
+	initPin(pinData, rawPin, 0);
 	return pinData;
 }

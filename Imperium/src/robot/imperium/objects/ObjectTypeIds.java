@@ -12,4 +12,5 @@ public interface ObjectTypeIds {
 	int DIGITAL_OUTPUT = 1;
 	int DIGITAL_INPUT = 2;
 	int ANALOG_INPUT = 3;
+	int SERVO_OUTPUT = 4;
 }

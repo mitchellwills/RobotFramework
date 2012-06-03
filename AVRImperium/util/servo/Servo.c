@@ -75,14 +75,14 @@ static inline void handle_interrupts(timer16_Sequence_t timer, volatile uint16_t
 	if( Channel[timer] < 0 )
 		*TCNTn = 0; // channel set to -1 indicated that refresh interval completed so reset the timer
 	else{
-		if( SERVO_INDEX(timer,Channel[timer]) < ServoCount && SERVO(timer,Channel[timer]).Pin.isValid )
+		if( SERVO_INDEX(timer,Channel[timer]) < ServoCount && SERVO(timer,Channel[timer]).Pin.isEnabled )
 			setPinLow(&SERVO(timer,Channel[timer]).Pin);
 	}
 
 	Channel[timer]++;    // increment to the next channel
 	if( SERVO_INDEX(timer,Channel[timer]) < ServoCount && Channel[timer] < SERVOS_PER_TIMER) {
 		*OCRnA = *TCNTn + SERVO(timer,Channel[timer]).ticks;
-		if(SERVO(timer,Channel[timer]).Pin.isValid)     // check if activated
+		if(SERVO(timer,Channel[timer]).Pin.isEnabled)     // check if activated
 			setPinHigh(&SERVO(timer,Channel[timer]).Pin);
 	}
 	else {
@@ -214,7 +214,7 @@ static bool isTimerActive(timer16_Sequence_t timer)
 {
 	// returns true if any servo is active on this timer
 	for(uint8_t channel=0; channel < SERVOS_PER_TIMER; channel++) {
-		if(SERVO(timer,channel).Pin.isValid)
+		if(SERVO(timer,channel).Pin.isEnabled)
 			return true;
 	}
 	return false;
@@ -230,19 +230,23 @@ static bool isTimerActive(timer16_Sequence_t timer)
 
 uint8_t newServo(void){
 	uint8_t servoIndex;
-	if( ServoCount < MAX_SERVOS) {
-		servoIndex = ServoCount++;                    // assign a servo index to this instance
-		servos[servoIndex].ticks = usToTicks(DEFAULT_PULSE_WIDTH);   // store default values  - 12 Aug 2009
+	for(int i = 0; i<ServoCount; ++i){
+		if(!servos[i].Pin.isValid)
+			return i;
 	}
+	if( ServoCount < MAX_SERVOS)
+		servoIndex = ServoCount++;
 	else
-		servoIndex = INVALID_SERVO ;  // too many servos
+		return INVALID_SERVO ;  // too many servos
+
+	servos[servoIndex].ticks = usToTicks(DEFAULT_PULSE_WIDTH);   // store default values  - 12 Aug 2009
 	return servoIndex;
 }
 
 uint8_t attachServo(uint8_t servoIndex, int pin)
 {
 	if(servoIndex < MAX_SERVOS ) {
-		initPin(&servos[servoIndex].Pin, pin);//pin is marked as valid
+		initPin(&servos[servoIndex].Pin, pin, 0);//pin is marked as valid
 		setPinOutput(&servos[servoIndex].Pin);
 		// initialize the timer if it has not already been initialized
 		timer16_Sequence_t timer = SERVO_INDEX_TO_TIMER(servoIndex);
@@ -252,9 +256,18 @@ uint8_t attachServo(uint8_t servoIndex, int pin)
 	return servoIndex ;
 }
 
+void enableServo(uint8_t servoIndex){
+		servos[servoIndex].Pin.isEnabled = 1;
+}
+
+void disableServo(uint8_t servoIndex){
+		servos[servoIndex].Pin.isEnabled = 0;
+}
+
 void detachServo(uint8_t servoIndex)
 {
-	servos[servoIndex].Pin.isValid = false;
+	servos[servoIndex].Pin.isEnabled = 0;
+	servos[servoIndex].Pin.isValid = 0;
 	timer16_Sequence_t timer = SERVO_INDEX_TO_TIMER(servoIndex);
 	if(!isTimerActive(timer)) {
 		finISR(timer);
@@ -287,5 +300,5 @@ int readServoMicroseconds(uint8_t servoIndex)
 }
 
 bool attached(uint8_t servoIndex){
-	return servos[servoIndex].Pin.isValid;
+	return servos[servoIndex].Pin.isEnabled;
 }

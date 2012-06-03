@@ -26,12 +26,17 @@ static void update(ImperiumObject* object){
 	++objectData->count;
 }
 
+static void cleanup(ImperiumObject* object){
+	free(object->data);
+}
+
 ImperiumObject* Debug_new(int objectId, char* data, int dataSize){
 	DebugData* objectData = (DebugData*)malloc(sizeof(DebugData));
 	ImperiumObject* object = Object_new(objectId, objectData);
 
 	object->getValue = getValue;
 	object->update = update;
+	object->cleanup = cleanup;
 
 	object->inputSize = 2;
 
