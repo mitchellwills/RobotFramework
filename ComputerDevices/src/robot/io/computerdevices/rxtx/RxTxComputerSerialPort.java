@@ -3,6 +3,7 @@ package robot.io.computerdevices.rxtx;
 import gnu.io.*;
 
 import java.io.*;
+import java.lang.reflect.*;
 
 import robot.error.*;
 import robot.io.*;
@@ -30,7 +31,9 @@ public final class RxTxComputerSerialPort implements SerialInterface{
 	 * @param name the name of the port
 	 * @param baud the baud rate of the port
 	 */
-	@Inject public RxTxComputerSerialPort(@Assisted(RobotObject.PARAM_LOCATION) String name, @Assisted(SerialInterface.PARAM_BAUD) int baud){
+	@Inject public RxTxComputerSerialPort(
+			@Assisted(RobotObject.PARAM_LOCATION) String name,
+			@Assisted(SerialInterface.PARAM_BAUD) int baud){
 		this(name, baud, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 	}
 	/**
@@ -75,5 +78,16 @@ public final class RxTxComputerSerialPort implements SerialInterface{
 	@Override
 	public OutputStream getOutputStream() {
 		return os;
+	}
+	
+	public void close(){//https://forums.oracle.com/forums/thread.jspa?threadID=1292323
+		try{
+			Field ioLockedField = RXTXPort.class.getDeclaredField("IOLocked");
+			ioLockedField.setAccessible(true);
+			ioLockedField.setInt(port, 0);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		port.close();
 	}
 }

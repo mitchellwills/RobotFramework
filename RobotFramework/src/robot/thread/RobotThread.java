@@ -24,6 +24,9 @@ public abstract class RobotThread implements Runnable{
 	public void start(){
 		thread.start();
 	}
+	public void stop(){
+		thread.stop();
+	}
 	/**
 	 * @return the state of the thread
 	 */

@@ -1,6 +1,6 @@
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC += util/time.c util/ByteUtil.c util/AVRPins.c util/servo/Servo.c
+SRC += util/time.c util/ByteUtil.c util/AVRPins.c util/servo/Servo.c util/ADCManager.c
 	  
 
 # List any extra directories to look for include files here.

@@ -14,3 +14,6 @@ http://maxembedded.wordpress.com/2011/06/20/the-adc-of-the-avr/
 
 PWM:
 http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=68302&start=all&postdays=0&postorder=asc
+
+SPI:
+http://www.rocketnumbernine.com/2009/07/03/using-spi-on-an-avr-3

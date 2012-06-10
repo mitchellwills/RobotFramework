@@ -14,6 +14,7 @@
 #include "TypeIds.h"
 #include "ErrorIds.h"
 #include "ImperiumPacket.h"
+#include "ADCManager.h"
 
 #undef NULL
 #define NULL 0
@@ -28,6 +29,7 @@ static ImperiumObject* objects[MAX_NUM_OBJECTS];
 
 static unsigned long minUpdateDelay;
 static unsigned long lastUpdate;
+
 
 void Imperium_init(void){
 	sendPacket = Packet_new(IMPERIUM_PACKET_MAX_DATA_SIZE);
@@ -117,6 +119,7 @@ static void Imperium_readPacket(void){
 	}
 }
 
+static int x;
 static void sendBulkInput(void){
 	Packet_reset(sendPacket, PACKETID_BULK_INPUT_VALUE);
 	for(int i = 0; i<numObjects; ++i){
@@ -145,4 +148,5 @@ void Imperium_periodic(void){
 		if(updateMethod!=NULL)
 			updateMethod(object);
 	}
+	updateADCRead();
 }

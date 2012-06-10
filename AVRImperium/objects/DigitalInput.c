@@ -9,7 +9,6 @@
 #include "ImperiumPacket.h"
 #include "stdlib.h"
 #include "util/time.h"
-#include "LUFA/Drivers/Peripheral/ADC.h"
 
 static void getValue(ImperiumObject* object, ImperiumPacket* packet){
 	Packet_appendInteger(packet, getPinInput(&object->pin), 1);

@@ -12,23 +12,28 @@ package robot.util;
 public class RingBuffer {
 	private double[] buffer;
 	private int head;
+	private int size;
 	/**
 	 * Create a new ring buffer with a given size
-	 * @param size the number of elements that are stored
+	 * @param maxSize the number of elements that are stored
 	 */
-	public RingBuffer(int size){
-		buffer = new double[size];
+	public RingBuffer(int maxSize){
+		buffer = new double[maxSize];
 		clear();
 		head = 0;
+		size = 0;
 	}
+	
 	private int calculateIndex(int index){
-		return (index+head)%size();
+		return (index+head)%buffer.length;
 	}
 	/**
 	 * @param index
 	 * @return the value at a given index relative to the head of the buffer
 	 */
 	public double get(int index){
+		if(size<buffer.length)
+			return buffer[index];
 		return buffer[calculateIndex(index)];
 	}
 	/**
@@ -38,15 +43,24 @@ public class RingBuffer {
 	public void append(double value){
 		buffer[head] = value;
 		++head;
-		if(head>=size())
+		if(head>=buffer.length)
 			head = 0;
+		if(size<buffer.length)
+			size = head;
 	}
 	/**
 	 * @return the number of elements stored in the buffer
 	 */
 	public int size(){
-		return buffer.length;
+		return size;
 	}
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * reset all values in the buffer to {@link Double#NaN}
 	 */

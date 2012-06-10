@@ -11,8 +11,6 @@
 #include "ImperiumObject.h"
 #include "AVRPins.h"
 
-typedef struct DigitalInputData DigitalInputData;
-
 ImperiumObject* DigitalInput_new(int objectId, char* data, int dataSize);
 
 #endif /* DIGITAL_INPUT_H_ */

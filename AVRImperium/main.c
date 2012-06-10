@@ -6,6 +6,7 @@
 #include "objects/Debug.h"
 #include "objects/DigitalOutput.h"
 #include "objects/DigitalInput.h"
+#include "objects/AnalogInput.h"
 #include "objects/ServoOutput.h"
 
 inline int available(void) {
@@ -45,6 +46,7 @@ int main(void) {
 	Imperium_setObjectInitializer(TYPEID_DEBUG, Debug_new);
 	Imperium_setObjectInitializer(TYPEID_DIGITAL_OUTPUT, DigitalOutput_new);
 	Imperium_setObjectInitializer(TYPEID_DIGITAL_INPUT, DigitalInput_new);
+	Imperium_setObjectInitializer(TYPEID_ANALOG_VOLTAGE_INPUT, AnalogInput_new);
 	Imperium_setObjectInitializer(TYPEID_SERVO_OUTPUT, ServoOutput_new);
 
 

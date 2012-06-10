@@ -13,7 +13,7 @@ import robot.io.dutycycle.*;
  *
  */
 public class Memsic2125 implements Accelerometer{
-	private DutyCycleInput xAxis;
+	private final DutyCycleInput xAxis;
 	private final DutyCycleInput yAxis;
 	private final AnalogVoltageInput temp;
 	

@@ -11,6 +11,7 @@ import robot.util.*;
 public abstract class PeriodicRobotThread extends RobotThread {
 	private final AsyncTimer timer = new AsyncTimer();
 	private final long updateDelay;
+	private boolean run;
 	
 	/**
 	 * Create a new periodic robot thread 
@@ -21,16 +22,22 @@ public abstract class PeriodicRobotThread extends RobotThread {
 	public PeriodicRobotThread(RobotThreadFactory threadManager, String name, long updateDelay) {
 		super(threadManager, name);
 		this.updateDelay = updateDelay;
+		run = true;
 	}
 
 	@Override
 	public void run() {
-		while(true){
+		while(run){
 			if(timer.waitComplete()){
 				timer.startWaitFromPrevious(updateDelay);
-				periodic();
+				if(run)
+					periodic();
 			}
 		}
+	}
+	
+	public void stop(){
+		run = false;
 	}
 	
 	/**

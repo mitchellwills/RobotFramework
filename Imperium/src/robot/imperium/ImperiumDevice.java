@@ -38,6 +38,8 @@ public abstract class ImperiumDevice implements RobotObject, UpdatableObject, Bu
 	}
 
 	private final SerialInterface serialPort;
+	private final ImperiumEventThread eventThread;
+	private final ImperiumOutputThread outputThread;
 
 	/**
 	 * @param threadFactory 
@@ -53,9 +55,16 @@ public abstract class ImperiumDevice implements RobotObject, UpdatableObject, Bu
 		this.serialPort = serialPort;
 		this.maxUpdateRate = maxUpdateRate;
 		state = ImperiumDeviceState.DISCONNECTED;
-		new ImperiumEventThread(threadFactory).start();
-		new ImperiumOutputThread(threadFactory).start();
+		eventThread = new ImperiumEventThread(threadFactory);
+		outputThread = new ImperiumOutputThread(threadFactory);
+		eventThread.start();
+		outputThread.start();
 		configure();
+	}
+	
+	public void stop(){
+		eventThread.stop();
+		outputThread.stop();
 	}
 
 	private ImperiumDeviceState state;

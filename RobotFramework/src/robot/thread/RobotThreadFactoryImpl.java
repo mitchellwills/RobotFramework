@@ -22,7 +22,10 @@ public class RobotThreadFactoryImpl implements UncaughtExceptionHandler, RobotTh
 
 	@Override
 	public void uncaughtException(Thread t, Throwable e) {
+		if(e instanceof ThreadDeath)
+			return;
 		System.err.println(e+" throw in thread: "+t);
+		e.printStackTrace();
 	}
 	
 	
