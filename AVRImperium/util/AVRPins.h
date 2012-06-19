@@ -19,6 +19,7 @@ typedef struct  {
 	PinRegister directionRegister;
 	PinRegister inputRegister;
 	PinMask mask;
+	uint8_t rawPin;
 	uint8_t regOffset           :3;
 	uint8_t isValid             :1;
 	uint8_t isEnabled           :1;
@@ -60,14 +61,59 @@ inline uint8_t getPinInput(AVRPin_t* pin){
 
 
 
-
-//PinRegister Pin_getDataRegister(int pin);
-//PinRegister Pin_getDirectionRegister(int pin);
-//PinRegister Pin_getInputRegister(int pin);
-//PinMask Pin_getMask(int pin);
-//unsigned char Pin_getRegOffset(int pin);
-
-AVRPin_t* newPin(int rawPin);
+AVRPin_t* newPin(int rawPin, uint8_t enable);
 void initPin(AVRPin_t* pinData, uint8_t rawPin, uint8_t enable);
+
+
+#define AVRRaw_PA0 0
+#define AVRRaw_PA1 1
+#define AVRRaw_PA2 2
+#define AVRRaw_PA3 3
+#define AVRRaw_PA4 4
+#define AVRRaw_PA5 5
+#define AVRRaw_PA6 6
+#define AVRRaw_PA7 7
+#define AVRRaw_PB0 8
+#define AVRRaw_PB1 9
+#define AVRRaw_PB2 10
+#define AVRRaw_PB3 11
+#define AVRRaw_PB4 12
+#define AVRRaw_PB5 13
+#define AVRRaw_PB6 14
+#define AVRRaw_PB7 15
+#define AVRRaw_PC0 16
+#define AVRRaw_PC1 17
+#define AVRRaw_PC2 18
+#define AVRRaw_PC3 19
+#define AVRRaw_PC4 20
+#define AVRRaw_PC5 21
+#define AVRRaw_PC6 22
+#define AVRRaw_PC7 23
+#define AVRRaw_PD0 24
+#define AVRRaw_PD1 25
+#define AVRRaw_PD2 26
+#define AVRRaw_PD3 27
+#define AVRRaw_PD4 28
+#define AVRRaw_PD5 29
+#define AVRRaw_PD6 30
+#define AVRRaw_PD7 31
+#define AVRRaw_PE0 32
+#define AVRRaw_PE1 33
+#define AVRRaw_PE2 34
+#define AVRRaw_PE3 35
+#define AVRRaw_PE4 36
+#define AVRRaw_PE5 37
+#define AVRRaw_PE6 38
+#define AVRRaw_PE7 39
+#define AVRRaw_PF0 40
+#define AVRRaw_PF1 41
+#define AVRRaw_PF2 42
+#define AVRRaw_PF3 43
+#define AVRRaw_PF4 44
+#define AVRRaw_PF5 45
+#define AVRRaw_PF6 46
+#define AVRRaw_PF7 47
+
+
 
 #endif /* PINS_H_ */

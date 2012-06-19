@@ -246,7 +246,7 @@ public abstract class ImperiumDevice implements RobotObject, UpdatableObject, Bu
 				return;
 			try {
 				packet.setDataLength(0);
-				for(ImperiumDeviceObject object:objects)
+				for(ImperiumDeviceObject object:objects)//TODO synchronize access to objects
 					object.appendSetValue(packet);
 				sendPacket(packet);
 			} catch (IOException e) {

@@ -14,7 +14,7 @@ public class ImperiumTest {
 		ImperiumDeviceObject getObject(ImperiumDevice device, int number);
 	}
 	
-	private static final int numTimeMeasure = 3;
+	private static final int numTimeMeasure = 5;
 	public static void main(String[] args){
 		double baseline = getBaseline(20);
 		System.out.println("Baseline: "+baseline);
