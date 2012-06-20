@@ -119,7 +119,6 @@ static void Imperium_readPacket(void){
 	}
 }
 
-static int x;
 static void sendBulkInput(void){
 	Packet_reset(sendPacket, PACKETID_BULK_INPUT_VALUE);
 	for(int i = 0; i<numObjects; ++i){

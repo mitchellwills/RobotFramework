@@ -19,5 +19,7 @@
 
 #define TYPEID_SERVO_OUTPUT 4
 
+#define TYPEID_PWM_OUTPUT 5
+
 
 #endif /* TYPEIDS_H_ */

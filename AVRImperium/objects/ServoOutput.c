@@ -1,5 +1,5 @@
 /*
- * DigitalOutput.c
+ * ServoOutput.c
  *
  *  Created on: May 16, 2012
  *      Author: Mitchell

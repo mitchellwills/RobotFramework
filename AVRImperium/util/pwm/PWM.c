@@ -27,7 +27,7 @@
 	(TCCR ## t ## A) = (1<<WGM##t##0);\
 	(TCCR ## t ## B) = (1<<CS##t##1);\
 	break
-void initPWM(AVRPin_t* pin){
+void initPWM(AVRPin_t* pin){//TODO enable/disable interrupts
 	switch(pin->rawPin){
 	PWMMacro(PWMInitCase);
 	}
@@ -39,6 +39,8 @@ void initPWM(AVRPin_t* pin){
 		sbi( (TCCR ## t ## A), (COM ## t ## oc ## 1) );\
 	break
 void pwmWrite(AVRPin_t* pin, uint8_t val){
+	setPinOutput(pin);
+	setPinLow(pin);
 	switch (pin->rawPin) {
 	PWMMacro(PWMWriteCase);
 	}

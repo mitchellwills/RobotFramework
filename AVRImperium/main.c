@@ -8,6 +8,7 @@
 #include "objects/DigitalInput.h"
 #include "objects/AnalogInput.h"
 #include "objects/ServoOutput.h"
+#include "objects/PWMOutput.h"
 
 inline int available(void) {
 	return virtualSerialAvailable();
@@ -48,6 +49,7 @@ int main(void) {
 	Imperium_setObjectInitializer(TYPEID_DIGITAL_INPUT, DigitalInput_new);
 	Imperium_setObjectInitializer(TYPEID_ANALOG_VOLTAGE_INPUT, AnalogInput_new);
 	Imperium_setObjectInitializer(TYPEID_SERVO_OUTPUT, ServoOutput_new);
+	Imperium_setObjectInitializer(TYPEID_PWM_OUTPUT, PWMOutput_new);
 
 
 	for (;;) {
