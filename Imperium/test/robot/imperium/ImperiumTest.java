@@ -14,31 +14,39 @@ public class ImperiumTest {
 		ImperiumDeviceObject getObject(ImperiumDevice device, int number);
 	}
 	
+	private static final int numUpdateRate = 20;//the number of updates per second for a number test
 	private static final int numTimeMeasure = 5;
 	public static void main(String[] args){
-		double baseline = getBaseline(20);
+		double baseline = getBaseline(numUpdateRate);
 		System.out.println("Baseline: "+baseline);
 		test(new DigitalInputObjectSource(), baseline);
 		test(new DigitalOutputObjectSource(), baseline);
 		test(new AnalogInputObjectSource(), baseline);
 		test(new ServoOutputObjectSource(), baseline);
+		test(new PWMOutputObjectSource(), baseline);
 	}
 	
 	public static void test(ObjectSource source, double baseline){
 		
-		LinearRegression updateRegression = new LinearRegression();
-		for(int i = 10; i<=100; i+=10)
-			updateRegression.addValue(i, test(source, source.getMaxNum(), i));
+		LinearRegression updateTimePerRW = new LinearRegression();
+		for(int i = 10; i<=100; i+=20){
+			TestResult result = test(source, source.getMaxNum(), i);
+			updateTimePerRW.addValue(i, result.time);
+		}
 		
-		LinearRegression numRegression = new LinearRegression();
-		for(int i = 1; i<=source.getMaxNum(); ++i)
-			numRegression.addValue(i, test(source, i, 20));
-		double rwCost = updateRegression.slope()*20/source.getMaxNum();
-		double updateCost = numRegression.slope()-rwCost;
-		double initialUpdateCost = numRegression.yInt()-baseline;
-		double updateCost2 = (updateRegression.yInt()-baseline-initialUpdateCost)/source.getMaxNum();
-		System.out.println(source.getName()+" - Initial Update Cost: "+initialUpdateCost+",    RW Cost: "+rwCost+",    Update: "+updateCost+", "+updateCost2);
-		System.out.println("R^2: "+updateRegression.rSquared()+", "+numRegression.rSquared());
+		LinearRegression updateTimePerObject = new LinearRegression();
+		for(int i = 1; i<=source.getMaxNum(); ++i){
+			TestResult result = test(source, i, numUpdateRate);
+			updateTimePerObject.addValue(i, result.time);
+		}
+		
+		double rwCost = updateTimePerRW.slope();//cost for read and write
+		double initialUpdateCost = updateTimePerObject.yInt()-baseline;//the cost (us) initially when any object of this type is used
+		double updateCost = updateTimePerObject.slope()-rwCost*numUpdateRate/source.getMaxNum();//the update cost (us) per object of the type
+		double updateCost2 = (updateTimePerRW.yInt()-baseline-initialUpdateCost)/source.getMaxNum();//update cost calculated a different way
+		System.out.printf("%s - Initial Update Cost: %.3f,    RW Cost: %.3f,    Update: %.3f, %.3f\n",
+				source.getName(), initialUpdateCost, rwCost, updateCost, updateCost2);
+		System.out.printf("R^2: %.3f, %.3f\n", updateTimePerRW.rSquared(), updateTimePerObject.rSquared());
 	}
 	
 	
@@ -59,8 +67,17 @@ public class ImperiumTest {
 		port.close();
 		return time;
 	}
+	private static class TestResult{
+		public final double numUpdates;
+		public final double time;
+
+		public TestResult(double numUpdates, double time){
+			this.numUpdates = numUpdates;
+			this.time = time;
+		}
+	}
 	
-	public static double test(ObjectSource source, int num, int update){
+	public static TestResult test(ObjectSource source, int num, int update){
 		RxTxComputerSerialPort port = new RxTxComputerSerialPort("COM16", 115200);
 		ImperiumDevice device = new AT90USB1286(new RobotThreadFactoryImpl(), port, update);
 		ImperiumDebug debug = new ImperiumDebug(device);
@@ -75,10 +92,10 @@ public class ImperiumTest {
 		}
 		double measuredUpdate = measuredUpdateSum/numTimeMeasure;
 		double time = 1000000/measuredUpdate;
-		//System.out.println(source.getName()+" - "+num+" - "+time+" - "+measuredUpdate);
+		System.out.println(source.getName()+" - "+num+" - "+1000000/measuredUpdate+" - "+measuredUpdate);
 		device.stop();
 		port.close();
-		return time;
+		return new TestResult(measuredUpdate, time);
 	}
 	
 	
@@ -137,6 +154,38 @@ public class ImperiumTest {
 		@Override
 		public String getName() {
 			return "ServoOutput";
+		}
+		@Override
+		public int getMaxNum() {
+			return 5;
+		}
+	}
+	public static class PWMOutputObjectSource implements ObjectSource{
+		@Override
+		public ImperiumDeviceObject getObject(ImperiumDevice device, int number) {
+			switch(number){
+			case 0:
+				return new ImperiumServoOutput(device, "PB7");
+			case 1:
+				return new ImperiumServoOutput(device, "PD1");
+			case 2:
+				return new ImperiumServoOutput(device, "PC4");
+			case 3:
+				return new ImperiumServoOutput(device, "PC5");
+			case 4:
+				return new ImperiumServoOutput(device, "PC6");
+			case 5:
+				return new ImperiumServoOutput(device, "PB6");
+			case 6:
+				return new ImperiumServoOutput(device, "PB5");
+			case 7:
+				return new ImperiumServoOutput(device, "PB4");
+			}
+			return null;
+		}
+		@Override
+		public String getName() {
+			return "PWMOutput";
 		}
 		@Override
 		public int getMaxNum() {

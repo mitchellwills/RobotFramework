@@ -9,6 +9,9 @@ public class LinearRegression {
 		values.put(x, y);
 	}
 	
+	public double getForX(double x){
+		return yInt()+slope()*x;
+	}
 	
 	
 	private double xBar(){
